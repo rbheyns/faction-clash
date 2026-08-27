@@ -5774,7 +5774,7 @@ const ABILITIES = {
   VER076: { onFirstDamage: ({unit})=>{unit.grantedCleave=true;unit.drawOnKill=true;} },
   VER085: { onStartOfTurn: ({side})=>{const p=state.players[side],a=CARDS.filter(c=>c.faction==='verdant'&&c.type==='spell'&&c.cost===1);if(!a.length)return;const c=a[Math.floor(Math.random()*a.length)];Game.addCardToHand(side,c.id);getHandMod(p,p.hand.length-1).costDiscount=c.cost;} },
   NEU023: { onPlay: ({side})=>{ Game.drawCards(side,2); return Game.healFace(side,2); } }, // Ancient Ledger: Draw 2 cards. Heal your Hero 2.
-  NEU030: { onPlay: ({side})=>Game.buffFriendlyUnit(side,3,2) }, // Hidden Cache: Give a friendly unit +3 Attack and +2 Max Health.
+  NEU030: { onPlay: ({side,target})=>{ if(!target) return; target.buffs.atk+=3; target.buffs.hp+=2; log(`${CARD_BY_ID[target.cardId].name} gets +3/+2.`); return {type:'unit',unit:target}; } }, // Hidden Cache: Give a friendly unit +3 Attack and +2 Max Health.
   NEU031: { onPlay: ({side})=>Game.healSplit(side,6) }, // Curious Relic: Heal 6 damage split among your most damaged units.
   NEU036: { onPlay: ({side})=>Game.returnRandomDeadUnit(side) }, // Lost Expedition Journal: Return a friendly unit that died this game to your hand.
   NEU040: { attackDamageBonus: { row:'attack', amount:2 } }, // Guild Hall Charter: Your Attack units deal +2 damage when attacking.
@@ -6831,11 +6831,17 @@ function log(msg){
   if(logEntries.length>4) logEntries.shift();
 }
 
-function playCard(side, handIndex, slotIndex, insertAfter){
+function playCard(side, handIndex, slotIndex, insertAfter, explicitTarget){
   if(state.gameOver) return;
   const p = state.players[side];
   const card = p.hand[handIndex];
   if(!card) return;
+  if(cardNeedsExplicitTarget(card) && !explicitTarget){
+    pendingCardTarget={side,handIndex,cardId:card.id};
+    toast('Choose a friendly unit to target');
+    render();
+    return;
+  }
   const mod = getHandMod(p, handIndex);
   const elderwoodDiscount=card.type==='support' && p.board.some(e=>e&&e.cardId==='VER038') ? 1 : 0;
   const firstUnitDiscount=card.type==='unit' && p.board.some(e=>e&&e.cardId==='NEU018') && p.firstUnitDiscountTurn!==state.turnSerial ? 1 : 0;
@@ -6878,7 +6884,7 @@ function playCard(side, handIndex, slotIndex, insertAfter){
     p.playedSpellsThisGame.push(card.id);
     log(`${sideLabel(side)} casts ${card.name}.`);
     let targetInfo;
-    if(card.ability && card.ability.onPlay){ targetInfo = card.ability.onPlay({side, unit:null}); }
+    if(card.ability && card.ability.onPlay){ targetInfo = card.ability.onPlay({side, unit:null, target:explicitTarget}); }
     pbpPush({ side, kind:'spell', actorCard:card, target:targetInfo });
     cleanupDeaths();
   }
@@ -7908,6 +7914,15 @@ const PBP_ACTION_META = {
   spell:   { icon:'✨', label:'Casts' },
   support: { icon:'⏳', label:'Effect' },
 };
+let pendingCardTarget = null;
+const EXPLICIT_TARGET_CARDS = new Set(['NEU030']);
+function cardNeedsExplicitTarget(card){ return !!(card && EXPLICIT_TARGET_CARDS.has(card.id)); }
+function resolveCardTarget(unit){
+  if(!pendingCardTarget || !unit || unit.owner!==pendingCardTarget.side) return false;
+  const p=pendingCardTarget; pendingCardTarget=null;
+  playCard(p.side,p.handIndex,undefined,undefined,unit);
+  return true;
+}
 
 function pbpPush(entry){
   entry.id = uidCounter++;
@@ -8451,6 +8466,7 @@ function renderBoardUnit(side, unit){
   const isSelected = state.selectedAttackerUid===unit.uid;
 
   let isValidTarget = false;
+  if(pendingCardTarget && side===pendingCardTarget.side) isValidTarget = true;
   if(state.selectedAttackerUid && side!==state.active){
     const vt = validTargetsFor(state.active);
     if(vt.units.some(u=>u.uid===unit.uid)) isValidTarget = true;
@@ -8468,6 +8484,7 @@ function renderBoardUnit(side, unit){
       if(dragJustHappened) return;
       if(state.gameOver) return;
       if(state.mode==='ai' && state.active==='B') return;
+      if(pendingCardTarget){ if(resolveCardTarget(unit)) return; }
       if(canAttack){
         state.selectedAttackerUid = (state.selectedAttackerUid===unit.uid) ? null : unit.uid;
         render();
