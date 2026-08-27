@@ -7912,8 +7912,11 @@ function pbpWebArt(card){
   const candidates = CardBuilder.artCandidates(card);
   return candidates.find(src=>src.startsWith('assets/web-art/')) || candidates[0];
 }
+// In AI mode the human remains the blue/near-side player even while the AI's
+// turn is active; only hot-seat mode follows the current perspective.
+function pbpHumanSide(){ return state && state.mode==='ai' ? 'A' : state.active; }
 function pbpHeroMiniHtml(ownerSide){
-  const mine = ownerSide===state.active;
+  const mine = ownerSide===pbpHumanSide();
   const label = mine ? 'Your Hero' : 'Enemy Hero';
   const faction = ownerSide===state.active ? state.players[ownerSide].faction : state.players[ownerSide].faction;
   const art = faction==='verdant' ? 'assets/web-art/tokens/verdant boss.webp' : 'assets/web-art/tokens/ashborn boss.webp';
@@ -7932,7 +7935,7 @@ function pbpTargetHtml(target){
     return `<div class="pbp-col">${h.html}<div class="pbp-col-name">${h.label}</div></div>`;
   }
   if(target.type==='all'){
-    const mine = target.ownerSide===state.active;
+    const mine = target.ownerSide===pbpHumanSide();
     return `<div class="pbp-col">
       <div class="pbp-mini small" style="font-size:1rem; border-color:rgba(255,255,255,.2); box-shadow:none;">💥</div>
       <div class="pbp-col-name">${mine ? 'All Allies' : 'All Enemies'}</div>
@@ -7953,7 +7956,7 @@ function pbpRender(){
   pbpLog.forEach((entry, index)=>{
     const meta = PBP_ACTION_META[entry.kind];
     const card = entry.actorCard;
-    const mine = entry.side===state.active;
+    const mine = entry.side===pbpHumanSide();
     const div = document.createElement('div');
     div.className = `pbp-entry ${mine ? '' : 'enemy'}`;
     div.style.setProperty('--pbp-index', index);
