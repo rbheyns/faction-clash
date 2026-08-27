@@ -247,6 +247,9 @@
     if (card.art && card.art.startsWith('assets/art/') && /\.png$/i.test(card.art)) {
       out.push(card.art.replace(/^assets\/art\//, 'assets/web-art/').replace(/\.png$/i, '.webp'));
     }
+    // GitHub Pages is case-sensitive; legacy data contains lowercase paths while
+    // canonical derivatives use the card ID's uppercase spelling.
+    out.push(`assets/web-art/${card.faction}/${id}.webp`);
     if (card.art) out.push(card.art);
     out.push(`assets/art/${card.faction}/${id}.png`);            // ASH002.png
     out.push(`assets/art/${card.faction}/ASH ${num}.png`);        // "ASH 002.png" — on-disk naming is inconsistent for at least one legacy file
