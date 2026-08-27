@@ -610,6 +610,7 @@ h1,h2,h3,.display{font-family:'Cinzel Decorative', 'Cinzel', serif;}
 .pbp-panel .pbp-mid-icon{ flex:0 0 30px; gap:.04rem; font-size:.68rem; }
 .pbp-panel .pbp-mid-icon .pbp-mid-label{ font-size:.38rem; }
 .pbp-panel .pbp-col-name{ max-width:36px; font-size:.38rem; }
+.pbp-panel .pbp-col-name{ display:none; }
 
 /* Both hands sit INSIDE the stage now, overlapping the rail edges (bug
    reported 2026-08-22: "hands are not showing up on the background like
@@ -7968,7 +7969,7 @@ function pbpRender(){
     `;
     panel.appendChild(div);
     div.querySelectorAll('.pbp-card-hit').forEach(hit=>{
-      hit.addEventListener('mouseenter', ()=>{ const cardDef=CARD_BY_ID[hit.dataset.pbpCard] || card; const r=hit.getBoundingClientRect(); showCardPreview(cardDef,r); });
+      hit.addEventListener('mouseenter', ()=>{ const cardDef=CARD_BY_ID[hit.dataset.pbpCard] || card; const r=hit.getBoundingClientRect(); showCardPreview(cardDef,r,{pbp:true}); });
       hit.addEventListener('mouseleave', hideCardPreview);
     });
     div.querySelectorAll('.pbp-hero-hit').forEach(hit=>{
@@ -8309,7 +8310,7 @@ let keywordPanelEl = null;
 function showCardPreview(card, rect, opts){
   hideCardPreview();
   const el = CardRenderer.createCard(card, Object.assign({ size:'lg' }, opts));
-  const w = bigCardWidth();
+  const w = opts && opts.pbp ? Math.round(Math.min(240, window.innerWidth * 0.42, window.innerHeight * 0.32)) : bigCardWidth();
   el.style.setProperty('--card-w', w + 'px');
   el.style.position = 'fixed';
   el.style.zIndex = '80';
