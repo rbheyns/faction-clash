@@ -5586,7 +5586,7 @@ const ABILITIES = {
   ASH055: { onFirstDamage: ({side, unit})=>Game.swapUnitAttackHealth(side,unit) }, // Molten Colossus: Berserk: Swap this unit's Attack and Health.
   ASH042: { onDeath: ({side})=>{ combatUnits(other(side)).filter(u=>u.row==='attack').forEach(u=>Game.damageUnit(u,1)); log(`Enemy Attack units take 1 damage.`); } }, // Emberguard: Last Word: Deal 1 damage to all enemy Attack units.
   ASH043: { onEcho: ({side,unit})=>{ const slots=state.players[side].board,idx=slots.findIndex(e=>e&&e.uid===unit.uid); [unit,slots[idx-1],slots[idx+1]].filter(isCombatEntity).forEach(u=>u.damage=Math.max(0,u.damage-2)); log(`${CARD_BY_ID[unit.cardId].name} restores 2 Health to itself and adjacent allies.`); } }, // Bloodforged Golem: Echo: Restore 2 Health to this and adjacent friendly units.
-  ASH044: { onPlay: ({side})=>{const r=Game.buffRandomFriendlyTemp(side,5,0);if(r)Game.damageUnit(r.unit,2);return r;} },
+  ASH044: { onPlay: ({side,target})=>{const r=Game.buffRandomFriendlyTemp(side,5,0,target);if(r)Game.damageUnit(r.unit,2);return r;} },
   ASH048: { onEndOfTurn: ({side,unit})=>{if(unit.damage>0)return;const s=state.players[side].board,i=s.findIndex(e=>e&&e.uid===unit.uid);[s[i-1],s[i+1]].filter(e=>isCombatEntity(e)&&CARD_BY_ID[e.cardId].unitType==='Construct').forEach(u=>u.buffs.hp+=2);} },
   ASH052: { cleave:true, onEnemyUnitDestroyed: ({unit})=>{unit.buffs.hp+=2;} },
   ASH060: { onDeath: ({side})=>{Game.destroyAllSupportCards();Game.dealDamageToFace(other(side),6);} },
@@ -5606,7 +5606,7 @@ const ABILITIES = {
      ASH032 above).
   ------------------------------------------------------------- */
   ASH062: { onStartOfTurn: ({side})=>Game.healLowestFriendly(side,1) }, // Forge Priest: Start of Turn: Heal 1 damage on the lowest Health friendly unit.
-  ASH064: { onPlay: ({side})=>{ const r=Game.grantRandomFriendlyCleave(side); if(r && CARD_BY_ID[r.unit.cardId].unitType==='Construct'){r.unit.buffs.hp+=2;log(`${CARD_BY_ID[r.unit.cardId].name} gains +2 Max Health.`);} return r; } }, // Molten Strike: Give a friendly unit Cleave. If it is a Construct, give it +2 Max Health.
+  ASH064: { onPlay: ({side,target})=>{ const r=Game.grantRandomFriendlyCleave(side,target); if(r && CARD_BY_ID[r.unit.cardId].unitType==='Construct'){r.unit.buffs.hp+=2;log(`${CARD_BY_ID[r.unit.cardId].name} gains +2 Max Health.`);} return r; } }, // Molten Strike: Give a friendly unit Cleave. If it is a Construct, give it +2 Max Health.
   ASH067: { onFirstDamage: ({side, unit})=>Game.returnUnitToHand(side,unit,1) }, // Cinderclaw Raider: Berserk: Return this unit to your hand. It costs 1 less.
   ASH069: { onFirstDamage: ({side, unit})=>{ const damaged=combatUnits(side).filter(u=>u.damage>0).length; unit.damage=Math.max(0,unit.damage-2);unit.buffs.atk+=damaged;log(`${CARD_BY_ID[unit.cardId].name} restores 2 Health and gains +${damaged} Attack.`); } }, // Dreadhold Sentinel: Berserk: Restore 2 Health to this. Gain +1 Attack for each damaged friendly unit.
   ASH070: { onStartOfTurn: ({side})=>{ const r=Game.buffLowestAttackUnit(side,1,0); if(r && CARD_BY_ID[r.unit.cardId].unitType==='Elemental') Game.grantCleave(side,r.unit); return r; } }, // Ember Chanter: Start of Turn: Give the lowest-Attack friendly unit +1 Attack. If it is an Elemental, give it Cleave.
@@ -5627,7 +5627,7 @@ const ABILITIES = {
     if(destroyedCard && destroyedCard.unitType==='Construct') Game.addCardToHand(side,destroyedCard.id);
   }}, // Cinderkeep Warden: Echo: If the destroyed friendly unit was a Construct, add a copy of it to your hand.
   ASH079: { redirectAdjacentDamage: true }, // Legion's Last Stand: Damage dealt to adjacent friendly units is dealt to this instead.
-  ASH080: { onPlay: ({side})=>Game.buffRandomFriendlyDoomed(side,6) }, // Forge Blessing: Give a friendly unit +6 Attack until end of turn. Destroy it at end of turn.
+  ASH080: { onPlay: ({side,target})=>Game.buffRandomFriendlyDoomed(side,6,target) }, // Forge Blessing: Give a friendly unit +6 Attack until end of turn. Destroy it at end of turn.
   ASH081: { defenseAttackRetaliation:2 }, // Legion Encampment: The first time a friendly Defense unit is attacked each turn, deal 2 damage to the attacker.
   ASH082: { onFirstDamage: ({side, unit})=>{
     Game.grantCleave(side,unit);
@@ -5685,11 +5685,11 @@ const ABILITIES = {
   ASH033: { onDeath: ({side})=>Game.dealDamageToFace(other(side),3) },
   ASH038: { onDeath: ({side})=>{combatUnits(side).filter(u=>CARD_BY_ID[u.cardId].unitType==='Animal').forEach(u=>u.buffs.atk+=2);} },
   ASH045: { onEcho: ({side})=>{const p=state.players[side],a=p.hand.map((c,i)=>c.type==='spell'?i:-1).filter(i=>i>=0);if(a.length)getHandMod(p,a[Math.floor(Math.random()*a.length)]).costDiscount+=2;} },
-  VER002: { onPlay: ({side})=>Game.grantRandomFriendlyCleave(side) }, // Bramble Snare: Give a friendly unit Cleave.
+  VER002: { onPlay: ({side,target})=>Game.grantRandomFriendlyCleave(side,target) }, // Bramble Snare: Give a friendly unit Cleave.
   VER011: { onPlay: ({side})=>{ const p = state.players[side]; if(p.deck.length){ const top = CARD_BY_ID[p.deck[0]]; log(`${sideLabel(side)} peeks: the top card is ${top.name}.`); } return undefined; } }, // Duskhare Scout: Invoke: Look at the top card of your deck.
   VER016: { onFirstDamage: ({side, unit})=>{ combatUnits(side).filter(u=>u.uid!==unit.uid).forEach(u=>u.buffs.atk+=1); log(`${CARD_BY_ID[unit.cardId].name} rallies the line, +1 Attack to allies.`); } }, // Ridgeback Bear: Berserk: Give your other units +1 Attack.
-  VER019: { onPlay: ({side})=>Game.swapAttackHealthRandomFriendly(side) }, // Wild Growth: Swap a friendly unit's Attack and Health.
-  VER020: { onPlay: ({side})=>Game.debuffOneEnemyUntilCasterNextTurn(side,2) }, // Tangling Roots: Give an enemy unit -2 Attack until your next turn.
+  VER019: { onPlay: ({side,target})=>Game.swapAttackHealthRandomFriendly(side,target) }, // Wild Growth: Swap a friendly unit's Attack and Health.
+  VER020: { onPlay: ({side,target})=>{ if(!target)return; target.buffs.atk-=2; state.players[side].pendingRevert.push({ownerSide:other(side),uid:target.uid,atk:2}); return {type:'unit',unit:target}; } }, // Tangling Roots: Give an enemy unit -2 Attack until your next turn.
   VER022: { onPlay: ({side, unit})=>{ const n = combatUnits(side).filter(u=>u.row==='defense').length; unit.buffs.atk += n; log(`${CARD_BY_ID[unit.cardId].name} gains +${n} Attack.`); return {type:'unit', unit}; } }, // Centaur Strider: Invoke: Gain +1 Attack for each friendly Defense unit.
   VER025: { onStartOfTurn: FX.buffLowestHealth(1,0) }, // Owlkin Sentry: Start of Turn: Give the lowest Health friendly unit +1 Attack.
   VER027: { onStartOfTurn: ({side})=>Game.healFriendlyRow(side,'defense',2) }, // Circle of Renewal: Your Defense units heal 2 damage each turn.
@@ -5704,7 +5704,7 @@ const ABILITIES = {
   VER065: { onPlay: ({side,target})=>{ if(!target) return; Game.damageUnit(target,1); return {type:'unit',unit:target}; } }, // Foxkin Skirmisher: Invoke: Deal 1 damage to an enemy unit.
   VER070: { onFirstDamage: ({side, unit})=>{ unit.buffs.hp += 2; log(`${CARD_BY_ID[unit.cardId].name} gains +2 Max Health.`); } }, // Thornhide Bear: Berserk: Gain +2 Max Health.
   VER077: { growth: ({side})=>Game.dealDamageToFace(other(side),2) },
-  VER080: { onPlay: ({side})=>Game.dmgOneEnemyUntilEndOfTurn(side,5,2) }, // Grasping Vines: Deal 5 damage to an enemy unit and reduce its Attack by 2 until end of turn.
+  VER080: { onPlay: ({side,target})=>Game.dmgOneEnemyUntilEndOfTurn(side,5,2,target) }, // Grasping Vines: Deal 5 damage to an enemy unit and reduce its Attack by 2 until end of turn.
   VER086: { onPlay: ({side})=>Game.healSplit(side,9) }, // Bloom of Ages: Heal 9 damage split among your units.
   VER089: { onEcho: ({side})=>{const a=combatUnits(side);if(a.length)a[Math.floor(Math.random()*a.length)].damage=0;} },
   VER091: { onPlay: ({side})=>{ Game.dealDamageToAllEnemyUnits(side,3); return Game.healAllFriendly(side,3); } }, // Nature's Reckoning: Deal 3 damage to all enemy units. Heal your units for the same amount.
@@ -5800,10 +5800,10 @@ const ABILITIES = {
   NEU050: { onStartOfTurn: ({side})=>Game.destroyLowestHealthDamagedEnemy(side) },
   NEU051: { onEcho: ({side})=>{const id=state.players[side].lastSpellPlayedId;if(id)Game.addCardToHand(side,id);} },
   // Neutral redesign Batch 2 — faction-agnostic toolbox effects.
-  NEU001: { onPlay: ({side})=>Game.healRandomFriendly(side,3) },
+  NEU001: { onPlay: ({side,target})=>Game.healRandomFriendly(side,3,target) },
   NEU002: { onPlay: ({side})=>Game.addRandomSpell(side,1) },
-  NEU003: { onPlay: ({side})=>Game.buffRandomFriendlyTemp(side,1,0) },
-  NEU008: { onPlay: ({side})=>{const a=combatUnits(side);if(a.length)Game.grantTempCleave(side,a[Math.floor(Math.random()*a.length)]);} },
+  NEU003: { onPlay: ({side,target})=>Game.buffRandomFriendlyTemp(side,1,0,target) },
+  NEU008: { onPlay: ({side,target})=>{if(target)Game.grantTempCleave(side,target);} },
   NEU009: { onPlay: ({side})=>combatUnits(other(side)).filter(u=>u.row==='attack').forEach(u=>Game.damageUnit(u,1)) },
   NEU011: { onStartOfTurn: ({side})=>Game.healFriendlyRow(side,'defense',1) },
   NEU015: { onStartOfTurn: ({side})=>{Game.healFace(side,1);Game.healLowestFriendly(side,1);} },
@@ -6380,10 +6380,10 @@ const Game = {
     log(`${CARD_BY_ID[t.cardId].name} takes ${v} damage.`);
     return { type:'unit', unit:t };
   },
-  healRandomFriendly(side, v){
+  healRandomFriendly(side, v, explicitTarget){
     const units = combatUnits(side);
     if(!units.length) return undefined;
-    const t = units[Math.floor(Math.random()*units.length)];
+    const t = explicitTarget && units.some(u=>u.uid===explicitTarget.uid) ? explicitTarget : units[Math.floor(Math.random()*units.length)];
     const before=t.damage; t.damage = Math.max(0, t.damage - v);
     if(t.damage<before) state.players[side].lastFriendlyHealTurn=state.turnSerial||0;
     log(`${CARD_BY_ID[t.cardId].name} heals ${v}.`);
@@ -6474,20 +6474,20 @@ const Game = {
     log(`Damage is split among ${sideLabel(opp)}'s units.`);
     return { type:'all', ownerSide: opp };
   },
-  buffRandomFriendlyTemp(side, a, h){
+  buffRandomFriendlyTemp(side, a, h, explicitTarget){
     const units = combatUnits(side);
     if(!units.length) return undefined;
-    const t = units[Math.floor(Math.random()*units.length)];
+    const t = explicitTarget && units.some(u=>u.uid===explicitTarget.uid) ? explicitTarget : units[Math.floor(Math.random()*units.length)];
     t.buffs.atk += a; t.buffs.hp += h;
     const p = state.players[side];
     p.eotRevert = (p.eotRevert||[]).concat([{ ownerSide:side, uid:t.uid, atk:a, hp:h }]);
     log(`${CARD_BY_ID[t.cardId].name} gets +${a}/+${h} until end of turn.`);
     return { type:'unit', unit:t };
   },
-  buffRandomFriendlyDoomed(side, a){
+  buffRandomFriendlyDoomed(side, a, explicitTarget){
     const units=combatUnits(side);
     if(!units.length) return undefined;
-    const t=units[Math.floor(Math.random()*units.length)];
+    const t=explicitTarget && units.some(u=>u.uid===explicitTarget.uid) ? explicitTarget : units[Math.floor(Math.random()*units.length)];
     t.buffs.atk+=a;
     const p=state.players[side];
     p.eotRevert=(p.eotRevert||[]).concat([{ownerSide:side,uid:t.uid,atk:a,hp:0,destroy:true}]);
@@ -6548,12 +6548,12 @@ const Game = {
     log(`${destroyed} damaged unit${destroyed===1?'':'s'} destroyed by Ashborn's Wrath.`);
     return {type:'hero',ownerSide:other(side)};
   },
-  dmgOneEnemyUntilEndOfTurn(side, dmg, atkDebuff){
+  dmgOneEnemyUntilEndOfTurn(side, dmg, atkDebuff, explicitTarget){
     // "Deal X damage to an enemy unit and reduce its Attack by N until end of turn."
     const opp = other(side);
     const units = combatUnits(opp);
     if(!units.length) return undefined;
-    const t = units[Math.floor(Math.random()*units.length)];
+    const t = explicitTarget && units.some(u=>u.uid===explicitTarget.uid) ? explicitTarget : units[Math.floor(Math.random()*units.length)];
     this.damageUnit(t, dmg);
     t.buffs.atk -= atkDebuff;
     const p = state.players[side];
@@ -6615,16 +6615,16 @@ const Game = {
     log(`${CARD_BY_ID[unit.cardId].name} gains Cleave.`);
     return { type:'unit', unit };
   },
-  grantRandomFriendlyCleave(side){
+  grantRandomFriendlyCleave(side, explicitTarget){
     const units = combatUnits(side);
     if(!units.length) return undefined;
-    const t = units[Math.floor(Math.random()*units.length)];
+    const t = explicitTarget && units.some(u=>u.uid===explicitTarget.uid) ? explicitTarget : units[Math.floor(Math.random()*units.length)];
     return this.grantCleave(side, t);
   },
-  swapAttackHealthRandomFriendly(side){
+  swapAttackHealthRandomFriendly(side, explicitTarget){
     const units = combatUnits(side);
     if(!units.length) return undefined;
-    const t = units[Math.floor(Math.random()*units.length)];
+    const t = explicitTarget && units.some(u=>u.uid===explicitTarget.uid) ? explicitTarget : units[Math.floor(Math.random()*units.length)];
     const cd = CARD_BY_ID[t.cardId];
     const { atk, maxHp } = getEffStats(t);
     const newAtk = maxHp, newMaxHp = atk;
@@ -7916,8 +7916,8 @@ const PBP_ACTION_META = {
   support: { icon:'⏳', label:'Effect' },
 };
 let pendingCardTarget = null;
-const EXPLICIT_TARGET_CARDS = new Set(['NEU030','VER065']);
-function explicitTargetSide(card, side){ return card && card.id==='VER065' ? other(side) : side; }
+const EXPLICIT_TARGET_CARDS = new Set(['ASH044','ASH053','ASH064','ASH080','VER002','VER019','VER020','VER065','VER080','NEU001','NEU003','NEU008','NEU030']);
+function explicitTargetSide(card, side){ return card && ['ASH053','VER020','VER065','VER080'].includes(card.id) ? other(side) : side; }
 function cardNeedsExplicitTarget(card){ return !!(card && EXPLICIT_TARGET_CARDS.has(card.id)); }
 function resolveCardTarget(unit){
   if(!pendingCardTarget || !unit || unit.owner!==pendingCardTarget.targetSide) return false;
