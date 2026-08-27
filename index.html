@@ -583,8 +583,8 @@ h1,h2,h3,.display{font-family:'Cinzel Decorative', 'Cinzel', serif;}
 .pbp-panel .pbp-entry{
   /* playByPlayPlate.png is a positioned 1920x1080 layer. Its measured
      visible plate is x=139..306, y=786..849 (168x64). Keep that exact
-     footprint and move each older event one row upward at the same X. */
-  position:absolute; left:7.239583%; top:calc(72.777778% - var(--pbp-index) * 6.296296%);
+     footprint, with the newest event in the top slot and older events below. */
+  position:absolute; left:7.239583%; top:calc(22.40741% + var(--pbp-index) * 6.296296%);
   width:8.75%; height:5.925926%; cursor:default; overflow:hidden;
   background-image:url('assets/board-kit/playByPlayPlate.png');
   background-repeat:no-repeat;
