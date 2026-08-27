@@ -293,6 +293,8 @@ h1,h2,h3,.display{font-family:'Cinzel Decorative', 'Cinzel', serif;}
 }
 .pbp-mini .art{font-size:1.1rem;}
 .pbp-entry.enemy .pbp-mini{border-color:var(--danger); box-shadow:0 3px 10px rgba(0,0,0,.55), 0 0 10px -2px var(--danger);}
+.pbp-entry .pbp-target-mini{border-color:var(--mine) !important; box-shadow:0 3px 10px rgba(0,0,0,.55), 0 0 10px -2px var(--mine) !important;}
+.pbp-entry .pbp-target-mini.enemy-target{border-color:var(--danger) !important; box-shadow:0 3px 10px rgba(0,0,0,.55), 0 0 10px -2px var(--danger) !important;}
 .pbp-entry:hover .pbp-mini, .pbp-entry.expanded .pbp-mini{transform:scale(1.06);}
 .pbp-action-badge{
   position:absolute; bottom:-5px; right:-5px; width:17px; height:17px; border-radius:50%;
@@ -7920,7 +7922,7 @@ function pbpHeroMiniHtml(ownerSide){
   const label = mine ? 'Your Hero' : 'Enemy Hero';
   const faction = ownerSide===state.active ? state.players[ownerSide].faction : state.players[ownerSide].faction;
   const art = faction==='verdant' ? 'assets/web-art/tokens/verdant boss.webp' : 'assets/web-art/tokens/ashborn boss.webp';
-  return { html:`<div class="pbp-hero-mini pbp-hero-hit" data-pbp-hero="${faction}" title="${label}"><img src="${art}" alt=""></div>`, label };
+  return { html:`<div class="pbp-hero-mini pbp-hero-hit pbp-target-mini ${mine?'':'enemy-target'}" data-pbp-hero="${faction}" title="${label}"><img src="${art}" alt=""></div>`, label };
 }
 
 function pbpTargetHtml(target){
@@ -7944,7 +7946,7 @@ function pbpTargetHtml(target){
   // type === 'unit'
   const cd = CARD_BY_ID[target.unit.cardId];
   return `<div class="pbp-col">
-    <div class="pbp-mini small pbp-card-hit" data-pbp-card="${cd.id}"><img src="${pbpWebArt(cd)}" alt=""></div>
+    <div class="pbp-mini small pbp-card-hit pbp-target-mini ${target.ownerSide===pbpHumanSide()?'':'enemy-target'}" data-pbp-card="${cd.id}"><img src="${pbpWebArt(cd)}" alt=""></div>
     <div class="pbp-col-name">${cd.name}</div>
   </div>`;
 }
@@ -7963,7 +7965,7 @@ function pbpRender(){
     div.innerHTML = `
       <div class="pbp-popout">
         <div class="pbp-col">
-          <div class="pbp-mini small pbp-card-hit" data-pbp-card="${card.id}"><img src="${pbpWebArt(card)}" alt=""></div>
+          <div class="pbp-mini small pbp-card-hit pbp-actor-mini" data-pbp-card="${card.id}"><img src="${pbpWebArt(card)}" alt=""></div>
           <div class="pbp-col-name">${card.name}</div>
         </div>
         <div class="pbp-mid-icon"><div>${meta.icon}</div><div class="pbp-mid-label">${meta.label}</div></div>
