@@ -6974,7 +6974,7 @@ function hasAdjacentAttackCleaveAura(side, attacker){
 function attackAction(side, attackerUid, targetType, targetUid){
   if(state.gameOver) return false;
   const attacker = findUnit(side, attackerUid);
-  if(!attacker || attacker.row==='support' || attacker.hasAttacked || attacker.summoningSick) return false;
+  if(!attacker || CARD_BY_ID[attacker.cardId].type==='support' || attacker.hasAttacked || attacker.summoningSick) return false;
   const vt = validTargetsFor(side);
   const attackerName = CARD_BY_ID[attacker.cardId].name;
   const attackerCard = CARD_BY_ID[attacker.cardId];
@@ -7865,7 +7865,7 @@ function aiTakeTurn(){
 
   function doAttacks(){
     if(state.gameOver) return;
-    const attackers = allUnits(side).filter(u=> u.row!=='support' && !u.hasAttacked && !u.summoningSick);
+    const attackers = allUnits(side).filter(u=> CARD_BY_ID[u.cardId].type!=='support' && !u.hasAttacked && !u.summoningSick);
     if(!attackers.length){ setTimeout(endTurn, 300); return; }
     const u = attackers[0];
     const vt = validTargetsFor(side);
@@ -8465,7 +8465,7 @@ function renderBoardUnit(side, unit){
   }
 
   const stats = getEffStats(unit);
-  const canAttack = isMine && unit.row!=='support' && !unit.hasAttacked && !unit.summoningSick && !state.gameOver;
+  const canAttack = isMine && cd.type!=='support' && !unit.hasAttacked && !unit.summoningSick && !state.gameOver;
   const isSelected = state.selectedAttackerUid===unit.uid;
 
   let isValidTarget = false;
