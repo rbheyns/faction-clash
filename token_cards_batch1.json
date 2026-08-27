@@ -1,0 +1,11 @@
+{
+  "_note": "Non-draftable token pool. Tokens are created only by card effects or future boss encounters; they are loaded into the runtime card registry but never offered as normal deck cards.",
+  "cards": [
+    {"id":"TOK001","name":"Emberwyrmling","faction":"token","type":"unit","row":"attack","cost":0,"attack":3,"health":3,"unitType":"Dragon","keywords":[],"rulesText":"","flavorText":"Small flame. Same fire.","rarity":"Common","art":"assets/art/token/TOK001.png"},
+    {"id":"TOK002","name":"Sapling","faction":"token","type":"unit","row":"support","cost":0,"attack":1,"health":1,"unitType":"Elemental","keywords":[],"rulesText":"","flavorText":"A promise taking root.","rarity":"Common","art":"assets/art/token/TOK002.png"},
+    {"id":"TOK003","name":"Fawn","faction":"token","type":"unit","row":"attack","cost":0,"attack":1,"health":1,"unitType":"Animal","keywords":[],"rulesText":"","flavorText":"Quick hooves, curious heart.","rarity":"Common","art":"assets/art/token/TOK003.png"},
+    {"id":"TOK004","name":"Elder Sapling","faction":"token","type":"unit","row":"defense","cost":0,"attack":3,"health":3,"unitType":"Elemental","keywords":[],"rulesText":"","flavorText":"Roots remember every season.","rarity":"Common","art":"assets/art/token/TOK004.png"},
+    {"id":"TOK005","name":"Thorn Sapling","faction":"token","type":"unit","row":"attack","cost":0,"attack":0,"health":1,"unitType":"Elemental","keywords":[],"rulesText":"","flavorText":"It inherits the grove's resolve.","rarity":"Common","art":"assets/art/token/TOK005.png"},
+    {"id":"TOK006","name":"Rootrunner Sapling","faction":"token","type":"unit","row":"attack","cost":0,"attack":5,"health":5,"unitType":"Elemental","keywords":[],"rulesText":"","flavorText":"It runs before it roots.","rarity":"Common","art":"assets/art/token/TOK006.png"}
+  ]
+}

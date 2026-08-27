@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Faction Clash — Card Renderer (pipeline test)</title>
+<link rel="stylesheet" href="assets/css/card_render.css">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 24px;
+    background: #14120f; color: #e8dcc0;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  h1 { font-size: 20px; margin: 0 0 4px; display: inline-block; }
+  .toolbar { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .toolbar a.editorlink {
+    color: #14120f; background: #d8c078; border-radius: 6px; padding: 6px 12px;
+    font-size: 13px; font-weight: 600; text-decoration: none;
+  }
+  .toolbar a.editorlink:hover { background: #e8d38f; }
+  .sub { color: #9a8f78; font-size: 13px; margin: 4px 0 20px; }
+  #status { font-size: 13px; margin-bottom: 16px; }
+  #status.error { color: #ff8a7a; }
+  #status.ok { color: #9fd48a; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 28px;
+  }
+  .cell {
+    background: #1d1a15;
+    border: 1px solid #332e24;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .cardwrap { width: 100%; aspect-ratio: 2 / 3; background: #000; }
+  .cardwrap svg { width: 100%; height: 100%; display: block; }
+  .meta { padding: 10px 12px 12px; font-size: 12px; line-height: 1.5; }
+  .meta .name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .meta .row2 { color: #9a8f78; }
+  .warn { color: #ffcf6b; margin-top: 4px; }
+  .err { color: #ff8a7a; margin-top: 4px; }
+  a.dl { color: #7fb8ff; text-decoration: none; font-size: 12px; }
+  a.dl:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <h1>Faction Clash — Card Renderer</h1>
+  <a class="editorlink" href="card_editor.html">+ Add / edit cards →</a>
+</div>
+<p class="sub">Renders every card in ashborn_cards_batch1.json using the v0.11 draft anchors (effect text moved down 25px, name curve re-shaped and hand-tuned — see cards/card_template_v0.11.svg for the exact diff from the locked v0.10). Uses local fonts from assets/fonts/, not the Google Fonts CDN. Real auto-wrap (measured against the actual box widths, live in-browser) — not hand-authored line breaks. Rendering logic lives in assets/js/cardBuilder.js (shared with card_editor.html). Refresh after editing the JSON.</p>
+<div id="status">Loading…</div>
+<div class="grid" id="grid"></div>
+
+<script src="assets/js/cardBuilder.js"></script>
+<script>
+const warningEls = {};
+function refreshWarnings(uid, warnings) {
+  const target = warningEls[uid];
+  if (!target) return;
+  target.innerHTML = '';
+  warnings.forEach(w => {
+    const d = document.createElement('div');
+    d.className = 'warn';
+    d.textContent = '⚠ ' + w;
+    target.appendChild(d);
+  });
+}
+
+async function main() {
+  const status = document.getElementById('status');
+  let cardsData, factionsData;
+  try {
+    const [cardsRes, factionsRes] = await Promise.all([
+      fetch('ashborn_cards_batch1.json', { cache: 'no-store' }),
+      fetch('cards/factions.json', { cache: 'no-store' })
+    ]);
+    if (!cardsRes.ok) throw new Error('HTTP ' + cardsRes.status);
+    cardsData = await cardsRes.json();
+    factionsData = factionsRes.ok ? await factionsRes.json() : {};
+  } catch (e) {
+    status.className = 'error';
+    status.textContent = 'Could not fetch ashborn_cards_batch1.json (' + e.message + '). This page needs to be served over http, not opened directly — run start-server.bat (or `python3 -m http.server`) in the project folder, then open http://localhost:8000/card_renderer.html';
+    return;
+  }
+
+  // Ensure fonts are actually loaded before measuring/laying out text, or wrap widths will be wrong.
+  await Promise.all([
+    document.fonts.load('700 48px "Cinzel"'),
+    document.fonts.load('400 48px "Libre Baskerville"'),
+    document.fonts.load('700 48px "Libre Baskerville"'),
+    document.fonts.load('italic 400 44px "Libre Baskerville"'),
+    document.fonts.load('700 130px "PT Serif"')
+  ]).catch(() => {});
+  await document.fonts.ready;
+
+  const keywordsRes = await fetch('cards/keywords.json', { cache: 'no-store' }).catch(() => null);
+  const keywordsData = keywordsRes && keywordsRes.ok ? await keywordsRes.json() : {};
+  const keywordNames = Object.keys(keywordsData).filter(k => !k.startsWith('_'));
+
+  const grid = document.getElementById('grid');
+  cardsData.cards.forEach(card => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    const faction = factionsData[card.faction];
+    if (faction) cell.style.borderColor = faction.primary;
+
+    const cardwrap = document.createElement('div');
+    cardwrap.className = 'cardwrap';
+    const { svg, warnings, uid } = CardBuilder.buildCard(card, keywordNames, {
+      onWarning: refreshWarnings
+    });
+    warningEls[uid] = null; // placeholder; set below once warnBox exists
+    cardwrap.appendChild(svg);
+    cell.appendChild(cardwrap);
+
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    const statBits = [];
+    if (card.attack !== undefined) statBits.push(`${card.attack}/${card.health}`);
+    if (card.duration !== undefined) statBits.push(`${card.duration}t duration`);
+    meta.innerHTML = `
+      <div class="name">${card.id} — ${card.name}</div>
+      <div class="row2">${card.type}${card.row ? ' · ' + card.row : ''} · cost ${card.cost}${statBits.length ? ' · ' + statBits.join(' · ') : ''} · ${card.rarity}</div>
+    `;
+    const warnBox = document.createElement('div');
+    warningEls[uid] = warnBox;
+    meta.appendChild(warnBox);
+    refreshWarnings(uid, warnings);
+
+    const dl = document.createElement('a');
+    dl.className = 'dl';
+    dl.textContent = 'Download SVG';
+    dl.href = '#';
+    dl.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      const serializer = new XMLSerializer();
+      const src = serializer.serializeToString(svg);
+      const blob = new Blob([src], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `${card.id}.svg`;
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    });
+    meta.appendChild(dl);
+
+    cell.appendChild(meta);
+    grid.appendChild(cell);
+  });
+
+  status.className = 'ok';
+  status.textContent = `Rendered ${cardsData.cards.length} cards.`;
+}
+
+main();
+</script>
+</body>
+</html>

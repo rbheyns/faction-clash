@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Playwright output
+test-results/
+playwright-report/
+
+# Binary art/media assets — large sourced/generated files (card art, frames, gems,
+# fonts, sound, video, prototypes). Not practical to version in git; re-source or
+# regenerate instead. See README.md for where each of these comes from.
+assets/art/
+assets/bottoms/
+assets/cardbacks/
+assets/dice/
+assets/fonts/
+assets/frames/
+assets/gems/
+assets/nameplate/
+assets/prototypes/
+assets/sound/
+
+# Card-variety design-engine folder: its own large JSON/CSV datasets and generated
+# reports. Excluded wholesale for now, matching the "data/assets out of scope"
+# boundary from the 2026-08-22 cleanup pass. If you want its *.py scripts tracked,
+# remove this line and add explicit excludes for the large *.json/*.csv files instead.
+card variety engine/
+
+# OS cruft
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Local agent/project instructions (keep out of the public game repository)
+AGENTS.md
+CLAUDE.md
+CROSS_AGENT_LOG.md
+tmp/
+art_backups/
+generated_images/
+prototypes/
+
+# Editor cruft
+.vscode/

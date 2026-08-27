@@ -1,0 +1,50 @@
+{
+  "ashborn": {
+    "displayName": "Ashborn Legion",
+    "theme": "Obsidian, volcanic steel, molten lava, dragon motifs, infernal architecture",
+    "mood": "Aggressive, military, ancient",
+    "frame": "assets/frames/ashborn/frame.svg",
+    "crest": "assets/crests/ashborn.svg",
+    "primary": "#e0552f",
+    "secondary": "#3a1408",
+    "accent": "#ffb069",
+    "text": "#ffe6c4",
+    "glow": "rgba(255, 140, 74, 0.55)"
+  },
+  "verdant": {
+    "displayName": "Verdant Circle",
+    "theme": "Living wood, roots, leaves, vines, ancient trees, nature magic",
+    "mood": "Ancient, protective, natural",
+    "frame": "assets/frames/verdant/frame.svg",
+    "crest": "assets/crests/verdant.svg",
+    "primary": "#4a9a3f",
+    "secondary": "#16330d",
+    "accent": "#d8c078",
+    "text": "#eaf6df",
+    "glow": "rgba(168, 226, 106, 0.5)"
+  },
+  "neutral": {
+    "displayName": "Free Companies",
+    "theme": "Stone, steel, old kingdoms, mercenaries, minimal decoration",
+    "mood": "Pragmatic, weathered, dependable",
+    "frame": "assets/frames/neutral/frame.svg",
+    "crest": "assets/crests/neutral.svg",
+    "primary": "#9aa3ad",
+    "secondary": "#2c2f36",
+    "accent": "#c9a24b",
+    "text": "#e8dcc0",
+    "glow": "rgba(160, 170, 180, 0.4)"
+  },
+  "token": {
+    "displayName": "Summoned",
+    "theme": "Ephemeral conjurations bearing their summoner's mark",
+    "mood": "Fleeting, minor",
+    "frame": "assets/frames/neutral/frame.svg",
+    "crest": "assets/crests/neutral.svg",
+    "primary": "#8a93a0",
+    "secondary": "#24272c",
+    "accent": "#c9a24b",
+    "text": "#e8dcc0",
+    "glow": "rgba(140, 150, 160, 0.35)"
+  }
+}

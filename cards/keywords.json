@@ -1,0 +1,36 @@
+{
+  "_note": "New 150-card project's keyword set. The old Rush/Growth/Frenzy keywords from the previous Faction Clash card set are paused, not carried over -- note the OLD 'Growth' below is unrelated to the NEW 'Growth' keyword added 2026-08-17 for the Verdant Circle set (verdant_cards_batch1.json); the new one is a deliberate, differently-defined reintroduction of the name, not a revival of the old mechanic. Old Rush/Frenzy remain fully retired.",
+  "Invoke": {
+    "icon": "assets/icons/invoke.svg",
+    "description": "Triggers immediately when this card is played (functionally equivalent to a battlecry)."
+  },
+  "Start of Turn": {
+    "icon": "assets/icons/start_of_turn.svg",
+    "description": "Triggers at the start of your turn."
+  },
+  "End of Turn": {
+    "icon": "assets/icons/end_of_turn.svg",
+    "description": "Triggers when your turn ends."
+  },
+  "Cleave": {
+    "icon": "assets/icons/cleave.svg",
+    "description": "Also damages adjacent units."
+  },
+  "Berserk": {
+    "icon": "assets/icons/berserk.svg",
+    "description": "Triggers the first time this unit takes damage."
+  },
+  "Last Word": {
+    "icon": "assets/icons/last_word.svg",
+    "description": "Triggers when this unit dies."
+  },
+  "Echo": {
+    "icon": "assets/icons/echo.svg",
+    "description": "Triggers when another friendly unit is destroyed."
+  },
+  "Growth": {
+    "icon": "assets/icons/growth.svg",
+    "description": "If this unit took no damage since its last Growth check, its Growth effect triggers at the start of your turn.",
+    "_note": "Growth is Verdant's self-only delayed trigger. At the start of its controller's turn, a Growth unit checks whether it took damage since its previous check; if it did not, only that unit resolves its printed Growth effect. The damage gate creates counterplay without turning every Growth effect into a multi-unit aura. Any card that should affect adjacent units must say so explicitly in its rules text and is balanced as a separate positional effect."
+  }
+}

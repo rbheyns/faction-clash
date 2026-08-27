@@ -1,0 +1,4134 @@
+<script type="application/json" id="embedded-cards-data">
+{
+  "_note": "Full 60-card Ashborn set (matches the tracker's 60-card target and cost curve exactly). ASH001-045 built across prior sessions; ASH046-060 (cost 5-10) added 2026-08-14 to fill out the top of the curve, following user-specified guidance: total stats ~2-2.5x cost split attack-heavy on Attack-row units / health-heavy on Defense-row units, stronger effects trimming stats down, rarity jumps bumping stats back up. Rarity across the new 15: 8 Common, 3 Rare, 2 Epic, 2 Legendary (user-specified exact counts). ASH043 Bloodforged Golem's plain-text \"whenever a friendly unit is destroyed\" ability was retrofitted to use the new Echo keyword (added to keywords.json same session) instead of unique unkeyworded text. Effect text condensed from the docx's original wording where possible, meaning preserved (see chat for the specific before/after on each). || 100-card expansion (2026-08-17): ASH061-100 added to bring Ashborn from 60 to 100 cards, per user directive targeting Attack28/Defense28/Support-unit14/Spells20/Support-duration10. 40-card expansion for Ashborn (ASH061-100), bringing the faction from 60 to 100 cards. Built to fill gaps identified by comparing the original 60 against the new 100-card target (Attack28/Defense28/Support-unit14/Spells20/Support-duration10 per faction): Ashborn was Attack-heavy and Defense/Support-light (21/14/7), and its cost curve was nearly empty at 6-10 with literally zero Defense or Support-row units above cost 5. This batch adds +7 Attack/+14 Defense/+7 Support-unit/+8 Spells/+4 Support-duration, concentrated to fill the top-end row gap and round out every cost bracket 0-10 (final curve 5/12/13/13/12/11/9/8/7/5/5). Rarity additions (+25/+9/+4/+2) keep the exact same 62/23/10/5 proportion as the original 37/14/6/3. UnitType additions (+7 Human/+8 Animal/+7 Elemental/+4 Construct/+2 Dragon) lean into Animal/Elemental/Construct specifically since those were thinnest relative to Human's 40% share in the original 60.",
+  "cards": [
+    {
+      "id": "ASH001",
+      "name": "Ashborn Recruit",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 0,
+      "attack": 1,
+      "health": 1,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Every legend starts somewhere.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash001.png"
+    },
+    {
+      "id": "ASH002",
+      "name": "Cinder Scroll",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 0,
+      "keywords": [],
+      "rulesText": "Deal 1 damage to a damaged enemy unit. If it is destroyed, draw a card.",
+      "flavorText": "Fierba... no, no. Firebawl!",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash002.png"
+    },
+    {
+      "id": "ASH003",
+      "name": "Camp Supplies",
+      "faction": "ashborn",
+      "type": "support",
+      "row": "support",
+      "cost": 0,
+      "duration": 2,
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Give the lowest-Health friendly unit +1 Attack.",
+      "flavorText": "Not the freshest rations, but it'll do.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash003.png"
+    },
+    {
+      "id": "ASH004",
+      "name": "Ashborn Trainee",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 1,
+      "attack": 1,
+      "health": 1,
+      "unitType": "Human",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Give an adjacent friendly Human +1 Attack.",
+      "flavorText": "If I have to swing this sword one more time!",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash004.png"
+    },
+    {
+      "id": "ASH005",
+      "name": "Rallying Cry",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 1,
+      "keywords": [],
+      "rulesText": "Draw a card. If you control a Support unit, it costs 1 less.",
+      "flavorText": "Sometimes you need a little help from a friend.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash005.png"
+    },
+    {
+      "id": "ASH006",
+      "name": "Legion Smith",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "support",
+      "cost": 1,
+      "attack": 0,
+      "health": 2,
+      "unitType": "Human",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Give a random Human in your hand +2 Attack.",
+      "flavorText": "A sharper blade is cheaper than a new recruit.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash006.png",
+      "_note": "Support UNIT — persistent effect, no duration (confirmed: support units' effects run every turn until the unit is destroyed, unlike duration-based Support cards). Docx originally listed 'Duration: 2 turns' on this card; removed per correction."
+    },
+    {
+      "id": "ASH007",
+      "name": "Ashborn Sentry",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 1,
+      "attack": 0,
+      "health": 3,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "The shield goes in the front... right?",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash007.png"
+    },
+    {
+      "id": "ASH008",
+      "name": "Shield Bear",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 1,
+      "attack": 0,
+      "health": 2,
+      "unitType": "Animal",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Give a friendly Defense unit +1 Attack and +1 Max Health.",
+      "flavorText": "Finally found someone to bear the load.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash008.png",
+      "_note": "This is the card rendered in defense_prototype.png. Using the docx's official flavor text (longer) over the prototype's condensed version, and the already-condensed effect text style the prototype established."
+    },
+    {
+      "id": "ASH009",
+      "name": "Ashborn Hunter",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 1,
+      "attack": 2,
+      "health": 1,
+      "unitType": "Human",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Deal 1 damage to the enemy Hero for each damaged enemy unit.",
+      "flavorText": "Ain't no more deer in Blackthorn Vale.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ash009.png"
+    },
+    {
+      "id": "ASH010",
+      "name": "Traveling Merchant",
+      "faction": "ashborn",
+      "type": "support",
+      "row": "support",
+      "cost": 1,
+      "duration": 2,
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Give a random unit in your hand +1 Attack and +1 Max Health.",
+      "flavorText": "That... uhh... fell off a caravan.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash010.png"
+    },
+    {
+      "id": "ASH011",
+      "name": "Counter Intelligence",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 1,
+      "keywords": [],
+      "rulesText": "Reveal the enemy's lowest-cost card. If it costs 2 or less, deal 2 damage to the enemy Hero.",
+      "flavorText": "Shhh... don't tell them, I told you.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash011.png",
+      "_note": "Full name is longer than 'Counter Intel', the shorthand used throughout our locked-template testing. Worth a render check — the name curve/size was tuned against the shorter string."
+    },
+    {
+      "id": "ASH012",
+      "name": "Battle Apprentice",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 1,
+      "attack": 1,
+      "health": 1,
+      "unitType": "Human",
+      "keywords": [
+        "Cleave"
+      ],
+      "rulesText": "Cleave. Whenever this damages an enemy unit, give a random friendly unit +1 Attack.",
+      "flavorText": "I told you to hit the middle one!",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ASH012.png",
+      "_note": "New card added 2026-08-09. Rarity not specified in source docx — defaulted to Common, flagged assumption pending confirmation."
+    },
+    {
+      "id": "ASH013",
+      "name": "Sharpened Blade",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 1,
+      "keywords": [],
+      "rulesText": "Give a random Attack unit in your hand +2 Attack. It costs 1 less.",
+      "flavorText": "Not the finest blade, but good enough.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ASH013.png",
+      "_note": "New card added 2026-08-09. Rarity not specified in source docx — defaulted to Common, flagged assumption pending confirmation."
+    },
+    {
+      "id": "ASH014",
+      "name": "Untrained Cook",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "support",
+      "cost": 2,
+      "attack": 1,
+      "health": 3,
+      "unitType": "Human",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If a friendly unit is damaged, add an Emergency Rations card to your hand.",
+      "flavorText": "It might need a little salt.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ASH014.png",
+      "_note": "Renumbered from ASH013 to ASH014 on 2026-08-09 per updated card list; rarity (Rare) carried forward unchanged. Flavor text updated to the newer wording provided by the user."
+    },
+    {
+      "id": "ASH015",
+      "name": "Ember Whelp",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 2,
+      "attack": 2,
+      "health": 2,
+      "unitType": "Dragon",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Give adjacent friendly Attack units +2 Attack.",
+      "flavorText": "I think I'll name him Norbert.",
+      "rarity": "Epic",
+      "art": "assets/art/ashborn/ASH015.png",
+      "_note": "Renumbered from ASH012 to ASH015 on 2026-08-09 per updated card list; rarity (Epic) carried forward unchanged. Flavor text updated to the newer wording provided by the user."
+    },
+    {
+      "id": "ASH016",
+      "name": "Shield Maiden",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 2,
+      "attack": 1,
+      "health": 3,
+      "unitType": "Human",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Adjacent friendly units are immune to damage this turn.",
+      "flavorText": "She gets a little defensive sometimes.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH016.png"
+    },
+    {
+      "id": "ASH017",
+      "name": "Tactical Retreat",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 2,
+      "keywords": [],
+      "rulesText": "Return a damaged friendly unit to your hand. Draw a card.",
+      "flavorText": "Come back when you're ready.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH017.png"
+    },
+    {
+      "id": "ASH018",
+      "name": "Battle Drums",
+      "faction": "ashborn",
+      "type": "support",
+      "row": "support",
+      "cost": 2,
+      "duration": 2,
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: Restore 2 Health to your two most damaged friendly units.",
+      "flavorText": "If you can hear the drums, you can still fight.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH018.png"
+    },
+    {
+      "id": "ASH019",
+      "name": "Ashborn Soldier",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 2,
+      "attack": 3,
+      "health": 1,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Point me at 'em.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH019.png"
+    },
+    {
+      "id": "ASH020",
+      "name": "Ashborn Guard",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 2,
+      "attack": 1,
+      "health": 3,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Someone has to stand here.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH020.png"
+    },
+    {
+      "id": "ASH021",
+      "name": "Experimental Explosives",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 2,
+      "keywords": [],
+      "rulesText": "Deal 1 damage to all enemy units. Deal 1 damage to the enemy Hero for each damaged enemy unit.",
+      "flavorText": "What could possibly go wrong?",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ASH021.png"
+    },
+    {
+      "id": "ASH022",
+      "name": "Cinder Fang",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 2,
+      "attack": 2,
+      "health": 2,
+      "unitType": "Animal",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Gain +1 Attack for each damaged enemy unit.",
+      "flavorText": "Its bite is worse than its bark.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH022.png"
+    },
+    {
+      "id": "ASH023",
+      "name": "Ironhide",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 2,
+      "attack": 1,
+      "health": 3,
+      "unitType": "Animal",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Return a random friendly Animal that died this game to your hand.",
+      "flavorText": "I think you made it angry.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH023.png"
+    },
+    {
+      "id": "ASH024",
+      "name": "Schorchling",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 2,
+      "attack": 2,
+      "health": 2,
+      "unitType": "Elemental",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Deal 1 damage to the enemy Hero for each friendly Elemental.",
+      "flavorText": "Need a light?",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH024.png"
+    },
+    {
+      "id": "ASH025",
+      "name": "Emberstone Golem",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 2,
+      "attack": 1,
+      "health": 4,
+      "unitType": "Elemental",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If undamaged, restore 2 Health to your Hero.",
+      "flavorText": "The longer it stands, the harder it falls.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ASH025.png"
+    },
+    {
+      "id": "ASH026",
+      "name": "Unbroken Emblem",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "support",
+      "cost": 4,
+      "attack": 2,
+      "health": 5,
+      "unitType": "Construct",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: A random Construct in your hand gains +2 Attack and +2 Max Health.",
+      "flavorText": "The pride of the Ashborn Legion.",
+      "rarity": "Legendary",
+      "art": "assets/art/ashborn/ASH026.png"
+    },
+    {
+      "id": "ASH027",
+      "name": "Shield Wall",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 3,
+      "attack": 1,
+      "health": 5,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "Adjacent friendly Defense units take 1 less damage.",
+      "flavorText": "Together we stand, divided we fall.",
+      "rarity": "Epic",
+      "art": "assets/art/ashborn/ASH027.png"
+    },
+    {
+      "id": "ASH028",
+      "name": "Ironhide Rider",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 3,
+      "attack": 2,
+      "health": 4,
+      "unitType": "Human",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Adjacent friendly Animals gain Cleave.",
+      "flavorText": "Aye.. It's a bumpy ride.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ASH028.png"
+    },
+    {
+      "id": "ASH029",
+      "name": "Duskwing",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 3,
+      "attack": 2,
+      "health": 3,
+      "unitType": "Dragon",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Give a random Dragon in your hand +2 Attack and +2 Max Health.",
+      "flavorText": "Got it from some guy named Berk.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH029.png"
+    },
+    {
+      "id": "ASH030",
+      "name": "Siege Engine",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 3,
+      "attack": 3,
+      "health": 2,
+      "unitType": "Construct",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Give adjacent friendly Constructs +1 Attack.",
+      "flavorText": "It'll hit something eventually.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH030.png"
+    },
+    {
+      "id": "ASH031",
+      "name": "Cinderkin",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 3,
+      "attack": 3,
+      "health": 3,
+      "unitType": "Animal",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Gain +1 Attack for each other friendly Animal.",
+      "flavorText": "Every spark feeds the blaze.",
+      "rarity": "Epic",
+      "art": "assets/art/ashborn/ASH031.png"
+    },
+    {
+      "id": "ASH032",
+      "name": "Emberstone Brute",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 3,
+      "attack": 4,
+      "health": 3,
+      "unitType": "Elemental",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Forged in the Emberstone mountains.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ASH032.png"
+    },
+    {
+      "id": "ASH033",
+      "name": "Ashenblade",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 3,
+      "attack": 5,
+      "health": 1,
+      "unitType": "Human",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Deal 3 damage to the enemy Hero.",
+      "flavorText": "The darkness guides my blade.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH033.png"
+    },
+    {
+      "id": "ASH034",
+      "name": "Healing Rain",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 3,
+      "keywords": [],
+      "rulesText": "Restore 5 Health split among your units. If all healing is used, draw a card.",
+      "flavorText": "Ahh... That feels better.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ASH034.png"
+    },
+    {
+      "id": "ASH035",
+      "name": "Weaking Mist",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 3,
+      "keywords": [],
+      "rulesText": "Silence the highest-Attack enemy unit.",
+      "flavorText": "Even the bravest can lose their way.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH035.png"
+    },
+    {
+      "id": "ASH036",
+      "name": "Chain Warden",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "support",
+      "cost": 3,
+      "attack": 2,
+      "health": 4,
+      "unitType": "Human",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Deal 2 damage to the highest-Attack enemy unit; it cannot attack this turn.",
+      "flavorText": "It's a lot less chains than my last job.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH036.png"
+    },
+    {
+      "id": "ASH037",
+      "name": "Challenge Banner",
+      "faction": "ashborn",
+      "type": "support",
+      "row": "support",
+      "cost": 3,
+      "duration": 2,
+      "keywords": [],
+      "rulesText": "The first time a friendly Defense unit is attacked each turn, give it +1 Max Health.",
+      "flavorText": "Go on. Make your move.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH037.png"
+    },
+    {
+      "id": "ASH038",
+      "name": "Pack Leader",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 4,
+      "attack": 6,
+      "health": 3,
+      "unitType": "Animal",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Give all friendly Animals +2 Attack.",
+      "flavorText": "The pack is never alone.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH038.png"
+    },
+    {
+      "id": "ASH039",
+      "name": "Battle Mage",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 4,
+      "attack": 4,
+      "health": 4,
+      "unitType": "Human",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Deal 3 damage to the lowest-Health enemy unit. If it dies, draw a card.",
+      "flavorText": "Fire flows through my veins.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ASH039.png"
+    },
+    {
+      "id": "ASH040",
+      "name": "Embermaw",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 4,
+      "attack": 4,
+      "health": 3,
+      "unitType": "Dragon",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: If you control another Dragon, gain +3 Attack and +3 Max Health.",
+      "flavorText": "Its scales are harder than steel.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH040.png"
+    },
+    {
+      "id": "ASH041",
+      "name": "Ashen Bastion",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 4,
+      "attack": 2,
+      "health": 6,
+      "unitType": "Construct",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If undamaged, adjacent friendly Defense units gain +1 Max Health.",
+      "flavorText": "They told us to hold the line.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH041.png"
+    },
+    {
+      "id": "ASH042",
+      "name": "Emberguard",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 4,
+      "attack": 3,
+      "health": 5,
+      "unitType": "Elemental",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Deal 1 damage to all enemy Attack units.",
+      "flavorText": "The flame burns within.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH042.png"
+    },
+    {
+      "id": "ASH043",
+      "name": "Bloodforged Golem",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 4,
+      "attack": 3,
+      "health": 6,
+      "unitType": "Elemental",
+      "keywords": [
+        "Echo"
+      ],
+      "rulesText": "Echo: Restore 2 Health to this and adjacent friendly units.",
+      "flavorText": "Pain is just another lesson.",
+      "rarity": "Epic",
+      "art": "assets/art/ashborn/ASH043.png"
+    },
+    {
+      "id": "ASH044",
+      "name": "Stim Pack",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 4,
+      "keywords": [],
+      "rulesText": "Give a friendly unit +5 Attack until end of turn. Deal 2 damage to it.",
+      "flavorText": "You're gonna feel this in the morning.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ASH044.png"
+    },
+    {
+      "id": "ASH045",
+      "name": "Arcane Scavanger",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "support",
+      "cost": 4,
+      "attack": 3,
+      "health": 3,
+      "unitType": "Animal",
+      "keywords": [
+        "Echo"
+      ],
+      "rulesText": "Echo: Reduce a random spell in your hand by 2.",
+      "flavorText": "Master likes the shinies.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH045.png"
+    },
+    {
+      "id": "ASH046",
+      "name": "Magma Cleaver",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 5,
+      "attack": 7,
+      "health": 3,
+      "unitType": "Elemental",
+      "keywords": [],
+      "rulesText": "Whenever this attacks, deal 1 damage to all other units.",
+      "flavorText": "One swing, three funerals.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH046.png"
+    },
+    {
+      "id": "ASH047",
+      "name": "Ashwing Drake",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 5,
+      "attack": 6,
+      "health": 4,
+      "unitType": "Dragon",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Add a copy of the last spell you played to your hand.",
+      "flavorText": "Poke it. I dare you.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH047.png"
+    },
+    {
+      "id": "ASH048",
+      "name": "Bulwark Automaton",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 5,
+      "attack": 2,
+      "health": 9,
+      "unitType": "Construct",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If undamaged, give adjacent friendly Constructs +2 Max Health.",
+      "flavorText": "Not one scratch. Not one.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH048.png"
+    },
+    {
+      "id": "ASH049",
+      "name": "Trained Mastiff",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "support",
+      "cost": 5,
+      "attack": 3,
+      "health": 7,
+      "unitType": "Animal",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Give adjacent friendly Animals +1 Attack.",
+      "flavorText": "Good boy. Terrifying boy.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH049.png"
+    },
+    {
+      "id": "ASH050",
+      "name": "Wildfire Surge",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 5,
+      "keywords": [],
+      "rulesText": "Deal 2 damage to all units. Add a Cinder Scroll to your hand for each enemy unit destroyed.",
+      "flavorText": "The forest remembers. The enemy won't.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ASH050.png"
+    },
+    {
+      "id": "ASH051",
+      "name": "War Banner",
+      "faction": "ashborn",
+      "type": "support",
+      "row": "support",
+      "cost": 5,
+      "duration": 3,
+      "keywords": [],
+      "rulesText": "Your Attack units deal +1 damage when attacking. Whenever one destroys a unit, draw a card.",
+      "flavorText": "Raise it high. Let them see it coming.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH051.png"
+    },
+    {
+      "id": "ASH052",
+      "name": "Direwolf Berserker",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 6,
+      "attack": 9,
+      "health": 4,
+      "unitType": "Animal",
+      "keywords": [
+        "Cleave"
+      ],
+      "rulesText": "Cleave. Whenever this destroys an enemy unit, gain +2 Max Health.",
+      "flavorText": "It doesn't stop at one.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ASH052.png"
+    },
+    {
+      "id": "ASH053",
+      "name": "Cinder Lance",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 6,
+      "keywords": [],
+      "rulesText": "Deal 4 damage to an enemy unit. If it survives, return it to its owner's hand.",
+      "flavorText": "Straight through. No apologies.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH053.png"
+    },
+    {
+      "id": "ASH054",
+      "name": "Forge Standard",
+      "faction": "ashborn",
+      "type": "support",
+      "row": "support",
+      "cost": 6,
+      "duration": 3,
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: Give a random friendly Attack unit +2 Attack.",
+      "flavorText": "Forged in the same fire as the Legion.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH054.png"
+    },
+    {
+      "id": "ASH055",
+      "name": "Molten Colossus",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 7,
+      "attack": 4,
+      "health": 11,
+      "unitType": "Elemental",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Swap this unit's Attack and Health.",
+      "flavorText": "It was already the size of a hill. Now it's angry.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ASH055.png"
+    },
+    {
+      "id": "ASH056",
+      "name": "Cinderforge Warden",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "support",
+      "cost": 7,
+      "attack": 4,
+      "health": 11,
+      "unitType": "Construct",
+      "keywords": [
+        "Echo"
+      ],
+      "rulesText": "Echo: A random Construct in your hand costs 2 less and gains +2 Max Health.",
+      "flavorText": "Every fallen brother makes it stronger.",
+      "rarity": "Epic",
+      "art": "assets/art/ashborn/ASH056.png"
+    },
+    {
+      "id": "ASH057",
+      "name": "Legion Juggernaut",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 8,
+      "attack": 9,
+      "health": 9,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "Whenever this destroys a unit, deal 3 damage to the enemy Hero.",
+      "flavorText": "It doesn't need a plan. It has momentum.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ASH057.png"
+    },
+    {
+      "id": "ASH058",
+      "name": "Cataclysm",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 8,
+      "keywords": [],
+      "rulesText": "Destroy all Support cards. Deal 4 damage to all enemy units.",
+      "flavorText": "It came from... Above!",
+      "rarity": "Epic",
+      "art": "assets/art/ashborn/ASH058.png"
+    },
+    {
+      "id": "ASH059",
+      "name": "Emberwrath Dragonlord",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 9,
+      "attack": 10,
+      "health": 11,
+      "unitType": "Dragon",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Deal 4 damage to the highest-Health enemy unit, then summon two Emberwyrmlings.",
+      "flavorText": "Legends don't ask permission to land.",
+      "rarity": "Legendary",
+      "art": "assets/art/ashborn/ASH059.png"
+    },
+    {
+      "id": "ASH060",
+      "name": "The Ashen Warlord",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 10,
+      "attack": 12,
+      "health": 11,
+      "unitType": "Human",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Destroy all enemy Support cards. Deal 6 damage to the enemy Hero.",
+      "flavorText": "Even in death, my wrath lives on.",
+      "rarity": "Legendary",
+      "art": "assets/art/ashborn/ASH060.png"
+    },
+    {
+      "id": "ASH061",
+      "name": "Bastion Recruit",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 0,
+      "attack": 0,
+      "health": 2,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "First lesson: don't die on day one.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash061.png"
+    },
+    {
+      "id": "ASH062",
+      "name": "Forge Priest",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "support",
+      "cost": 0,
+      "attack": 0,
+      "health": 1,
+      "unitType": "Human",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Restore 1 Health to the lowest-Health friendly unit.",
+      "flavorText": "Even the Legion needs someone to patch it back together.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash062.png"
+    },
+    {
+      "id": "ASH063",
+      "name": "Ironclad Vanguard",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 1,
+      "attack": 0,
+      "health": 2,
+      "unitType": "Animal",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Someone strapped plating to a boar. It did not ask permission.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash063.png"
+    },
+    {
+      "id": "ASH064",
+      "name": "Molten Strike",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 1,
+      "keywords": [],
+      "rulesText": "Give a friendly unit Cleave. If it is a Construct, give it +2 Max Health.",
+      "flavorText": "A small drop of the mountain, aimed with precision.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash064.png"
+    },
+    {
+      "id": "ASH065",
+      "name": "Cinderwall Defender",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 2,
+      "attack": 1,
+      "health": 4,
+      "unitType": "Elemental",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "It cooled just enough to hold its shape.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash065.png"
+    },
+    {
+      "id": "ASH066",
+      "name": "Legion Bulwark",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 3,
+      "attack": 1,
+      "health": 6,
+      "unitType": "Animal",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "It plants its feet and the ground agrees to keep them.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash066.png"
+    },
+    {
+      "id": "ASH067",
+      "name": "Cinderclaw Raider",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 3,
+      "attack": 3,
+      "health": 3,
+      "unitType": "Animal",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Return this unit to your hand. It costs 1 less.",
+      "flavorText": "It was already angry. Now it's personal.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash067.png"
+    },
+    {
+      "id": "ASH068",
+      "name": "Obsidian Shieldbearer",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 4,
+      "attack": 2,
+      "health": 7,
+      "unitType": "Construct",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Carved from a single cooled flow. Never replaced, only repaired.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash068.png"
+    },
+    {
+      "id": "ASH069",
+      "name": "Dreadhold Sentinel",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 4,
+      "attack": 2,
+      "health": 6,
+      "unitType": "Animal",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Restore 2 Health to this. Gain +1 Attack for each damaged friendly unit.",
+      "flavorText": "Hit it once. You will not want to hit it twice.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ash069.png"
+    },
+    {
+      "id": "ASH070",
+      "name": "Ember Chanter",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "support",
+      "cost": 4,
+      "attack": 2,
+      "health": 6,
+      "unitType": "Elemental",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Give the lowest-Attack friendly unit +1 Attack. If it is an Elemental, give it Cleave.",
+      "flavorText": "Its chant is older than the Legion itself.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash070.png"
+    },
+    {
+      "id": "ASH071",
+      "name": "Ashfang Marauder",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 5,
+      "attack": 6,
+      "health": 4,
+      "unitType": "Animal",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Destroy the damaged enemy unit with the lowest Health.",
+      "flavorText": "It doesn't wait for an opening. It makes one.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash071.png"
+    },
+    {
+      "id": "ASH072",
+      "name": "Magma-Forged Aegis",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 5,
+      "attack": 3,
+      "health": 8,
+      "unitType": "Animal",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Its hide still glows faintly, even asleep.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash072.png"
+    },
+    {
+      "id": "ASH073",
+      "name": "Emberforged Colossus",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 5,
+      "attack": 2,
+      "health": 9,
+      "unitType": "Elemental",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If damaged, give adjacent friendly units +1 Attack.",
+      "flavorText": "It has stood so long the Legion forgot it was ever built.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ash073.png"
+    },
+    {
+      "id": "ASH074",
+      "name": "Battle Standard-Bearer",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "support",
+      "cost": 5,
+      "attack": 3,
+      "health": 7,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "Adjacent friendly Attack units have Cleave.",
+      "flavorText": "As long as the banner still stands, so does the Legion.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ash074.png"
+    },
+    {
+      "id": "ASH075",
+      "name": "Volley of Cinders",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 5,
+      "keywords": [],
+      "rulesText": "Return a friendly unit that died this game to your hand. If it is an Animal, it costs 2 less.",
+      "flavorText": "A thousand small burns are worse than one big one.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash075.png"
+    },
+    {
+      "id": "ASH076",
+      "name": "Emberstorm Reaver",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 6,
+      "attack": 8,
+      "health": 5,
+      "unitType": "Animal",
+      "keywords": [],
+      "rulesText": "Whenever this destroys a unit, deal 2 damage to units adjacent to it.",
+      "flavorText": "It runs through the line like the line isn't there.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash076.png"
+    },
+    {
+      "id": "ASH077",
+      "name": "Ashen Rampart",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 6,
+      "attack": 3,
+      "health": 10,
+      "unitType": "Human",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Summon two Ashborn Recruits.",
+      "flavorText": "Even falling, it gives the line something to stand behind.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash077.png"
+    },
+    {
+      "id": "ASH078",
+      "name": "Cinderkeep Warden",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "support",
+      "cost": 6,
+      "attack": 3,
+      "health": 10,
+      "unitType": "Construct",
+      "keywords": [
+        "Echo"
+      ],
+      "rulesText": "Echo: If the destroyed friendly unit was a Construct, add a copy of it to your hand.",
+      "flavorText": "It keeps a tally. The tally is never in your favor.",
+      "rarity": "Epic",
+      "art": "assets/art/ashborn/ash078.png"
+    },
+    {
+      "id": "ASH079",
+      "name": "Legion's Last Stand",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 6,
+      "attack": 3,
+      "health": 10,
+      "unitType": "Elemental",
+      "keywords": [],
+      "rulesText": "Damage dealt to adjacent friendly units is dealt to this instead.",
+      "flavorText": "When it plants its banner, no one behind it retreats.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ash079.png"
+    },
+    {
+      "id": "ASH080",
+      "name": "Forge Blessing",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 6,
+      "keywords": [],
+      "rulesText": "Give a friendly unit +6 Attack until end of turn. Destroy it at end of turn.",
+      "flavorText": "Blessed by fire, and briefly, by nothing else.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash080.png"
+    },
+    {
+      "id": "ASH081",
+      "name": "Legion Encampment",
+      "faction": "ashborn",
+      "type": "support",
+      "row": "support",
+      "cost": 6,
+      "duration": 3,
+      "keywords": [],
+      "rulesText": "The first time a friendly Defense unit is attacked each turn, deal 2 damage to the attacker.",
+      "flavorText": "Dig in. The Legion doesn't retreat, it fortifies.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ash081.png"
+    },
+    {
+      "id": "ASH082",
+      "name": "Volcanic Harrier",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 7,
+      "attack": 9,
+      "health": 6,
+      "unitType": "Dragon",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Gain Cleave. When this dies, deal 4 damage to the enemy Hero.",
+      "flavorText": "Wounding it was the last mistake several soldiers made.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash082.png"
+    },
+    {
+      "id": "ASH083",
+      "name": "Brimstone Bastion",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 7,
+      "attack": 4,
+      "health": 13,
+      "unitType": "Animal",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "It smells like the mountain because it practically is the mountain.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ash083.png"
+    },
+    {
+      "id": "ASH084",
+      "name": "Ashborn Oracle",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "support",
+      "cost": 7,
+      "attack": 4,
+      "health": 11,
+      "unitType": "Human",
+      "keywords": [
+        "Echo"
+      ],
+      "rulesText": "Echo: Reveal the enemy's highest-cost card. If it costs 6 or more, reduce a random card in your hand by 2.",
+      "flavorText": "She reads the ashes of the fallen for what comes next.",
+      "rarity": "Epic",
+      "art": "assets/art/ashborn/ash084.png"
+    },
+    {
+      "id": "ASH085",
+      "name": "Emberrage",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 7,
+      "keywords": [],
+      "rulesText": "Deal 3 damage to an enemy unit. If it dies, deal 3 damage to units adjacent to it.",
+      "flavorText": "The wound is the message.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash085.png"
+    },
+    {
+      "id": "ASH086",
+      "name": "Scorched Earth",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 7,
+      "keywords": [],
+      "rulesText": "Deal 6 damage to the highest-Health enemy unit and 3 damage to units adjacent to it.",
+      "flavorText": "Nothing left standing. Nothing left to defend.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash086.png"
+    },
+    {
+      "id": "ASH087",
+      "name": "Ember Ward",
+      "faction": "ashborn",
+      "type": "support",
+      "row": "support",
+      "cost": 7,
+      "duration": 3,
+      "keywords": [],
+      "rulesText": "The first friendly unit destroyed each turn returns to your hand.",
+      "flavorText": "A ring of coals that never quite goes cold.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ash087.png"
+    },
+    {
+      "id": "ASH088",
+      "name": "Dreadflame Champion",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 8,
+      "attack": 10,
+      "health": 7,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "Units damaged by this cannot attack during their next turn.",
+      "flavorText": "The Legion's answer to 'send someone who can end this'.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash088.png"
+    },
+    {
+      "id": "ASH089",
+      "name": "Molten Bulwark",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 8,
+      "attack": 4,
+      "health": 14,
+      "unitType": "Elemental",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If damaged, restore 3 Health to this and draw a card.",
+      "flavorText": "The longer the siege, the harder it gets.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash089.png"
+    },
+    {
+      "id": "ASH090",
+      "name": "Legion Quartermaster",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "support",
+      "cost": 8,
+      "attack": 5,
+      "health": 12,
+      "unitType": "Construct",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Give a random friendly unit in your hand +2 Attack and +2 Max Health. If it is a Construct, it costs 1 less.",
+      "flavorText": "It never runs out. No one asks where it's all coming from.",
+      "rarity": "Epic",
+      "art": "assets/art/ashborn/ash090.png"
+    },
+    {
+      "id": "ASH091",
+      "name": "Infernal Pact",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 8,
+      "keywords": [],
+      "rulesText": "Destroy a friendly unit. Deal its Attack in damage to all enemy units.",
+      "flavorText": "The Legion asks for sacrifice, and the Legion is answered.",
+      "rarity": "Epic",
+      "art": "assets/art/ashborn/ash091.png"
+    },
+    {
+      "id": "ASH092",
+      "name": "Siege Standard",
+      "faction": "ashborn",
+      "type": "support",
+      "row": "support",
+      "cost": 8,
+      "duration": 3,
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: The enemy has 1 less AP during their next turn.",
+      "flavorText": "Raised over the walls, it never lets them forget you're still there.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash092.png"
+    },
+    {
+      "id": "ASH093",
+      "name": "The Cinder King",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 9,
+      "attack": 11,
+      "health": 10,
+      "unitType": "Dragon",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Return every friendly Dragon that died this game to your hand.",
+      "flavorText": "Every throne he's sat on, he's had to melt first.",
+      "rarity": "Legendary",
+      "art": "assets/art/ashborn/ash093.png"
+    },
+    {
+      "id": "ASH094",
+      "name": "The Unyielding Ember",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 9,
+      "attack": 5,
+      "health": 16,
+      "unitType": "Elemental",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Every siege in Legion history has broken on it, not the other way around.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash094.png"
+    },
+    {
+      "id": "ASH095",
+      "name": "Ashborn's Wrath",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 9,
+      "keywords": [],
+      "rulesText": "Destroy all damaged units. Deal 2 damage to the enemy Hero for each unit destroyed.",
+      "flavorText": "There is no version of this that ends gently.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ash095.png"
+    },
+    {
+      "id": "ASH096",
+      "name": "The Cinderforge",
+      "faction": "ashborn",
+      "type": "support",
+      "row": "support",
+      "cost": 9,
+      "duration": 3,
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: Reduce the highest-cost card in your hand by 2.",
+      "flavorText": "It never stops working, even after the smiths go home.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash096.png"
+    },
+    {
+      "id": "ASH097",
+      "name": "Infernal Vanguard",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "attack",
+      "cost": 10,
+      "attack": 13,
+      "health": 10,
+      "unitType": "Human",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Return all friendly Attack units that died this game to your hand.",
+      "flavorText": "It leads the charge every time. It has run out of ways to say no.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash097.png"
+    },
+    {
+      "id": "ASH098",
+      "name": "Scorchstone Titan",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "defense",
+      "cost": 10,
+      "attack": 5,
+      "health": 18,
+      "unitType": "Construct",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "The mountain didn't fall. It just decided to walk instead.",
+      "rarity": "Common",
+      "art": "assets/art/ashborn/ash098.png"
+    },
+    {
+      "id": "ASH099",
+      "name": "The Emberkeeper",
+      "faction": "ashborn",
+      "type": "unit",
+      "row": "support",
+      "cost": 10,
+      "attack": 6,
+      "health": 16,
+      "unitType": "Elemental",
+      "keywords": [
+        "Echo"
+      ],
+      "rulesText": "Echo: Summon an Emberwyrmling.",
+      "flavorText": "It has outlived every general it has ever served.",
+      "rarity": "Legendary",
+      "art": "assets/art/ashborn/ash099.png"
+    },
+    {
+      "id": "ASH100",
+      "name": "The Last Ember",
+      "faction": "ashborn",
+      "type": "spell",
+      "cost": 10,
+      "keywords": [],
+      "rulesText": "Deal 10 damage split among all enemy units. Restore 5 Health to your Hero.",
+      "flavorText": "Even at the very end, it warms what's left of its own.",
+      "rarity": "Rare",
+      "art": "assets/art/ashborn/ash100.png"
+    }
+  ]
+}
+
+</script>
+<script type="application/json" id="embedded-cards-data-1">
+{
+  "_note": "Full 60-card Verdant Circle set, designed to mirror ashborn_cards_batch1.json's schema/conventions exactly. Identity: patient growth and nature magic, rewarding long-game control over early aggression (per FACTION_CLASH_GAME_OVERVIEW.md section 3). Cost curve deliberately shifted right of Ashborn's (fewer 1-3 cost, more 4-6 cost) so games built around this faction naturally lean midgame. Introduces a new keyword, Growth (added to keywords.json in this same delivery, precedent: Echo was added alongside its first card the same way) -- triggers at the start of your turn AND applies to friendly units adjacent to this one, representing a grove spreading its vitality to its neighbors. Spell/support kit is deliberately healing- and buff-weighted rather than damage-weighted (3 damage-dealing spells out of 12, vs Ashborn's 5 of 12) per explicit user direction. UnitType usage follows the user's mapping: humanoid Circle-folk (elves, druids, rangers) = Human, beastfolk/wildlife = Animal, wisps/ents/treants/fairy-spirits = Elemental -- Construct and Dragon are not used anywhere in this set, deliberately, since neither fits Verdant's organic theme. || 100-card expansion (2026-08-17): VER061-100 added to bring Verdant from 60 to 100 cards, per user directive targeting Attack28/Defense28/Support-unit14/Spells20/Support-duration10, matching Ashborn's expansion exactly. 40-card expansion for Verdant Circle (VER061-100), bringing the faction from 60 to 100 cards, mirroring the Ashborn expansion (ashborn_additions.json). Built from the same gap analysis: Verdant's original 60 was Attack15/Defense15/Support-unit10/Spells12/Support-duration8, thin at the very top end (cost 7-9 had zero Support-unit and Support-duration cards, cost 0/7/10 had no Defense units). This batch adds +13 Attack/+13 Defense/+4 Support-unit/+8 Spells/+2 Support-duration, reaching the target Attack28/Defense28/Support-unit14/Spells20/Support-duration10 exactly. Cost curve additions {0:2,1:2,2:2,3:2,4:3,5:4,6:5,7:6,8:6,9:5,10:3} round out every bracket, concentrated most heavily at cost 6-9 where the original set was thinnest. Support-unit and Support-duration additions are concentrated at cost 7-10 specifically to close the 'no support at the top end' gap, the same fix applied to Ashborn. Rarity additions {Common:25,Rare:9,Epic:4,Legendary:2} match Ashborn's additions exactly, reaching Common62/Rare23/Epic10/Legendary5 -- full parity between the two 100-card factions. UnitType additions {Elemental:10,Animal:10,Human:10} keep Verdant's three-type split roughly balanced at the larger scale. Growth keyword used on 8 of the 40 new cards, including two 'spreads to adjacent units' cards (VER079, VER098) that lean into Growth's signature adjacency effect more explicitly than most of the original 60 did. No Construct or Dragon unitTypes used, consistent with the original Verdant 60 (those remain Ashborn-flavored types).",
+  "cards": [
+    {
+      "id": "VER001",
+      "name": "Grovesprout",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "support",
+      "cost": 0,
+      "attack": 0,
+      "health": 2,
+      "unitType": "Elemental",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: If you control no other friendly units, add a Fawn to your hand.",
+      "flavorText": "Even the smallest root remembers to grow.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver001.png"
+    },
+    {
+      "id": "VER002",
+      "name": "Bramble Snare",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 0,
+      "keywords": [],
+      "rulesText": "Give a friendly unit Cleave.",
+      "flavorText": "A little nourishment goes a long way.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver002.png"
+    },
+    {
+      "id": "VER003",
+      "name": "Wildclaw Kit",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 1,
+      "attack": 2,
+      "health": 1,
+      "unitType": "Animal",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Small teeth, big opinions.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver003.png"
+    },
+    {
+      "id": "VER004",
+      "name": "Circle Acolyte",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 1,
+      "attack": 2,
+      "health": 1,
+      "unitType": "Human",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Give a friendly Defense unit Cleave.",
+      "flavorText": "The Circle teaches restraint before strength.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver004.png"
+    },
+    {
+      "id": "VER005",
+      "name": "Rootling",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 1,
+      "attack": 0,
+      "health": 3,
+      "unitType": "Elemental",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "It hasn't decided what it wants to be yet.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver005.png"
+    },
+    {
+      "id": "VER006",
+      "name": "Thornback Boar",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 1,
+      "attack": 1,
+      "health": 2,
+      "unitType": "Animal",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Summon a Fawn.",
+      "flavorText": "Rude to poke it. Ruder for the one who poked it.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver006.png"
+    },
+    {
+      "id": "VER007",
+      "name": "Moss Tender",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "support",
+      "cost": 1,
+      "attack": 0,
+      "health": 2,
+      "unitType": "Elemental",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: If a friendly unit was healed last turn, restore 2 Health to your Hero.",
+      "flavorText": "It hums an old, patient song.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver007.png"
+    },
+    {
+      "id": "VER008",
+      "name": "Seedbed",
+      "faction": "verdant",
+      "type": "support",
+      "row": "support",
+      "cost": 1,
+      "duration": 2,
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Give your most damaged friendly unit +1 Attack this turn.",
+      "flavorText": "Given time, anything can take root.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver008.png"
+    },
+    {
+      "id": "VER009",
+      "name": "Fernwild Charm",
+      "faction": "verdant",
+      "type": "support",
+      "row": "support",
+      "cost": 1,
+      "duration": 2,
+      "keywords": [],
+      "rulesText": "Your next Animal costs 2 less.",
+      "flavorText": "Traded for a song and a promise.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver009.png"
+    },
+    {
+      "id": "VER010",
+      "name": "Nourishing Rain",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 1,
+      "keywords": [],
+      "rulesText": "Restore 3 Health split among friendly units. Deal unused healing as damage to the lowest-Health enemy unit.",
+      "flavorText": "The grove drinks deep and does not waste a drop.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver010.png"
+    },
+    {
+      "id": "VER011",
+      "name": "Duskhare Scout",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 2,
+      "attack": 2,
+      "health": 2,
+      "unitType": "Animal",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Look at the top card of your deck.",
+      "flavorText": "Gone before you finish blinking.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver011.png"
+    },
+    {
+      "id": "VER012",
+      "name": "Wardenkin Archer",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 2,
+      "attack": 3,
+      "health": 1,
+      "unitType": "Animal",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Return the lowest-Attack enemy unit to its owner's hand.",
+      "flavorText": "Her last arrow always finds a purpose.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver012.png"
+    },
+    {
+      "id": "VER013",
+      "name": "Bramblehorn Stag",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 2,
+      "attack": 3,
+      "health": 2,
+      "unitType": "Animal",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: If this has 5 or more Attack, summon a 1/1 Fawn.",
+      "flavorText": "Its antlers are still growing. So is its temper.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver013.png"
+    },
+    {
+      "id": "VER014",
+      "name": "Grovewatch Sentinel",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 2,
+      "attack": 1,
+      "health": 4,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "The trees told her someone would come.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver014.png"
+    },
+    {
+      "id": "VER015",
+      "name": "Rootbound Ent",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 2,
+      "attack": 1,
+      "health": 3,
+      "unitType": "Elemental",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Restore 2 Health to a friendly Defense unit.",
+      "flavorText": "It has nowhere else to be for the next hundred years.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver015.png"
+    },
+    {
+      "id": "VER016",
+      "name": "Ridgeback Bear",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 2,
+      "attack": 1,
+      "health": 3,
+      "unitType": "Animal",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Give your other units +1 Attack.",
+      "flavorText": "Somehow more frightening when it's calm.",
+      "rarity": "Epic",
+      "art": "assets/art/verdant/ver016.png"
+    },
+    {
+      "id": "VER017",
+      "name": "Hollowroot Sage",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "support",
+      "cost": 2,
+      "attack": 1,
+      "health": 2,
+      "unitType": "Human",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If this unit has full Health, draw a card.",
+      "flavorText": "She remembers every wound the grove has ever healed.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver017.png"
+    },
+    {
+      "id": "VER018",
+      "name": "Grove Ward",
+      "faction": "verdant",
+      "type": "support",
+      "row": "support",
+      "cost": 2,
+      "duration": 2,
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If a friendly unit was destroyed this turn, reduce a random unit in your hand by 1.",
+      "flavorText": "A circle of light where nothing sharp can enter.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver018.png"
+    },
+    {
+      "id": "VER019",
+      "name": "Wild Growth",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 2,
+      "keywords": [],
+      "rulesText": "Swap a friendly unit's Attack and Health.",
+      "flavorText": "It outgrows the season before the season is done.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver019.png"
+    },
+    {
+      "id": "VER020",
+      "name": "Tangling Roots",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 2,
+      "keywords": [],
+      "rulesText": "Give an enemy unit -2 Attack until your next turn.",
+      "flavorText": "The ground itself disagrees with your plan.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver020.png"
+    },
+    {
+      "id": "VER021",
+      "name": "Moonleaf Ranger",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 3,
+      "attack": 3,
+      "health": 3,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "She only takes the shot she knows will land.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver021.png"
+    },
+    {
+      "id": "VER022",
+      "name": "Centaur Strider",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 3,
+      "attack": 4,
+      "health": 2,
+      "unitType": "Animal",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Gain +1 Attack for each friendly Defense unit.",
+      "flavorText": "He runs faster with the herd behind him.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver022.png"
+    },
+    {
+      "id": "VER023",
+      "name": "Elderwood Treant",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 3,
+      "attack": 1,
+      "health": 6,
+      "unitType": "Elemental",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "It was old before the Circle had a name.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver023.png"
+    },
+    {
+      "id": "VER024",
+      "name": "Thistle Warden",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 3,
+      "attack": 2,
+      "health": 4,
+      "unitType": "Human",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Reduce a random spell in your hand by 1.",
+      "flavorText": "Every year the thorns grow a little sharper.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver024.png"
+    },
+    {
+      "id": "VER025",
+      "name": "Owlkin Sentry",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "support",
+      "cost": 3,
+      "attack": 2,
+      "health": 4,
+      "unitType": "Animal",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Give the lowest Health friendly unit +1 Attack.",
+      "flavorText": "Nothing enters the grove unseen.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver025.png"
+    },
+    {
+      "id": "VER026",
+      "name": "Faewisp Gatherer",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "support",
+      "cost": 3,
+      "attack": 0,
+      "health": 6,
+      "unitType": "Elemental",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: Add a Sapling to your hand.",
+      "flavorText": "It collects lost things and forgotten wishes.",
+      "rarity": "Epic",
+      "art": "assets/art/verdant/ver026.png"
+    },
+    {
+      "id": "VER027",
+      "name": "Circle of Renewal",
+      "faction": "verdant",
+      "type": "support",
+      "row": "support",
+      "cost": 3,
+      "duration": 3,
+      "keywords": ["Start of Turn"],
+      "rulesText": "Start of Turn: Restore 2 Health to your Defense units.",
+      "flavorText": "What the grove protects, the grove mends.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver027.png"
+    },
+    {
+      "id": "VER028",
+      "name": "Healing Bloom",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 3,
+      "keywords": [],
+      "rulesText": "Restore all Health to your units. If none are damaged, draw 2 cards instead.",
+      "flavorText": "A single flower, blooming exactly when needed.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver028.png"
+    },
+    {
+      "id": "VER029",
+      "name": "Overgrowth",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 3,
+      "keywords": [],
+      "rulesText": "Give all Saplings +1/+1.",
+      "flavorText": "It doesn't ask the wall's permission to climb it.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver029.png"
+    },
+    {
+      "id": "VER030",
+      "name": "Verdant Druid",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 4,
+      "attack": 4,
+      "health": 3,
+      "unitType": "Human",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Create a 1/1 copy of a random friendly unit.",
+      "flavorText": "She speaks and the brambles part for her alone.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver030.png"
+    },
+    {
+      "id": "VER031",
+      "name": "Talonwing Hawk",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 4,
+      "attack": 5,
+      "health": 3,
+      "unitType": "Animal",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Return this to your hand. It costs 2 less.",
+      "flavorText": "It only strikes once. It only needs to.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver031.png"
+    },
+    {
+      "id": "VER032",
+      "name": "Elderbark Guardian",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 4,
+      "attack": 2,
+      "health": 6,
+      "unitType": "Elemental",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Give a random friendly unit Last Word: Add a Sapling to your hand.",
+      "flavorText": "Its bark is thicker than any shield the Legion forges.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver032.png"
+    },
+    {
+      "id": "VER033",
+      "name": "Antlered Guardian",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 4,
+      "attack": 3,
+      "health": 5,
+      "unitType": "Animal",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Give your other friendly units +1 Max Health.",
+      "flavorText": "It gives its strength to the herd, even at the end.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver033.png"
+    },
+    {
+      "id": "VER034",
+      "name": "Willowmere Elder",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 4,
+      "attack": 1,
+      "health": 7,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "She has outlived three wars and forgiven all of them.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver034.png"
+    },
+    {
+      "id": "VER035",
+      "name": "Bloomwarden",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "support",
+      "cost": 4,
+      "attack": 2,
+      "health": 6,
+      "unitType": "Elemental",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If this unit has full Health, reduce the highest-cost card in your hand by 1.",
+      "flavorText": "It tends what others have forgotten to.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver035.png"
+    },
+    {
+      "id": "VER036",
+      "name": "Deepwood Spirit",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "support",
+      "cost": 4,
+      "attack": 3,
+      "health": 6,
+      "unitType": "Elemental",
+      "keywords": [
+        "Echo"
+      ],
+      "rulesText": "Echo: Copy the lowest-cost spell you played this game.",
+      "flavorText": "It remembers every leaf that has ever fallen.",
+      "rarity": "Legendary",
+      "art": "assets/art/verdant/ver036.png"
+    },
+    {
+      "id": "VER037",
+      "name": "Sporeling Thicket",
+      "faction": "verdant",
+      "type": "support",
+      "row": "support",
+      "cost": 4,
+      "duration": 3,
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Give a random friendly Animal +1/+1.",
+      "flavorText": "It spreads faster than anyone remembers planting it.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver037.png"
+    },
+    {
+      "id": "VER038",
+      "name": "Elderwood Pact",
+      "faction": "verdant",
+      "type": "support",
+      "row": "support",
+      "cost": 4,
+      "duration": 4,
+      "keywords": [],
+      "rulesText": "Your Support units cost 1 less.",
+      "flavorText": "An old bargain, honored by both sides for centuries.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver038.png"
+    },
+    {
+      "id": "VER039",
+      "name": "Regrowth",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 3,
+      "keywords": [],
+      "rulesText": "Return a random friendly unit that died this game to your hand. If it is a Sapling, summon it instead.",
+      "flavorText": "Nothing is truly lost to the grove.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver039.png"
+    },
+    {
+      "id": "VER040",
+      "name": "Thorned Embrace",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 4,
+      "keywords": [],
+      "rulesText": "Deal 4 damage to a damaged enemy unit. Restore 4 Health to your Hero.",
+      "flavorText": "It holds tight, and it does not let go first.",
+      "rarity": "Epic",
+      "art": "assets/art/verdant/ver040.png"
+    },
+    {
+      "id": "VER041",
+      "name": "Stagrunner Packmate",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 5,
+      "attack": 7,
+      "health": 5,
+      "unitType": "Animal",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Where one runs, the herd is never far behind.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver041.png"
+    },
+    {
+      "id": "VER042",
+      "name": "Thornspirit Avenger",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 5,
+      "attack": 6,
+      "health": 4,
+      "unitType": "Elemental",
+      "keywords": [
+        "Growth"
+      ],
+      "rulesText": "Growth: Silence the lowest-Health damaged enemy unit.",
+      "flavorText": "It was gentle once. The Legion changed that.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver042.png"
+    },
+    {
+      "id": "VER043",
+      "name": "Ancient of the Roots",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 5,
+      "attack": 2,
+      "health": 10,
+      "unitType": "Elemental",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Add a random Verdant unit that costs 5 or less to your hand.",
+      "flavorText": "It has already decided to outlast you.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver043.png"
+    },
+    {
+      "id": "VER044",
+      "name": "Ironbark Matriarch",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 5,
+      "attack": 3,
+      "health": 8,
+      "unitType": "Animal",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: Gain +2 Max Health while undamaged.",
+      "flavorText": "She has never once needed to be replaced.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver044.png"
+    },
+    {
+      "id": "VER045",
+      "name": "Wisplight Chorus",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "support",
+      "cost": 5,
+      "attack": 2,
+      "health": 6,
+      "unitType": "Elemental",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If you control 3 or more Saplings, draw a card.",
+      "flavorText": "A hundred small lights, singing the same slow song.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver045.png"
+    },
+    {
+      "id": "VER046",
+      "name": "Grovekeeper Warden",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "support",
+      "cost": 5,
+      "attack": 3,
+      "health": 7,
+      "unitType": "Human",
+      "keywords": [
+        "Growth"
+      ],
+      "rulesText": "Growth: Give a random Sapling in your hand +2/+2.",
+      "flavorText": "She has planted more than she will ever see bloom.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver046.png"
+    },
+    {
+      "id": "VER047",
+      "name": "Root Network",
+      "faction": "verdant",
+      "type": "support",
+      "row": "support",
+      "cost": 5,
+      "duration": 3,
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: Restore 3 Health to your two most damaged friendly units.",
+      "flavorText": "Every tree in the grove shares what one of them finds.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver047.png"
+    },
+    {
+      "id": "VER048",
+      "name": "Blooming Wrath",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 5,
+      "keywords": [],
+      "rulesText": "Give your units +2 Max Health. Deal 2 damage to all enemy units.",
+      "flavorText": "The grove does not forgive what burns it.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver048.png"
+    },
+    {
+      "id": "VER049",
+      "name": "Wardenkin Rally",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 6,
+      "attack": 6,
+      "health": 6,
+      "unitType": "Animal",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Give all Saplings Cleave.",
+      "flavorText": "The Circle answers as one when it must.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver049.png"
+    },
+    {
+      "id": "VER050",
+      "name": "Worldroot Treant",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 6,
+      "attack": 3,
+      "health": 12,
+      "unitType": "Elemental",
+      "keywords": [
+        "Growth"
+      ],
+      "rulesText": "Growth: Transform the highest-Health enemy unit into a Fawn.",
+      "flavorText": "Its roots reach farther than any map has drawn.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver050.png"
+    },
+    {
+      "id": "VER051",
+      "name": "Elder Petalguard",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "support",
+      "cost": 6,
+      "attack": 3,
+      "health": 10,
+      "unitType": "Human",
+      "keywords": [
+        "Echo"
+      ],
+      "rulesText": "Echo: Give a random friendly unit Cleave.",
+      "flavorText": "She grieves each loss by making the next one stronger.",
+      "rarity": "Epic",
+      "art": "assets/art/verdant/ver051.png"
+    },
+    {
+      "id": "VER052",
+      "name": "Ancient Vigil",
+      "faction": "verdant",
+      "type": "support",
+      "row": "support",
+      "cost": 6,
+      "duration": 3,
+      "keywords": [],
+      "rulesText": "Whenever you play a unit, restore 1 Health to your Hero.",
+      "flavorText": "The grove is always listening, always ready.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver052.png"
+    },
+    {
+      "id": "VER053",
+      "name": "Circle's Reckoning",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 6,
+      "keywords": [],
+      "rulesText": "Restore all Health to your units. Give them +2 Max Health.",
+      "flavorText": "Every wound the grove has kept is answered at once.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver053.png"
+    },
+    {
+      "id": "VER054",
+      "name": "Bramblewood Colossus",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 7,
+      "attack": 8,
+      "health": 7,
+      "unitType": "Elemental",
+      "keywords": [
+        "Cleave"
+      ],
+      "rulesText": "Cleave. Whenever this damages an enemy unit, restore 2 Health to your Hero.",
+      "flavorText": "It has never needed to swing twice at anything.",
+      "rarity": "Epic",
+      "art": "assets/art/verdant/ver054.png"
+    },
+    {
+      "id": "VER055",
+      "name": "Circle's Bounty",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 7,
+      "keywords": [],
+      "rulesText": "Restore 8 Health to your Hero. Give your units +2 Max Health.",
+      "flavorText": "The grove gives most generously to those who protect it.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver055.png"
+    },
+    {
+      "id": "VER056",
+      "name": "Sentinel of the Deepwood",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 8,
+      "attack": 8,
+      "health": 8,
+      "unitType": "Animal",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Summon a random Verdant Animal that costs 5 or less.",
+      "flavorText": "It has guarded this ground since before the Legion had a name for fire.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver056.png"
+    },
+    {
+      "id": "VER057",
+      "name": "The Last Ancient",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 8,
+      "attack": 4,
+      "health": 14,
+      "unitType": "Elemental",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Restore all Health to adjacent friendly units.",
+      "flavorText": "Every other tree of its age has already fallen.",
+      "rarity": "Epic",
+      "art": "assets/art/verdant/ver057.png"
+    },
+    {
+      "id": "VER058",
+      "name": "Wellspring Oracle",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 9,
+      "attack": 5,
+      "health": 12,
+      "unitType": "Human",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Restore 8 Health to your units.",
+      "flavorText": "She has seen every ending, and refuses most of them.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver058.png"
+    },
+    {
+      "id": "VER059",
+      "name": "Verdant Rebirth",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 9,
+      "keywords": [],
+      "rulesText": "Summon all friendly Saplings that died this game.",
+      "flavorText": "The grove does not know how to say goodbye.",
+      "rarity": "Legendary",
+      "art": "assets/art/verdant/ver059.png"
+    },
+    {
+      "id": "VER060",
+      "name": "The Worldtree Awakened",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 10,
+      "attack": 12,
+      "health": 11,
+      "unitType": "Elemental",
+      "keywords": [
+        "Growth"
+      ],
+      "rulesText": "Growth: Your Saplings gain +1 Attack this game.",
+      "flavorText": "It was a seedling when the world was young. It is patient no longer.",
+      "rarity": "Legendary",
+      "art": "assets/art/verdant/ver060.png"
+    },
+    {
+      "id": "VER061",
+      "name": "Fernling",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 0,
+      "attack": 0,
+      "health": 2,
+      "unitType": "Animal",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "It hasn't grown its thorns yet.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver061.png"
+    },
+    {
+      "id": "VER062",
+      "name": "Budding Growth",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 0,
+      "keywords": [],
+      "rulesText": "Return an enemy Support card to its owner's hand.",
+      "flavorText": "The Circle wastes nothing, not even a single season.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver062.png"
+    },
+    {
+      "id": "VER063",
+      "name": "Thicket Hare",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 1,
+      "attack": 2,
+      "health": 1,
+      "unitType": "Animal",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Gone before you finish the thought.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver063.png"
+    },
+    {
+      "id": "VER064",
+      "name": "Sapling Guard",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 1,
+      "attack": 0,
+      "health": 2,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Young, but the roots run deep already.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver064.png"
+    },
+    {
+      "id": "VER065",
+      "name": "Foxkin Skirmisher",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 2,
+      "attack": 3,
+      "health": 2,
+      "unitType": "Animal",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Deal 1 damage to an enemy unit.",
+      "flavorText": "Quick paws, quicker temper.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver065.png"
+    },
+    {
+      "id": "VER066",
+      "name": "Bramblebark Warden",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 2,
+      "attack": 1,
+      "health": 5,
+      "unitType": "Elemental",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "It has stood in the same clearing for a hundred years.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver066.png"
+    },
+    {
+      "id": "VER067",
+      "name": "Glimmerwing Scout",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 3,
+      "attack": 3,
+      "health": 2,
+      "unitType": "Animal",
+      "keywords": [
+        "Growth"
+      ],
+      "rulesText": "Growth: Give a random friendly Animal +1 Attack.",
+      "flavorText": "Fae wings catch the light and the enemy's eye, in that order.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver067.png"
+    },
+    {
+      "id": "VER068",
+      "name": "Circle's Blessing",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 3,
+      "keywords": [],
+      "rulesText": "Restore all Health to a friendly unit, then give it Cleave.",
+      "flavorText": "A gift from the grove is never given lightly.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver068.png"
+    },
+    {
+      "id": "VER069",
+      "name": "Wildwood Ranger",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 4,
+      "attack": 4,
+      "health": 3,
+      "unitType": "Human",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Give a friendly Animal Cleave.",
+      "flavorText": "She hunts alongside the pack, never ahead of it.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver069.png"
+    },
+    {
+      "id": "VER070",
+      "name": "Thornhide Bear",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 4,
+      "attack": 2,
+      "health": 6,
+      "unitType": "Animal",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Gain +2 Max Health.",
+      "flavorText": "Provoking it is a mistake made only once.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver070.png"
+    },
+    {
+      "id": "VER071",
+      "name": "Verdant Surge",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 4,
+      "keywords": [],
+      "rulesText": "Give two friendly units Last Word: Summon a Sapling.",
+      "flavorText": "The grove answers when called upon in numbers.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver071.png"
+    },
+    {
+      "id": "VER072",
+      "name": "Stagheart Charger",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 5,
+      "attack": 6,
+      "health": 4,
+      "unitType": "Animal",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "When it charges, the whole grove seems to lean forward.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver072.png"
+    },
+    {
+      "id": "VER073",
+      "name": "Wisteria Duelist",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 5,
+      "attack": 5,
+      "health": 5,
+      "unitType": "Human",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Add a random Animal from your deck to your hand.",
+      "flavorText": "Even in defeat, she leaves the grove stronger.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver073.png"
+    },
+    {
+      "id": "VER074",
+      "name": "Rootbound Colossus",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 5,
+      "attack": 2,
+      "health": 10,
+      "unitType": "Elemental",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "It moves once a decade. That is usually enough.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver074.png"
+    },
+    {
+      "id": "VER075",
+      "name": "Petalguard Matron",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 5,
+      "attack": 3,
+      "health": 8,
+      "unitType": "Human",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: Copy the lowest-cost spell in your hand.",
+      "flavorText": "She has buried three saplings and raised a forest.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver075.png"
+    },
+    {
+      "id": "VER076",
+      "name": "Duskglen Prowler",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 6,
+      "attack": 7,
+      "health": 5,
+      "unitType": "Animal",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Gain Cleave. If this destroys a unit this turn, draw a card.",
+      "flavorText": "It hunts by starlight and old grudges.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver076.png"
+    },
+    {
+      "id": "VER077",
+      "name": "Highbranch Sentinel",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 6,
+      "attack": 6,
+      "health": 6,
+      "unitType": "Elemental",
+      "keywords": [
+        "Growth"
+      ],
+      "rulesText": "Growth: Deal 2 damage to the enemy Hero.",
+      "flavorText": "The oldest branches remember every storm they've weathered.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver077.png"
+    },
+    {
+      "id": "VER078",
+      "name": "Willowguard Titan",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 6,
+      "attack": 3,
+      "health": 12,
+      "unitType": "Elemental",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Its bark has turned aside a hundred blades.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver078.png"
+    },
+    {
+      "id": "VER079",
+      "name": "Thornmother Ascendant",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 6,
+      "attack": 3,
+      "health": 11,
+      "unitType": "Human",
+      "keywords": [
+        "Growth"
+      ],
+      "rulesText": "Growth: Summon a Thorn Sapling.",
+      "flavorText": "She remembers the name of every seed she has ever planted.",
+      "rarity": "Epic",
+      "art": "assets/art/verdant/ver079.png"
+    },
+    {
+      "id": "VER080",
+      "name": "Grasping Vines",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 6,
+      "keywords": [],
+      "rulesText": "Deal 5 damage to an enemy unit and reduce its Attack by 2 until end of turn.",
+      "flavorText": "The grove does not forgive trespassers.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver080.png"
+    },
+    {
+      "id": "VER081",
+      "name": "Emberleaf Warhawk",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 7,
+      "attack": 10,
+      "health": 8,
+      "unitType": "Elemental",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "It nests where the canopy meets the sky.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver081.png"
+    },
+    {
+      "id": "VER082",
+      "name": "Ironbriar Reaver",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 7,
+      "attack": 9,
+      "health": 7,
+      "unitType": "Animal",
+      "keywords": [
+        "Cleave"
+      ],
+      "rulesText": "Cleave. Whenever this destroys a unit, gain +2 Max Health.",
+      "flavorText": "Its claws don't distinguish between one enemy and the next.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver082.png"
+    },
+    {
+      "id": "VER083",
+      "name": "Deepgrove Warden",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 7,
+      "attack": 4,
+      "health": 11,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Nothing that reaches the Deepgrove leaves it easily.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver083.png"
+    },
+    {
+      "id": "VER084",
+      "name": "The Unbroken Bough",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 7,
+      "attack": 4,
+      "health": 13,
+      "unitType": "Human",
+      "keywords": [
+        "Last Word"
+      ],
+      "rulesText": "Last Word: Summon two Rootrunner Saplings.",
+      "flavorText": "It bent under every storm and snapped under none.",
+      "rarity": "Epic",
+      "art": "assets/art/verdant/ver084.png"
+    },
+    {
+      "id": "VER085",
+      "name": "Chorus of Wisps",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "support",
+      "cost": 7,
+      "attack": 3,
+      "health": 8,
+      "unitType": "Elemental",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Add a random 1-cost Verdant spell to your hand; it costs 0 this turn.",
+      "flavorText": "Their song mends what the season has broken.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver085.png"
+    },
+    {
+      "id": "VER086",
+      "name": "Bloom of Ages",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 7,
+      "keywords": [],
+      "rulesText": "Restore 9 Health split among your units.",
+      "flavorText": "A century of patience, spent all at once.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver086.png"
+    },
+    {
+      "id": "VER087",
+      "name": "Stormbrush Wyrm",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 8,
+      "attack": 10,
+      "health": 8,
+      "unitType": "Elemental",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Legend says it was born from a single lightning-struck seed.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver087.png"
+    },
+    {
+      "id": "VER088",
+      "name": "Ancient Root-Walker",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 8,
+      "attack": 4,
+      "health": 15,
+      "unitType": "Animal",
+      "keywords": [
+        "Growth"
+      ],
+      "rulesText": "Growth: Restore all Health to this.",
+      "flavorText": "It has outlived every name the grove ever gave it.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver088.png"
+    },
+    {
+      "id": "VER089",
+      "name": "Wardenroot Matriarch",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "support",
+      "cost": 8,
+      "attack": 4,
+      "health": 13,
+      "unitType": "Human",
+      "keywords": [
+        "Echo"
+      ],
+      "rulesText": "Echo: Restore all Health to a random friendly unit.",
+      "flavorText": "Her voice reaches every corner of the Circle's lands.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver089.png"
+    },
+    {
+      "id": "VER090",
+      "name": "Season's Turning",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 8,
+      "keywords": [],
+      "rulesText": "Restore all Health to your units, then give them +1 Attack this turn.",
+      "flavorText": "Spring answers every winter, without fail.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver090.png"
+    },
+    {
+      "id": "VER091",
+      "name": "Nature's Reckoning",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 8,
+      "keywords": [],
+      "rulesText": "Deal 3 damage to all enemy units. Restore 3 Health to your units.",
+      "flavorText": "The grove takes back everything it's owed.",
+      "rarity": "Epic",
+      "art": "assets/art/verdant/ver091.png"
+    },
+    {
+      "id": "VER092",
+      "name": "Circle Sanctuary",
+      "faction": "verdant",
+      "type": "support",
+      "row": "support",
+      "cost": 8,
+      "duration": 3,
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Restore 3 Health to your units.",
+      "flavorText": "Within its boughs, even old wounds forget to ache.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver092.png"
+    },
+    {
+      "id": "VER093",
+      "name": "Skyroot Wyrm",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 9,
+      "attack": 11,
+      "health": 9,
+      "unitType": "Elemental",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Its roots trail through the clouds it nests among.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver093.png"
+    },
+    {
+      "id": "VER094",
+      "name": "The Verdant Warlord",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "attack",
+      "cost": 9,
+      "attack": 11,
+      "health": 10,
+      "unitType": "Human",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Give your units +1 Attack.",
+      "flavorText": "She led the grove to war exactly once, and never again.",
+      "rarity": "Legendary",
+      "art": "assets/art/verdant/ver094.png"
+    },
+    {
+      "id": "VER095",
+      "name": "Grandroot Behemoth",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 9,
+      "attack": 4,
+      "health": 15,
+      "unitType": "Animal",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Add a random Verdant spell that costs 5 or less to your hand. It costs 2 less.",
+      "flavorText": "Its shadow alone has stopped armies from advancing.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver095.png"
+    },
+    {
+      "id": "VER096",
+      "name": "Elderfae Chorus",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "support",
+      "cost": 9,
+      "attack": 4,
+      "health": 15,
+      "unitType": "Elemental",
+      "keywords": [
+        "Echo"
+      ],
+      "rulesText": "Echo: Reduce all spells in your hand by 1.",
+      "flavorText": "Their harmony reshapes the grove one note at a time.",
+      "rarity": "Epic",
+      "art": "assets/art/verdant/ver096.png"
+    },
+    {
+      "id": "VER097",
+      "name": "Wrath of the Deepgrove",
+      "faction": "verdant",
+      "type": "spell",
+      "cost": 9,
+      "keywords": [],
+      "rulesText": "Deal 5 damage to all enemy units and 3 damage to the enemy Hero.",
+      "flavorText": "Every root beneath the battlefield answers at once.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver097.png"
+    },
+    {
+      "id": "VER098",
+      "name": "The World-Wound Healed",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "defense",
+      "cost": 10,
+      "attack": 5,
+      "health": 16,
+      "unitType": "Elemental",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Return a random friendly spell played this game to your hand.",
+      "flavorText": "Where it stands, the scar the world once bore has finally closed.",
+      "rarity": "Legendary",
+      "art": "assets/art/verdant/ver098.png"
+    },
+    {
+      "id": "VER099",
+      "name": "The Grove Eternal",
+      "faction": "verdant",
+      "type": "unit",
+      "row": "support",
+      "cost": 10,
+      "attack": 5,
+      "health": 15,
+      "unitType": "Human",
+      "keywords": [
+        "Echo"
+      ],
+      "rulesText": "Echo: Add a random Verdant unit that costs 3 or less to your hand.",
+      "flavorText": "It has watched every ending. It has answered with a beginning.",
+      "rarity": "Common",
+      "art": "assets/art/verdant/ver099.png"
+    },
+    {
+      "id": "VER100",
+      "name": "The Everseed",
+      "faction": "verdant",
+      "type": "support",
+      "row": "support",
+      "cost": 10,
+      "duration": 4,
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Summon a random Verdant unit that costs 3 or less.",
+      "flavorText": "One seed, patient enough, can become an entire forest.",
+      "rarity": "Rare",
+      "art": "assets/art/verdant/ver100.png"
+    }
+  ]
+}
+
+</script>
+<script type="application/json" id="embedded-cards-data-2">
+{
+  "_note": "First cards for the Neutral pool ('Free Companies' per factions.json) and the Token sub-pool ('Summoned' -- cards that only ever enter play via another card's effect, never drafted/played from a starting deck). Neutral cards use faction:\"neutral\"; tokens use faction:\"token\" -- both already had entries in cards/factions.json (frame/crest/colors) but no cards existed for either until this session. NEU-prefixed ids for real Neutral pool cards, TOK-prefixed ids for tokens. art paths point at assets/art/neutral/ and assets/art/token/ respectively -- the token art folder does not exist on disk yet and will need to be created.\n\n2026-08-17: expanded from 1 to 51 Neutral cards (NEU002-NEU051 added) to give the Neutral pool its intended role -- gap-filling for whichever faction's deck needs it, playable by either Ashborn or Verdant. Theme is deliberately 'the world outside the factions': city NPCs (guards, thieves, merchants, scholars), mundane/menagerie animals (guard dogs, pack mules, a chained bear -- captured/urban context, not Verdant's wild nature), and lost artifacts/constructs (automatons, sentinel statues, a colossus) -- nothing overlaps Ashborn's fire/dragon/sacrifice identity or Verdant's nature/Growth identity; Growth and Cleave were deliberately not used on any Neutral card to keep those signature to Verdant and Ashborn respectively. Composition was chosen from this session's balance-testing data: units 9 Attack / 9 Defense / 6 Support-unit, 16 Spells, 10 Support-duration (50 total) -- skewed harder toward spells/support-duration than either faction's own ~20%/10% split, on the reasoning that Neutral's job is to be a toolbox, and this session's simulator found both factions' utility slots (especially Ashborn's) underperform their unit slots -- see CLAUDE.md's balance-testing section. Rarity spread (31 Common / 12 Rare / 5 Epic / 2 Legendary) mirrors the ~62/23/10/5-scaled-to-50 spread used for both factions' 100-card sets. UnitType spread (14 Human / 6 Animal / 4 Construct) deliberately excludes Elemental and Dragon, which are Verdant's and Ashborn's respective signatures. Every rulesText clause reuses an existing template from the Ashborn/Verdant pool (verified against effects.py's dispatch tables) -- no new simulator code was needed to resolve any of the 50 new cards. Not yet re-balance-tested as an integrated 150-card pool beyond a crash-sweep + one 10,000-game sanity batch (see CLAUDE.md); numbers may need a follow-up pass once neutral cards see real play.",
+  "cards": [
+    {
+      "id": "NEU001",
+      "name": "Emergency Rations",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 0,
+      "keywords": [],
+      "rulesText": "Restore 3 Health to a friendly unit.",
+      "flavorText": "Still warm. Mostly.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU001.png",
+      "_note": "Created 2026-08-14 to give Untrained Cook's (ASH014) End of Turn effect an actual card to add to hand. Neutral (not Ashborn) per user's explicit direction, cost 0 and deliberately low-impact since it's a free bonus card, not something you'd draft on its own merits."
+    },
+    {
+      "id": "NEU002",
+      "name": "Back-Alley Deal",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 0,
+      "keywords": [],
+      "rulesText": "Add a random spell that costs 1 or less to your hand.",
+      "flavorText": "Everyone owes somebody something.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU002.png"
+    },
+    {
+      "id": "NEU003",
+      "name": "Spare Change",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 0,
+      "keywords": [],
+      "rulesText": "Give a friendly unit +1 Attack this turn.",
+      "flavorText": "Enough for a bandage, if nothing else.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU003.png"
+    },
+    {
+      "id": "NEU004",
+      "name": "Street Rumor",
+      "faction": "neutral",
+      "type": "support",
+      "row": "support",
+      "cost": 0,
+      "duration": 2,
+      "keywords": ["Start of Turn"],
+      "rulesText": "Start of Turn: If you control a Support unit, draw a card.",
+      "flavorText": "Word travels fast when it's free.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU004.png"
+    },
+    {
+      "id": "NEU005",
+      "name": "Street Thief",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "attack",
+      "cost": 1,
+      "attack": 1,
+      "health": 2,
+      "unitType": "Human",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Reduce a random card in your hand by 1.",
+      "flavorText": "Gone before the shout finishes.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU005.png"
+    },
+    {
+      "id": "NEU006",
+      "name": "Alley Cat",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "attack",
+      "cost": 1,
+      "attack": 2,
+      "health": 1,
+      "unitType": "Animal",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Nine lives, zero loyalty.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU006.png"
+    },
+    {
+      "id": "NEU007",
+      "name": "Alley Mutt",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "defense",
+      "cost": 1,
+      "attack": 0,
+      "health": 2,
+      "unitType": "Animal",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If undamaged, add a random Animal from your deck to your hand.",
+      "flavorText": "A city gate's second-cheapest form of security.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU007.png"
+    },
+    {
+      "id": "NEU008",
+      "name": "Quick Bargain",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 1,
+      "keywords": [],
+      "rulesText": "Give a friendly unit Cleave this turn.",
+      "flavorText": "Everything's negotiable.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU008.png"
+    },
+    {
+      "id": "NEU009",
+      "name": "Raise the Alarm",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 1,
+      "keywords": [],
+      "rulesText": "Deal 1 damage to all enemy Attack units.",
+      "flavorText": "The bell doesn't care who's listening.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU009.png"
+    },
+    {
+      "id": "NEU010",
+      "name": "Lucky Charm",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 1,
+      "keywords": [],
+      "rulesText": "Draw a card, then discard the highest-cost card in your hand.",
+      "flavorText": "Rubbed smooth by a hundred worried thumbs.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU010.png"
+    },
+    {
+      "id": "NEU011",
+      "name": "Night Watch Bell",
+      "faction": "neutral",
+      "type": "support",
+      "row": "support",
+      "cost": 1,
+      "duration": 3,
+      "keywords": ["Start of Turn"],
+      "rulesText": "Start of Turn: Restore 1 Health to your Hero for each friendly Defense unit.",
+      "flavorText": "Rings once for trouble, twice for worse.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU011.png"
+    },
+    {
+      "id": "NEU012",
+      "name": "Rooftop Runner",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "attack",
+      "cost": 2,
+      "attack": 2,
+      "health": 2,
+      "unitType": "Human",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Return this to your hand. It costs 1 less.",
+      "flavorText": "Chimneys don't judge.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU012.png"
+    },
+    {
+      "id": "NEU013",
+      "name": "Stubborn Pack Mule",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "defense",
+      "cost": 2,
+      "attack": 0,
+      "health": 4,
+      "unitType": "Animal",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Won't move. Won't explain why.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU013.png"
+    },
+    {
+      "id": "NEU014",
+      "name": "Guard Dog",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "defense",
+      "cost": 2,
+      "attack": 1,
+      "health": 3,
+      "unitType": "Animal",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If undamaged, give adjacent friendly units +1 Max Health.",
+      "flavorText": "Barks first, thinks never.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU014.png"
+    },
+    {
+      "id": "NEU015",
+      "name": "Traveling Herbalist",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "support",
+      "cost": 2,
+      "attack": 1,
+      "health": 3,
+      "unitType": "Human",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Restore 1 Health to your Hero and a friendly unit.",
+      "flavorText": "Sells cures. Some even work.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU015.png"
+    },
+    {
+      "id": "NEU016",
+      "name": "Forged Papers",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 2,
+      "keywords": [],
+      "rulesText": "Draw a random unit and a random spell from your deck.",
+      "flavorText": "Nobody checks the seal too closely.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU016.png"
+    },
+    {
+      "id": "NEU017",
+      "name": "Cutpurse's Trick",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 2,
+      "keywords": [],
+      "rulesText": "Return the highest-Attack enemy unit to its owner's hand.",
+      "flavorText": "By the time they notice, it's gone.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU017.png"
+    },
+    {
+      "id": "NEU018",
+      "name": "Merchant Caravan",
+      "faction": "neutral",
+      "type": "support",
+      "row": "support",
+      "cost": 2,
+      "duration": 3,
+      "keywords": [],
+      "rulesText": "Your first unit each turn costs 1 less.",
+      "flavorText": "Rolls through, drops off supplies, moves on.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU018.png"
+    },
+    {
+      "id": "NEU019",
+      "name": "Thieves' Contract",
+      "faction": "neutral",
+      "type": "support",
+      "row": "support",
+      "cost": 2,
+      "duration": 2,
+      "keywords": [],
+      "rulesText": "Your first spell each turn costs 1 less.",
+      "flavorText": "Everyone gets a cut.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU019.png"
+    },
+    {
+      "id": "NEU020",
+      "name": "Bounty Hound",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "attack",
+      "cost": 3,
+      "attack": 3,
+      "health": 3,
+      "unitType": "Animal",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: If an enemy unit is damaged, draw a card.",
+      "flavorText": "Paperwork first, mercy never.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU020.png"
+    },
+    {
+      "id": "NEU021",
+      "name": "Menagerie Bear",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "defense",
+      "cost": 3,
+      "attack": 2,
+      "health": 5,
+      "unitType": "Animal",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If undamaged, give a random friendly Animal +1/+1.",
+      "flavorText": "Chained once. Remembers the chain.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU021.png"
+    },
+    {
+      "id": "NEU022",
+      "name": "Rust-Worn Automaton",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "support",
+      "cost": 3,
+      "attack": 2,
+      "health": 4,
+      "unitType": "Construct",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If you control a Construct, add a random spell to your hand.",
+      "flavorText": "Nobody remembers who built it.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU022.png"
+    },
+    {
+      "id": "NEU023",
+      "name": "Ancient Ledger",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 3,
+      "keywords": [],
+      "rulesText": "Draw 2 cards. Restore 2 Health to your Hero.",
+      "flavorText": "Debts outlive the debtors.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU023.png"
+    },
+    {
+      "id": "NEU024",
+      "name": "Market Day",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 3,
+      "keywords": [],
+      "rulesText": "Give all friendly Defense units +1 Attack.",
+      "flavorText": "Everyone eats well, once a season.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU024.png"
+    },
+    {
+      "id": "NEU025",
+      "name": "Scholars' Archive",
+      "faction": "neutral",
+      "type": "support",
+      "row": "support",
+      "cost": 3,
+      "duration": 3,
+      "keywords": [],
+      "rulesText": "Whenever you play a Support card, draw a card.",
+      "flavorText": "Knowledge, carefully shelved and slowly forgotten.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU025.png"
+    },
+    {
+      "id": "NEU026",
+      "name": "City Watch Patrol",
+      "faction": "neutral",
+      "type": "support",
+      "row": "support",
+      "cost": 3,
+      "duration": 3,
+      "keywords": ["Start of Turn"],
+      "rulesText": "Start of Turn: Restore 1 Health to your Defense units.",
+      "flavorText": "Same route, same hour, same tired feet.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU026.png"
+    },
+    {
+      "id": "NEU027",
+      "name": "Veteran Duelist",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "attack",
+      "cost": 4,
+      "attack": 4,
+      "health": 2,
+      "unitType": "Human",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Gain Cleave.",
+      "flavorText": "Retired twice. Still keeps the sword oiled.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU027.png"
+    },
+    {
+      "id": "NEU028",
+      "name": "City Gate Warden",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "defense",
+      "cost": 4,
+      "attack": 2,
+      "health": 7,
+      "unitType": "Human",
+      "keywords": [],
+      "rulesText": "",
+      "flavorText": "Older than the wall he guards.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU028.png"
+    },
+    {
+      "id": "NEU029",
+      "name": "Wandering Alchemist",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "support",
+      "cost": 4,
+      "attack": 2,
+      "health": 4,
+      "unitType": "Human",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Restore 1 Health to your Hero for each friendly Support unit.",
+      "flavorText": "Mixes something that mostly works.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU029.png"
+    },
+    {
+      "id": "NEU030",
+      "name": "Hidden Cache",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 4,
+      "keywords": [],
+      "rulesText": "Give a friendly unit +3 Attack and +2 Max Health.",
+      "flavorText": "Someone buried this and never came back.",
+      "rarity": "Rare",
+      "art": "assets/art/neutral/NEU030.png"
+    },
+    {
+      "id": "NEU031",
+      "name": "Curious Relic",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 4,
+      "keywords": [],
+      "rulesText": "Restore 6 Health split among your most damaged units.",
+      "flavorText": "Warm to the touch, for no good reason.",
+      "rarity": "Rare",
+      "art": "assets/art/neutral/NEU031.png"
+    },
+    {
+      "id": "NEU032",
+      "name": "Trade Caravan",
+      "faction": "neutral",
+      "type": "support",
+      "row": "support",
+      "cost": 4,
+      "duration": 4,
+      "keywords": ["Start of Turn"],
+      "rulesText": "Start of Turn: Give a random unit in your hand +1/+1.",
+      "flavorText": "Guards, mules, and gossip in equal measure.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU032.png"
+    },
+    {
+      "id": "NEU033",
+      "name": "Masked Vigilante",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "attack",
+      "cost": 5,
+      "attack": 5,
+      "health": 5,
+      "unitType": "Human",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Deal 3 damage to the enemy Hero.",
+      "flavorText": "Nobody knows the face. Everyone knows the mask.",
+      "rarity": "Rare",
+      "art": "assets/art/neutral/NEU033.png"
+    },
+    {
+      "id": "NEU034",
+      "name": "Old Sentinel Statue",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "defense",
+      "cost": 5,
+      "attack": 3,
+      "health": 8,
+      "unitType": "Construct",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If undamaged, give a random friendly Construct +2 Max Health.",
+      "flavorText": "Carved to watch a gate that isn't there anymore.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU034.png"
+    },
+    {
+      "id": "NEU035",
+      "name": "Master Cartographer",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "support",
+      "cost": 5,
+      "attack": 3,
+      "health": 7,
+      "unitType": "Human",
+      "keywords": [
+        "Echo"
+      ],
+      "rulesText": "Echo: Reduce the lowest-cost card in your hand by 2.",
+      "flavorText": "Has mapped every street twice.",
+      "rarity": "Rare",
+      "art": "assets/art/neutral/NEU035.png"
+    },
+    {
+      "id": "NEU036",
+      "name": "Lost Expedition Journal",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 5,
+      "keywords": [],
+      "rulesText": "Return a friendly unit that died this game to your hand.",
+      "flavorText": "The last page just says 'turn back.'",
+      "rarity": "Rare",
+      "art": "assets/art/neutral/NEU036.png"
+    },
+    {
+      "id": "NEU037",
+      "name": "Ruins Excavation",
+      "faction": "neutral",
+      "type": "support",
+      "row": "support",
+      "cost": 5,
+      "duration": 3,
+      "keywords": ["Start of Turn"],
+      "rulesText": "Start of Turn: Give a random friendly Defense unit Cleave.",
+      "flavorText": "Something old, dug up carefully.",
+      "rarity": "Rare",
+      "art": "assets/art/neutral/NEU037.png"
+    },
+    {
+      "id": "NEU038",
+      "name": "Ancient Mercenary Captain",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "attack",
+      "cost": 6,
+      "attack": 6,
+      "health": 6,
+      "unitType": "Human",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Give all friendly Humans +1/+1.",
+      "flavorText": "Fought for every flag at least once.",
+      "rarity": "Rare",
+      "art": "assets/art/neutral/NEU038.png"
+    },
+    {
+      "id": "NEU039",
+      "name": "Forgotten Vault",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 6,
+      "keywords": [],
+      "rulesText": "Restore all Health to your units, then draw a card.",
+      "flavorText": "Locked for a reason nobody remembers.",
+      "rarity": "Epic",
+      "art": "assets/art/neutral/NEU039.png"
+    },
+    {
+      "id": "NEU040",
+      "name": "Guild Hall Charter",
+      "faction": "neutral",
+      "type": "support",
+      "row": "support",
+      "cost": 6,
+      "duration": 4,
+      "keywords": [],
+      "rulesText": "Your Attack units deal +2 damage when attacking.",
+      "flavorText": "Membership has its privileges.",
+      "rarity": "Rare",
+      "art": "assets/art/neutral/NEU040.png"
+    },
+    {
+      "id": "NEU041",
+      "name": "Ancient Ward Stone",
+      "faction": "neutral",
+      "type": "support",
+      "row": "support",
+      "cost": 6,
+      "duration": 3,
+      "keywords": [],
+      "rulesText": "Your Defense units have Cleave.",
+      "flavorText": "Runes worn smooth, still humming faintly.",
+      "rarity": "Common",
+      "art": "assets/art/neutral/NEU041.png"
+    },
+    {
+      "id": "NEU042",
+      "name": "Retired City Guard Captain",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "defense",
+      "cost": 7,
+      "attack": 4,
+      "health": 10,
+      "unitType": "Human",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: Gain +3 Max Health while undamaged.",
+      "flavorText": "Still barks orders nobody asked for.",
+      "rarity": "Rare",
+      "art": "assets/art/neutral/NEU042.png"
+    },
+    {
+      "id": "NEU043",
+      "name": "Clockwork Sentinel",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "support",
+      "cost": 7,
+      "attack": 4,
+      "health": 11,
+      "unitType": "Construct",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Give friendly Constructs +1/+1.",
+      "flavorText": "Wound once, centuries ago. Still ticking.",
+      "rarity": "Epic",
+      "art": "assets/art/neutral/NEU043.png"
+    },
+    {
+      "id": "NEU044",
+      "name": "Excavated War-Engine Plans",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 7,
+      "keywords": [],
+      "rulesText": "Give all friendly Attack units Cleave.",
+      "flavorText": "Whoever drew these knew what they were doing.",
+      "rarity": "Epic",
+      "art": "assets/art/neutral/NEU044.png"
+    },
+    {
+      "id": "NEU045",
+      "name": "Legendary Duelist",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "attack",
+      "cost": 8,
+      "attack": 8,
+      "health": 7,
+      "unitType": "Human",
+      "keywords": [
+        "Berserk"
+      ],
+      "rulesText": "Berserk: Draw 2 cards.",
+      "flavorText": "Undefeated. Untested, lately.",
+      "rarity": "Legendary",
+      "art": "assets/art/neutral/NEU045.png"
+    },
+    {
+      "id": "NEU046",
+      "name": "Last Gatekeeper",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "defense",
+      "cost": 8,
+      "attack": 4,
+      "health": 12,
+      "unitType": "Human",
+      "keywords": [
+        "End of Turn"
+      ],
+      "rulesText": "End of Turn: If undamaged, restore all Health to your other Defense units.",
+      "flavorText": "The gate fell decades ago. He didn't notice.",
+      "rarity": "Rare",
+      "art": "assets/art/neutral/NEU046.png"
+    },
+    {
+      "id": "NEU047",
+      "name": "Vault of the First City",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 8,
+      "keywords": [],
+      "rulesText": "Summon two random Neutral Constructs that cost 4 or less.",
+      "flavorText": "Buried under three cities since.",
+      "rarity": "Rare",
+      "art": "assets/art/neutral/NEU047.png"
+    },
+    {
+      "id": "NEU048",
+      "name": "The Last Freehold Knight",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "attack",
+      "cost": 9,
+      "attack": 9,
+      "health": 8,
+      "unitType": "Human",
+      "keywords": [
+        "Invoke"
+      ],
+      "rulesText": "Invoke: Give your units +1 Attack for each Support unit you control.",
+      "flavorText": "Swore an oath to a kingdom that no longer exists.",
+      "rarity": "Legendary",
+      "art": "assets/art/neutral/NEU048.png"
+    },
+    {
+      "id": "NEU049",
+      "name": "The Sundered Crown",
+      "faction": "neutral",
+      "type": "spell",
+      "cost": 9,
+      "keywords": [],
+      "rulesText": "Give your units +3 Max Health. Deal 4 damage to all enemy units.",
+      "flavorText": "Whoever wears it rules nothing, anymore.",
+      "rarity": "Epic",
+      "art": "assets/art/neutral/NEU049.png"
+    },
+    {
+      "id": "NEU050",
+      "name": "The Sleeping Colossus",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "defense",
+      "cost": 10,
+      "attack": 6,
+      "health": 13,
+      "unitType": "Construct",
+      "keywords": [
+        "Start of Turn"
+      ],
+      "rulesText": "Start of Turn: Destroy the damaged enemy unit with the lowest Health.",
+      "flavorText": "It breathes once a season. That's enough.",
+      "rarity": "Epic",
+      "art": "assets/art/neutral/NEU050.png"
+    },
+    {
+      "id": "NEU051",
+      "name": "The Last Archivist",
+      "faction": "neutral",
+      "type": "unit",
+      "row": "support",
+      "cost": 10,
+      "attack": 6,
+      "health": 15,
+      "unitType": "Human",
+      "keywords": [
+        "Echo"
+      ],
+      "rulesText": "Echo: Add a copy of the last spell you played to your hand.",
+      "flavorText": "Has read every book. Trusts none of them.",
+      "rarity": "Rare",
+      "art": "assets/art/neutral/NEU051.png"
+    }
+  ]
+}
+
+</script>
+<script type="application/json" id="embedded-cards-data-3">
+{
+  "_note": "Non-draftable token pool. Tokens are created only by card effects or future boss encounters; they are loaded into the runtime card registry but never offered as normal deck cards.",
+  "cards": [
+    {"id":"TOK001","name":"Emberwyrmling","faction":"token","type":"unit","row":"attack","cost":0,"attack":3,"health":3,"unitType":"Dragon","keywords":[],"rulesText":"","flavorText":"Small flame. Same fire.","rarity":"Common","art":"assets/art/token/TOK001.png"},
+    {"id":"TOK002","name":"Sapling","faction":"token","type":"unit","row":"support","cost":0,"attack":1,"health":1,"unitType":"Elemental","keywords":[],"rulesText":"","flavorText":"A promise taking root.","rarity":"Common","art":"assets/art/token/TOK002.png"},
+    {"id":"TOK003","name":"Fawn","faction":"token","type":"unit","row":"attack","cost":0,"attack":1,"health":1,"unitType":"Animal","keywords":[],"rulesText":"","flavorText":"Quick hooves, curious heart.","rarity":"Common","art":"assets/art/token/TOK003.png"},
+    {"id":"TOK004","name":"Elder Sapling","faction":"token","type":"unit","row":"defense","cost":0,"attack":3,"health":3,"unitType":"Elemental","keywords":[],"rulesText":"","flavorText":"Roots remember every season.","rarity":"Common","art":"assets/art/token/TOK004.png"},
+    {"id":"TOK005","name":"Thorn Sapling","faction":"token","type":"unit","row":"attack","cost":0,"attack":0,"health":1,"unitType":"Elemental","keywords":[],"rulesText":"","flavorText":"It inherits the grove's resolve.","rarity":"Common","art":"assets/art/token/TOK005.png"},
+    {"id":"TOK006","name":"Rootrunner Sapling","faction":"token","type":"unit","row":"attack","cost":0,"attack":5,"health":5,"unitType":"Elemental","keywords":[],"rulesText":"","flavorText":"It runs before it roots.","rarity":"Common","art":"assets/art/token/TOK006.png"}
+  ]
+}
+
+</script>
+<script type="application/json" id="embedded-factions-data">
+{
+  "ashborn": {
+    "displayName": "Ashborn Legion",
+    "theme": "Obsidian, volcanic steel, molten lava, dragon motifs, infernal architecture",
+    "mood": "Aggressive, military, ancient",
+    "frame": "assets/frames/ashborn/frame.svg",
+    "crest": "assets/crests/ashborn.svg",
+    "primary": "#e0552f",
+    "secondary": "#3a1408",
+    "accent": "#ffb069",
+    "text": "#ffe6c4",
+    "glow": "rgba(255, 140, 74, 0.55)"
+  },
+  "verdant": {
+    "displayName": "Verdant Circle",
+    "theme": "Living wood, roots, leaves, vines, ancient trees, nature magic",
+    "mood": "Ancient, protective, natural",
+    "frame": "assets/frames/verdant/frame.svg",
+    "crest": "assets/crests/verdant.svg",
+    "primary": "#4a9a3f",
+    "secondary": "#16330d",
+    "accent": "#d8c078",
+    "text": "#eaf6df",
+    "glow": "rgba(168, 226, 106, 0.5)"
+  },
+  "neutral": {
+    "displayName": "Free Companies",
+    "theme": "Stone, steel, old kingdoms, mercenaries, minimal decoration",
+    "mood": "Pragmatic, weathered, dependable",
+    "frame": "assets/frames/neutral/frame.svg",
+    "crest": "assets/crests/neutral.svg",
+    "primary": "#9aa3ad",
+    "secondary": "#2c2f36",
+    "accent": "#c9a24b",
+    "text": "#e8dcc0",
+    "glow": "rgba(160, 170, 180, 0.4)"
+  },
+  "token": {
+    "displayName": "Summoned",
+    "theme": "Ephemeral conjurations bearing their summoner's mark",
+    "mood": "Fleeting, minor",
+    "frame": "assets/frames/neutral/frame.svg",
+    "crest": "assets/crests/neutral.svg",
+    "primary": "#8a93a0",
+    "secondary": "#24272c",
+    "accent": "#c9a24b",
+    "text": "#e8dcc0",
+    "glow": "rgba(140, 150, 160, 0.35)"
+  }
+}
+
+</script>
+<script type="application/json" id="embedded-keywords-data">
+{
+  "_note": "New 150-card project's keyword set. The old Rush/Growth/Frenzy keywords from the previous Faction Clash card set are paused, not carried over -- note the OLD 'Growth' below is unrelated to the NEW 'Growth' keyword added 2026-08-17 for the Verdant Circle set (verdant_cards_batch1.json); the new one is a deliberate, differently-defined reintroduction of the name, not a revival of the old mechanic. Old Rush/Frenzy remain fully retired.",
+  "Invoke": {
+    "icon": "assets/icons/invoke.svg",
+    "description": "Triggers immediately when this card is played (functionally equivalent to a battlecry)."
+  },
+  "Start of Turn": {
+    "icon": "assets/icons/start_of_turn.svg",
+    "description": "Triggers at the start of your turn."
+  },
+  "End of Turn": {
+    "icon": "assets/icons/end_of_turn.svg",
+    "description": "Triggers when your turn ends."
+  },
+  "Cleave": {
+    "icon": "assets/icons/cleave.svg",
+    "description": "Also damages adjacent units."
+  },
+  "Berserk": {
+    "icon": "assets/icons/berserk.svg",
+    "description": "Triggers the first time this unit takes damage."
+  },
+  "Last Word": {
+    "icon": "assets/icons/last_word.svg",
+    "description": "Triggers when this unit dies."
+  },
+  "Echo": {
+    "icon": "assets/icons/echo.svg",
+    "description": "Triggers when another friendly unit is destroyed."
+  },
+  "Growth": {
+    "icon": "assets/icons/growth.svg",
+    "description": "If this unit took no damage since its last Growth check, its Growth effect triggers at the start of your turn.",
+    "_note": "Growth is Verdant's self-only delayed trigger. At the start of its controller's turn, a Growth unit checks whether it took damage since its previous check; if it did not, only that unit resolves its printed Growth effect. The damage gate creates counterplay without turning every Growth effect into a multi-unit aura. Any card that should affect adjacent units must say so explicitly in its rules text and is balanced as a separate positional effect."
+  }
+}
+
+</script>

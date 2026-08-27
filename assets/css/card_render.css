@@ -1,0 +1,26 @@
+/*
+ * card_render.css — fonts and text styling shared by card_renderer.html and
+ * card_editor.html, so both render cards identically. Extracted from
+ * card_renderer.html; mirrors cards/card_template_v0.10.svg (LOCKED).
+ * Local fonts (assets/fonts/), not the Google Fonts CDN.
+ */
+@font-face { font-family: 'Cinzel'; font-weight: 700; src: url('../fonts/Cinzel/static/Cinzel-Bold.ttf') format('truetype'); }
+@font-face { font-family: 'Libre Baskerville'; font-weight: 400; font-style: normal; src: url('../fonts/Libre_Baskerville/static/LibreBaskerville-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Libre Baskerville'; font-weight: 700; font-style: normal; src: url('../fonts/Libre_Baskerville/static/LibreBaskerville-Bold.ttf') format('truetype'); }
+@font-face { font-family: 'Libre Baskerville'; font-weight: 400; font-style: italic; src: url('../fonts/Libre_Baskerville/static/LibreBaskerville-Italic.ttf') format('truetype'); }
+@font-face { font-family: 'Libre Baskerville'; font-weight: 600; font-style: normal; src: url('../fonts/Libre_Baskerville/static/LibreBaskerville-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'Libre Baskerville'; font-weight: 600; font-style: italic; src: url('../fonts/Libre_Baskerville/static/LibreBaskerville-SemiBoldItalic.ttf') format('truetype'); }
+@font-face { font-family: 'PT Serif'; font-weight: 700; src: url('../fonts/PT_Serif/PTSerif-Bold.ttf') format('truetype'); }
+
+.cardName    { font-family: 'Cinzel', Georgia, serif; font-weight: 700; font-variant-caps: small-caps; font-variant: small-caps; }
+.effectText  { font-family: 'Libre Baskerville', Georgia, serif; font-weight: 600; }
+.effectText .kw { font-weight: 700; fill: #000000; } /* pure black so the keyword itself (not its description) stands out from the #1C1006 body text */
+.flavorText  { font-family: 'Libre Baskerville', Georgia, serif; font-style: italic; font-weight: 600; }
+.statNumber  { font-family: 'PT Serif', Georgia, serif; font-weight: 700; fill: #ffffff; stroke: #000000; stroke-width: 4px; paint-order: stroke fill; }
+/* Board unit health, current < max (see cardBuilder.js addStat/addStatNumber's healthDamaged
+   opt) — full health stays the normal white .statNumber fill above. */
+.statNumber.statNumber-damaged { fill: #ff5a4a; }
+/* Hand-card cost, discounted/increased by an effect (see cardBuilder.js buildCard's
+   costModified opt) — unmodified cost stays the normal white .statNumber fill above. */
+.statNumber.statNumber-cost-lower { fill: #6adf7a; }
+.statNumber.statNumber-cost-higher { fill: #ff5a4a; }

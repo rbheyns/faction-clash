@@ -1,0 +1,217 @@
+/* =========================================================================
+   FACTION CLASH — card.css
+   Modular, data-driven card rendering styles.
+   A card is built as layered, absolutely-positioned regions inside a single
+   .card-frame element, all expressed in percentages so it scales cleanly
+   at any of the supported sizes (180 / 240 / 320 / 480px) with zero JS
+   recalculation. Faction theming is applied entirely through CSS custom
+   properties set via the [data-faction] attribute — the layout never
+   changes, only the palette and the frame/crest images referenced by the
+   renderer.
+   ========================================================================= */
+
+.card-frame {
+  --card-w: 240px;
+  --card-h: calc(var(--card-w) * 1.5); /* painted-card canvas is 2000x3000 = 2:3 */
+  position: relative;
+  width: var(--card-w);
+  height: var(--card-h);
+  font-family: 'Cinzel', serif;
+  color: var(--faction-text, #e8dcc0);
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,.55));
+  transition: transform .18s ease, filter .18s ease;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* ---- painted-card layer: a single SVG built by assets/js/cardBuilder.js,
+   scaled to fill the wrapper. Replaces the old layered vector-card divs
+   below (.card-layer-*, .card-gem*), which are now unused but left in
+   place harmlessly in case anything still references their classnames. ---- */
+.card-painted-wrap { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 4%; overflow: hidden; background: transparent; }
+.card-painted-wrap svg { width: 100%; height: 100%; display: block; }
+
+/* ---- size variants ---- */
+.card-frame[data-size="sm"] { --card-w: 180px; }
+.card-frame[data-size="md"] { --card-w: 240px; }
+.card-frame[data-size="lg"] { --card-w: 320px; }
+.card-frame[data-size="xl"] { --card-w: 480px; }
+
+/* ---- faction theme variants (layout is identical; only these change) ---- */
+.card-frame[data-faction="ashborn"] {
+  --faction-primary:#e0552f; --faction-secondary:#3a1408;
+  --faction-accent:#ffb069;  --faction-text:#ffe6c4;
+  --faction-glow: rgba(255,140,74,.55);
+}
+.card-frame[data-faction="verdant"] {
+  --faction-primary:#4a9a3f; --faction-secondary:#16330d;
+  --faction-accent:#d8c078;  --faction-text:#eaf6df;
+  --faction-glow: rgba(168,226,106,.5);
+}
+.card-frame[data-faction="neutral"] {
+  --faction-primary:#9aa3ad; --faction-secondary:#2c2f36;
+  --faction-accent:#c9a24b;  --faction-text:#e8dcc0;
+  --faction-glow: rgba(160,170,180,.4);
+}
+.card-frame[data-faction="token"] {
+  --faction-primary:#8a93a0; --faction-secondary:#24272c;
+  --faction-accent:#c9a24b;  --faction-text:#e8dcc0;
+  --faction-glow: rgba(140,150,160,.35);
+}
+
+/* ---- rarity accent (drives the rarity-gem color and a subtle card glow) ---- */
+.card-frame[data-rarity="Common"]    { --rarity-color:#b9ac8e; }
+.card-frame[data-rarity="Rare"]      { --rarity-color:#6ec1ff; }
+.card-frame[data-rarity="Epic"]      { --rarity-color:#c98bff; }
+.card-frame[data-rarity="Legendary"] { --rarity-color:#ffcf5c; }
+
+/* ---- interaction states ---- */
+.card-frame.is-interactive { cursor: pointer; }
+.card-frame.is-interactive:hover { transform: translateY(-6px); filter: drop-shadow(0 14px 26px rgba(0,0,0,.65)) drop-shadow(0 0 14px var(--faction-glow)); }
+.card-frame.is-selected { filter: drop-shadow(0 0 0 3px #8fd7ff) drop-shadow(0 0 16px rgba(143,215,255,.6)); }
+.card-frame.is-legendary { filter: drop-shadow(0 8px 18px rgba(0,0,0,.55)) drop-shadow(0 0 10px var(--rarity-color, transparent)); }
+.card-frame.is-disabled { filter: grayscale(.65) brightness(.55); }
+.card-frame.is-disabled.is-interactive { cursor: not-allowed; }
+
+/* ---- base layer: the frame SVG itself, covers the whole card ---- */
+.card-layer-frame {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 3;
+}
+.card-layer-frame img, .card-layer-frame svg { width: 100%; height: 100%; display: block; }
+
+/* ---- artwork layer: sits under the frame, clipped to the art window ---- */
+.card-layer-art {
+  position: absolute;
+  left: 9%; top: 3.6%; width: 82%; height: 52%;
+  border-radius: 20% 20% 6% 6% / 26% 26% 4% 4%;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 30%, var(--faction-secondary), #050505);
+  z-index: 1;
+}
+.card-layer-art img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.card-layer-art .art-fallback-icon {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: calc(var(--card-w) * 0.34);
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.6));
+}
+
+/* ---- name banner ---- */
+.card-layer-name {
+  position: absolute;
+  left: -1.5%; top: 55.6%; width: 103%; height: 8%;
+  z-index: 4;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 12%;
+}
+.card-layer-name .card-name {
+  font-size: calc(var(--card-w) * 0.072);
+  font-weight: 700;
+  letter-spacing: .01em;
+  text-align: center;
+  line-height: 1.05;
+  text-shadow: 0 2px 5px rgba(0,0,0,.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* ---- rules panel ---- */
+.card-layer-rules {
+  position: absolute;
+  left: 8.5%; top: 67%; width: 83%; height: 24%;
+  z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  padding: 5% 7% 0;
+  font-family: 'EB Garamond', serif;
+  text-align: center;
+  gap: 3%;
+}
+.card-layer-rules .card-keywords {
+  display: flex; gap: 6%; align-items: center; justify-content: center;
+  flex-wrap: wrap;
+}
+.card-layer-rules .card-keywords .keyword-icon {
+  width: calc(var(--card-w) * 0.09);
+  height: calc(var(--card-w) * 0.09);
+  color: var(--faction-accent);
+}
+.card-layer-rules .card-keywords .keyword-icon svg { width: 100%; height: 100%; }
+.card-layer-rules .card-rules-text {
+  font-size: calc(var(--card-w) * 0.052);
+  line-height: 1.28;
+  color: var(--faction-text);
+  opacity: .92;
+}
+.card-layer-rules .card-flavor-text {
+  font-style: italic;
+  font-size: calc(var(--card-w) * 0.044);
+  color: var(--faction-text);
+  opacity: .6;
+}
+
+/* ---- gem badges (mana / attack / health) ---- */
+.card-gem {
+  position: absolute;
+  z-index: 5;
+  display: flex; align-items: center; justify-content: center;
+  transform: translate(-50%, -50%);
+}
+.card-gem img, .card-gem svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.card-gem .gem-value {
+  position: relative; z-index: 1;
+  font-weight: 900;
+  text-shadow: 0 1px 3px rgba(0,0,0,.9);
+}
+.card-gem-mana   { left: 11.5%; top: 8.2%;  width: 19%; height: 13.6%; }
+.card-gem-mana   .gem-value { font-size: calc(var(--card-w) * 0.11); color: #eaf6ff; }
+.card-gem-attack { left: 13%;   top: 92.1%; width: 17%; height: 12.2%; }
+.card-gem-attack .gem-value { font-size: calc(var(--card-w) * 0.1); color: #fff3e2; }
+.card-gem-health { left: 87%;   top: 92.1%; width: 17%; height: 12.2%; }
+.card-gem-health .gem-value { font-size: calc(var(--card-w) * 0.1); color: #ffecec; }
+
+/* ---- support-card duration badge (replaces attack/health for support type) ---- */
+.card-gem-duration {
+  left: 50%; top: 92.1%; width: 22%; height: 11%;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #8fd7ff, #1f6fa3);
+  border: 2px solid rgba(0,0,0,.4);
+}
+.card-gem-duration .gem-value { font-size: calc(var(--card-w) * 0.075); color: #0c2033; display:flex; align-items:center; gap: 3%; }
+
+/* ---- crest ---- */
+.card-crest {
+  position: absolute; left: 88.5%; top: 8.2%; width: 13.5%; height: 9.6%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  color: var(--faction-accent);
+}
+.card-crest svg, .card-crest img { width: 62%; height: 62%; position:absolute; left:19%; top:19%; }
+
+/* ---- rarity gem ---- */
+.card-rarity {
+  position: absolute; left: 50%; top: 93.2%; width: 7%; height: 5%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: var(--rarity-color, #b9ac8e);
+  z-index: 5;
+  box-shadow: 0 0 6px var(--rarity-color, transparent);
+}
+
+/* ---- card type badge (top-right corner, category at a glance) ---- */
+.card-type-badge {
+  position: absolute; top: -2%; right: -2%; z-index: 6;
+  width: 11%; height: 7.8%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #2c2436, #100c14);
+  border: 1px solid #c9a24b;
+  color: #e8c874;
+  display: flex; align-items: center; justify-content: center;
+}
+.card-type-badge svg { width: 55%; height: 55%; }
+
+/* ---- responsive text scale-down safety for very small sizes ---- */
+.card-frame[data-size="sm"] .card-layer-rules { padding-top: 4%; }

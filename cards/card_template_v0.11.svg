@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2000" height="3000" viewBox="0 0 2000 3000">
+
+<!-- ============================================================
+     Faction Clash — card_template_v0.11.svg
+     STATUS: DRAFT — pending visual confirmation. NOT locked yet.
+     Once approved, fold these values into CLAUDE.md's locked
+     anchors table and mark this file LOCKED (matching v0.10's
+     convention); until then treat v0.10 as the last confirmed
+     reference and this file as the one under review.
+     ============================================================
+     v0.11 changes from v0.10, all requested after seeing v0.10
+     rendered with real cards via card_renderer.html, across
+     several rounds of feedback:
+
+       1. EFFECT text anchor moved down: (1000, 2200) -> (1000, 2225).
+          Felt slightly too high in practice. Box bottom is still
+          2348, so this stays well inside the original box with
+          room before the flavor divider. FLAVOR anchor unchanged
+          (1000, 2512).
+
+       2. NAME curve arc increased, in two passes:
+            v0.10:      M 550 1858 Q 1000 1836 1450 1858  (22px drift)
+            v0.11 (a):  M 550 1858 Q 1000 1818 1450 1858  (40px drift) — first guess, still too flat per feedback
+            v0.11 (b):  M 550 1858 Q 1000 1796 1450 1858  (62px drift) — MEASURED, see below
+          Endpoints (x=550/1450, y=1858) unchanged in both passes —
+          only the control point moved.
+
+          Pass (b) was measured, not guessed a second time: scanned
+          assets/frames/frame_common.png's alpha channel down each
+          x-column from x=500 to x=1500 to trace the actual painted
+          banner ribbon's top edge (the frame layer is transparent
+          above the ribbon, opaque at/below it, so the first opaque
+          y per column IS the ribbon's top edge). Measured y at
+          x=550 (1738) and x=1450 (1758) — average 1748 — versus the
+          apex around x=1000 (1717, part of a flat plateau from
+          x≈850–1050). That's a 31px visual sag at the curve's own
+          midpoint. A quadratic bezier's actual midpoint sag is half
+          the raw control-point offset, so matching a 31px sag here
+          means a 62px control-point drift — hence 1858-62=1796.
+          This is a shape/curvature match (how much the arc bows
+          relative to its own span), not a claim that the name
+          curve's y should literally equal the ribbon edge's y —
+          the text baseline sits inside the ribbon, not on its top
+          edge, so the two curves are offset vertically on purpose.
+
+       3. NAME vertically re-centered on the ribbon, and enlarged:
+          78px -> 88px. Curve moved from
+            M 550 1858 Q 1000 1796 1450 1858
+          to
+            M 550 1904 Q 1000 1844 1450 1904
+          (same 60px control-point drift/shape as pass (b) above,
+          just the whole curve shifted down ~46px).
+
+          Also measured, not guessed: this time traced BOTH the
+          ribbon's top edge and its bottom edge (same alpha-scan
+          method, but using a stricter threshold of 200 with a
+          20px-hold to skip past the soft drop-shadow below the
+          ribbon, which was fooling a naive scan into reading the
+          ribbon as much taller than it is). Top/bottom edges at
+          x=1000: 1719 / 1967 -> ribbon center = 1843. Ribbon
+          thickness is ~247px and roughly constant across x, so the
+          center curve has essentially the same shape as the top
+          edge, just shifted down by ~124px.
+
+          Text sits on its baseline, but what should visually center
+          in the ribbon is the glyph body, not the baseline itself —
+          for small-caps text that's effectively the cap-height box.
+          Measured Cinzel-Bold's actual cap-height from the font file
+          (fontTools/PIL bbox of "H"): 0.70em, i.e. caps extend 0.7 x
+          font-size above the baseline and 0 below. So:
+            baseline_y = ribbon_center_y + 0.35 x font-size
+          At the new 88px size that's +30.8px, giving a baseline of
+          1843 + 31 = 1874 at x=1000 — which is what the new control
+          point (1844, since the bezier's actual midpoint-of-curve
+          value is 0.5*1904 + 0.5*1844 = 1874) produces. Endpoints
+          (x=550/1450) use the average of the measured ribbon-center
+          values at those x's (1862 and 1884) plus the same +31
+          offset, rounded to a single symmetric 1904 for both ends
+          (the real ribbon isn't perfectly symmetric — 1893/1915 — a
+          symmetric bezier can't chase that asymmetry without a more
+          complex path, so this is the best single-curve fit).
+
+       4. NAME hand-tuned by the user from the (c) starting point,
+          directly in card_renderer.html (not measured further —
+          this was their own by-eye final pass, done after I
+          explained what each number in the curve path controls):
+            M 550 1904 Q 1000 1844 1450 1904   (v0.11(c))
+            M 550 1870 Q 1000 1840 1450 1880   (v0.11(d), final)
+          Note the endpoints are no longer equal (1870 vs 1880) —
+          intentionally asymmetric now, matching the ribbon art's
+          own slight asymmetry (see the (b) note above: the real
+          ribbon dips more on the right side than the left). Font
+          size also bumped 88 -> 90. This is the confirmed final
+          value pending lock.
+
+       Font loading also changed here: v0.10 pulled Cinzel/Libre
+       Baskerville/PT Serif from the Google Fonts CDN. This file
+       now uses the local files under ../assets/fonts/ (the user
+       initially added them at a top-level fonts/ folder, then
+       moved them into assets/fonts/ to match the folder layout
+       CLAUDE.md's schema already implied), so rendering doesn't
+       depend on network access and matches exactly what
+       card_renderer.html now uses. This is not a styling change —
+       same families/weights/sizes.
+
+       5. READABILITY: effect/flavor text over busy art/frame texture
+          was hard to read in several spots (worst measured case:
+          background composite luminance actually BELOW the text
+          color's own luminance — not just low contrast, inverted).
+          Two things tried and rejected first: a light stroke/outline
+          on the text (made it look worse, muddied the letterforms —
+          different from what shipped, see below); making the frame
+          PNGs themselves less see-through (the user's own fix,
+          measurably more opaque, but it just made the frame's own
+          painted parchment grain dominate instead of the art, same
+          class of problem from a different source — verified with
+          the same pixel-luminance measurement method, the worst-case
+          number got slightly WORSE, not better).
+
+          What shipped is two changes together:
+          - effectText/flavorText weight 400 -> 600 (Libre Baskerville
+            Semibold, a real shipped weight file, not synthetic bold).
+            Helps but doesn't fully fix the darkest spots on its own —
+            weight adds ink coverage, it doesn't change color contrast.
+          - A soft blurred "scrim" rect behind the effect+flavor text
+            (new layer, between CardBottomLayer and TextLayer): a
+            warm cream (#EDE0C0) rounded rect at x=520,y=2060,
+            w=960,h=560, 42% fill-opacity, blurred with
+            feGaussianBlur stdDeviation=45 so it has no hard edge —
+            reads as part of the parchment, not a sticker. This is
+            what actually fixes contrast: it brightens what's behind
+            the text uniformly regardless of art or frame texture.
+          Combined, verified against the three worst-measured cards
+          (Ashborn Trainee, Traveling Merchant, Legion Smith) and all
+          11 cards overall — no more illegible spots.
+
+       6. READABILITY, part 2 — text color darkened. Even with the
+          scrim, measured worst-case contrast with the original
+          #523C26 was only ~2.06:1 (WCAG AA needs 3:1 for large text,
+          4.5:1 for normal — 48px effect text still counts as "large"
+          but this was short even of that bar). Tested #523C26 vs a
+          near-black #1C1006 vs pure #000000 on the same worst cards:
+          near-black brought worst-case contrast to ~4.18:1, visually
+          near-indistinguishable from pure black at this size but
+          keeps a trace of warmth appropriate to the ink-on-parchment
+          look. LOCKED IN for now: effectText/flavorText fill
+          #523C26 -> #1C1006. Revisit if a future card's art still
+          reads as marginal — see the pixel-luminance measurement
+          method above, don't just eyeball it again.
+
+       7. RENDERING-ENGINE CHANGES (card_editor.html session). These three
+          shipped in assets/js/cardBuilder.js (the executable renderer,
+          shared by card_renderer.html and the new card_editor.html) —
+          noted here for the record; this static file's single demo card
+          isn't equipped to show all of them at once.
+
+          a. Cost-gem per-rarity X offset. The cost number's socket is
+             painted directly into each frame_<rarity>.png (unlike
+             attack/health/duration, which live on the rarity-independent
+             bottom-module PNG), and the four frame files turned out not
+             to be aligned with each other — measured via connected-
+             component centroid on each frame's blue gem pixels: Common's
+             gem center ≈ x=290 (matches this file's x="290" below almost
+             exactly), Rare/Epic ≈ +15px right of that, Legendary ≈ +24px
+             right. cardBuilder.js now adds a per-rarity offset
+             (0/15/15/24) to the cost text's x. Not a fix to the source
+             PNGs — a code-side correction for their current misalignment.
+
+          b. Effect text now supports explicit line breaks. rulesText is
+             split on \n into paragraphs; each paragraph still auto-wraps
+             independently if it's too wide, and all resulting lines
+             (across every paragraph) are vertically centered together
+             using the same outward-grow-from-anchor formula as before —
+             so multi-keyword cards can put each keyword's line on its
+             own row instead of running them together as one paragraph.
+             Flavor text intentionally was NOT given this (single
+             paragraph only — the added quote marks wrap the whole
+             block, which gets ambiguous across multiple lines).
+
+          c. Keyword color: .effectText .kw now also sets fill:#000000
+             (pure black), so the keyword itself (e.g. "Invoke:") stands
+             out from the #1C1006 body/description text next to it. Only
+             the bolded keyword token gets this — the description after
+             it stays #1C1006 like the rest of the effect text.
+     ============================================================ -->
+
+<defs>
+  <clipPath id="ArtworkMask">
+    <rect x="144" y="173" width="1717" height="2630"/>
+  </clipPath>
+
+  <path id="NameCurve" d="M 550 1870 Q 1000 1840 1450 1880" fill="none"/>
+
+  <filter id="nameShadow" x="-30%" y="-30%" width="160%" height="160%">
+    <feDropShadow dx="0" dy="4" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.75"/>
+  </filter>
+  <filter id="scrimBlur" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="45"/>
+  </filter>
+  <style>
+    @font-face { font-family: 'Cinzel'; font-weight: 700; src: url('../assets/fonts/Cinzel/static/Cinzel-Bold.ttf') format('truetype'); }
+    @font-face { font-family: 'Libre Baskerville'; font-weight: 400; font-style: normal; src: url('../assets/fonts/Libre_Baskerville/static/LibreBaskerville-Regular.ttf') format('truetype'); }
+    @font-face { font-family: 'Libre Baskerville'; font-weight: 700; font-style: normal; src: url('../assets/fonts/Libre_Baskerville/static/LibreBaskerville-Bold.ttf') format('truetype'); }
+    @font-face { font-family: 'Libre Baskerville'; font-weight: 400; font-style: italic; src: url('../assets/fonts/Libre_Baskerville/static/LibreBaskerville-Italic.ttf') format('truetype'); }
+    @font-face { font-family: 'Libre Baskerville'; font-weight: 600; font-style: normal; src: url('../assets/fonts/Libre_Baskerville/static/LibreBaskerville-SemiBold.ttf') format('truetype'); }
+    @font-face { font-family: 'Libre Baskerville'; font-weight: 600; font-style: italic; src: url('../assets/fonts/Libre_Baskerville/static/LibreBaskerville-SemiBoldItalic.ttf') format('truetype'); }
+    @font-face { font-family: 'PT Serif'; font-weight: 700; src: url('../assets/fonts/PT_Serif/PTSerif-Bold.ttf') format('truetype'); }
+
+    .cardName    {
+      font-family: 'Cinzel', Georgia, serif; font-weight: 700;
+      font-variant-caps: small-caps; font-variant: small-caps;
+    }
+    .effectText  { font-family: 'Libre Baskerville', Georgia, serif; font-weight: 600; }
+    .effectText  .kw { font-weight: 700; fill: #000000; }
+    .flavorText  { font-family: 'Libre Baskerville', Georgia, serif; font-style: italic; font-weight: 600; }
+    .statNumber  {
+      font-family: 'PT Serif', Georgia, serif; font-weight: 700;
+      fill: #ffffff; stroke: #000000; stroke-width: 4px; paint-order: stroke fill;
+    }
+  </style>
+</defs>
+
+<!-- ============ LAYER 1: ILLUSTRATION ============ -->
+<g id="IllustrationLayer" clip-path="url(#ArtworkMask)">
+  <image id="CardArt"
+         xlink:href="art/CARD_ID.png" href="art/CARD_ID.png"
+         x="144" y="173" width="1717" height="2630"
+         preserveAspectRatio="xMidYMid meet"/>
+</g>
+
+<!-- ============ LAYER 2: FRAME (rarity-specific, unified asset) ============ -->
+<g id="FrameLayer">
+  <image id="FrameTexture"
+         xlink:href="frames/frame_common.png" href="frames/frame_common.png"
+         x="0" y="0" width="2000" height="3000"/>
+</g>
+
+<!-- ============ LAYER 3: TYPE GEM (top right) ============ -->
+<g id="TypeGemLayer">
+  <image id="TypeGem"
+         xlink:href="icons/type_spell.png" href="icons/type_spell.png"
+         x="0" y="0" width="2000" height="3000"/>
+</g>
+
+<!-- ============ LAYER 4: CARD BOTTOM ============ -->
+<g id="CardBottomLayer">
+  <!-- (none — spell test card) -->
+</g>
+
+<!-- ============ LAYER 4.5: READABILITY SCRIM (soft, blurred — brightens whatever's behind the effect/flavor text) ============ -->
+<g id="ScrimLayer">
+  <rect x="520" y="2060" width="960" height="560" rx="60"
+        fill="#EDE0C0" fill-opacity="0.42" filter="url(#scrimBlur)"/>
+</g>
+
+<!-- ============ LAYER 5-7: TEXT ============ -->
+<g id="TextLayer">
+
+  <!-- Cost -->
+  <text class="statNumber" x="290" y="298"
+        text-anchor="middle" dominant-baseline="central"
+        font-size="130">1</text>
+
+  <!-- Attack / Health / Duration — reference only, inactive here:
+  <text class="statNumber" x="296" y="2640" text-anchor="middle" dominant-baseline="central" font-size="130">2</text>
+  <text class="statNumber" x="1726" y="2658" text-anchor="middle" dominant-baseline="central" font-size="130">2</text>
+  <text class="statNumber" x="999" y="2759" text-anchor="middle" dominant-baseline="central" font-size="130">3</text>
+  -->
+
+  <!-- Name — centered on the nameplate ribbon, 90px, curve hand-tuned by the user from the measured starting point -->
+  <text class="cardName" font-size="90" fill="#230B00" filter="url(#nameShadow)">
+    <textPath xlink:href="#NameCurve" href="#NameCurve" startOffset="50%" text-anchor="middle">Counter Intel</textPath>
+  </text>
+
+  <!-- Effect text — anchor moved down 25px from v0.10 (2200 -> 2225); fill changed from #523C26 to #1C1006 for readability (see LAYER 4.5/readability note above) -->
+  <text class="effectText" x="1000" y="2225" text-anchor="middle" font-size="48" fill="#1C1006">See the <tspan class="kw">lowest cost card</tspan>.</text>
+
+  <!-- Flavor text — fill changed from #523C26 to #1C1006 for readability; otherwise unchanged from v0.10 -->
+  <text class="flavorText" x="1000" y="2512" text-anchor="middle" font-size="44" fill="#1C1006">"Shhh... don't tell them, I told you."</text>
+
+</g>
+
+</svg>

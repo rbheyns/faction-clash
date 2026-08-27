@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Faction Clash — D20 Loading Roll (demo)</title>
+<style>
+  html,body{
+    margin:0; height:100%;
+    background: radial-gradient(circle at 50% 30%, #241611 0%, #0c0806 70%);
+    display:flex; align-items:center; justify-content:center;
+    font-family: 'Cinzel', 'Georgia', serif;
+  }
+
+  /* =========================================================================
+     DICE LOADING ROLL — standalone component
+     Drop the CSS + JS below straight into index.html (or keep as a separate
+     <script>/<style> include) and call rollD20({container, onComplete}).
+     Assumes assets/dice/video/{dice_roll_intro,dice_roll_loop,dice_roll_outro}.mp4
+     and assets/dice/video/numbers/{1..20}.png are reachable at that relative
+     path from wherever this runs.
+
+     2026-08-14, THIRD revision (real video, replacing the sprite hybrid):
+     the recolored-sprite crossfade hybrid (see the big comment further down
+     this file's history for the full backstory) still didn't read as
+     convincing to the user, so they generated their own footage with an AI
+     video tool ("Seedance"), fed a reference image of this project's own
+     branded die, and got back a real ~7s clip of that exact die tumbling in
+     3D and settling into a landed pose. That upload (`dice roll.mov`) is the
+     source for everything below. Three edits were requested: strip the
+     tool's "Ai" watermark, add the rolled number once it lands, and carve
+     out a loopable middle section for when real loading outruns the base
+     roll length.
+
+     What was actually done to the source footage (all via ffmpeg/PIL, see
+     project memory for the full pipeline):
+       - Watermark: it turned out to be a small static gray glyph fixed at
+         the same pixel box (x:27-53, y:26-51) in every single frame, sitting
+         on a pure solid-black background with nothing else ever entering
+         that corner (checked across every sampled frame). So removal was
+         just `drawbox` painting a black rectangle over that region for the
+         whole clip -- no inpainting needed, it disappears completely because
+         the fill exactly matches the surrounding black.
+       - Landing pose: frame-diffed the last ~0.5s and found the die is
+         still visibly rotating through ~t=6.8s and only truly stops by
+         ~t=6.95s, so that's the frame the number gets composited onto (not
+         the very last encoded frame, which looked identical but later).
+       - Loop segment: frame-diffed the whole clip in 0.3s steps and found a
+         long, roughly-constant tumble rate from ~t=1.8s to ~t=6.3s (the
+         first ~1.2s is a near-static held launch pose, and deceleration
+         into the landing starts after ~6.3s). Cut a 4.6s window from that
+         range and built an actual seamless loop with ffmpeg's `xfade`
+         filter (0.5s crossfade blending the segment's tail back into its
+         own head) rather than a hard cut, since a real physics tumble never
+         repeats exactly and a hard cut would jump.
+
+     Splitting the clean footage into three files (rather than one video the
+     component seeks around in) is what makes the loop insertable without
+     any visible seam: the loop was built to both start AND end resembling
+     the same original moment (~t=2.1s), so `intro` ends exactly where
+     `loop` begins, and `loop` always winds back to the exact real frame
+     `outro` starts from -- outro is a straight cut of the *same* source
+     clip from ~t=2.1s onward, not a separately-generated clip, so that
+     handoff is frame-for-frame continuous no matter how many times the loop
+     repeats first:
+       - dice_roll_intro.mp4  (~2.1s)  launch, played once, always first
+       - dice_roll_loop.mp4   (~4.1s)  seamless tumble, repeat while waiting
+       - dice_roll_outro.mp4  (~5.0s)  settle + land, played once, always last
+     Normal case (no extra waiting): intro + outro back to back is pixel-
+     identical to just playing the original 7.07s clip straight through.
+
+     Number overlay: the video's landed pose is NOT perfectly straight-on
+     like the old flat `d20 dice.png` render -- it's tilted, because it's a
+     real 3D render settling at its own angle. Directly pasting the old flat
+     number PNGs would look glued-on. Fixed by measuring 5 matching
+     landmarks (the die's top/bottom/left/right silhouette extremes plus the
+     crest-glyph centroid) in both the video's landed frame and the flat
+     `d20 dice.png`, solving for the best-fit similarity transform between
+     them (Umeyama/Procrustes -- turned out to need only ~0.46deg rotation
+     and 0.89x scale, no perspective warp, since both renders share almost
+     the same pose already), and applying that same transform to warp all
+     twenty `assets/dice/{1..20}.png` number glyphs into
+     `assets/dice/video/numbers/{1..20}.png`, pre-registered to sit correctly
+     on the video's own landed die with no per-roll computation needed.
+
+     Two videos (not one) are used for playback so the currently-hidden one
+     can be preloaded/queued behind the scenes while the visible one plays,
+     crossfading opacity at each handoff -- this hides any decode/seek
+     hitch when swapping intro->loop->outro. Because the cut points were
+     engineered to be pose-continuous, the crossfade only has to be long
+     enough to paper over a stutter (150ms), not to disguise a real jump.
+     ========================================================================= */
+
+  .dice-loader{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap: 18px;
+    padding-top: 54px;
+  }
+  .dice-loader-die-wrap{
+    position:relative;
+    width: var(--dice-loader-w, 240px);
+    /* Square: matches the source video's native 1080x1080 canvas, which the
+       number overlays are also pre-registered against pixel-for-pixel. */
+    aspect-ratio: 1 / 1;
+  }
+  /* Soft ambient glow behind the die at rest, separate element so it never
+     fights the video/crossfade animations running at the same time. */
+  .dice-loader-die-wrap::before{
+    content:''; position:absolute; inset: 6% 8%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,140,30,.35) 0%, rgba(255,140,30,0) 70%);
+    filter: blur(6px);
+    opacity:.5;
+    pointer-events:none;
+    z-index:0;
+  }
+  /* The "it landed" flourish — a dedicated layer, independent of the video
+     and the number crossfade, so it never competes with either. */
+  .dice-loader-glow{
+    position:absolute; inset:0;
+    border-radius:50%;
+    background: radial-gradient(circle, rgba(255,170,60,.9) 0%, rgba(255,140,30,0) 65%);
+    opacity:0;
+    pointer-events:none;
+    z-index:1;
+  }
+  .dice-loader-die-wrap.landed .dice-loader-glow{
+    animation: diceLoaderGlowPulse .55s ease-out;
+  }
+  @keyframes diceLoaderGlowPulse{
+    0%   { opacity:0;   transform:scale(.7); }
+    35%  { opacity:.9;  transform:scale(1.18); }
+    100% { opacity:0;   transform:scale(1.05); }
+  }
+  /* A brief squash "thud" for the moment it lands and the number reveals —
+     applied to the wrap so it reads on both the video and number layers at
+     once without either one needing to know about the other. */
+  @keyframes diceLoaderImpact{
+    0%   { transform: scale(1); }
+    30%  { transform: scale(1.06, .9); }
+    60%  { transform: scale(.975, 1.035); }
+    100% { transform: scale(1); }
+  }
+  .dice-loader-die-wrap.impact{ animation: diceLoaderImpact .32s ease-out; }
+
+  /* Two stacked video layers, double-buffered: whichever is .active is
+     visible and playing; the other sits ready (or gets a new src queued
+     into it) behind it, so segment handoffs are a simple opacity crossfade
+     instead of a hard cut that could show a decode hitch. */
+  .dice-loader-video{
+    position:absolute; inset:0; z-index:2;
+    width:100%; height:100%;
+    object-fit:contain;
+    opacity:0;
+    transition: opacity .15s linear;
+    pointer-events:none;
+  }
+  .dice-loader-video.active{ opacity:1; }
+
+  /* Number layer: this project's own ember-glow digit, pre-warped (see the
+     big comment above) to sit correctly on the video's own landed pose.
+     Hidden until the roll settles. */
+  .dice-loader-number-layer{
+    position:absolute; inset:0; z-index:3;
+    opacity:0;
+    pointer-events:none;
+  }
+  .dice-loader-number{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:contain;
+    pointer-events:none; user-select:none; -webkit-user-drag:none;
+    filter: drop-shadow(0 0 12px rgba(255,140,20,.6));
+  }
+  @keyframes diceLoaderNumberIn{
+    0%   { opacity:0; transform: scale(.94); }
+    100% { opacity:1; transform: scale(1); }
+  }
+  .dice-loader-number-layer.in{ animation: diceLoaderNumberIn .3s ease-out forwards; }
+
+  .dice-loader-label{
+    color:#e8c98a; letter-spacing:.14em; text-transform:uppercase;
+    font-size:14px; opacity:.75;
+  }
+  .dice-loader-controls{
+    display:flex; gap:10px; margin-top:6px;
+  }
+  .dice-loader-controls button{
+    font-family: inherit;
+    font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    background: rgba(255,140,30,.12);
+    border: 1px solid rgba(255,140,30,.4);
+    color:#e8c98a;
+    padding:6px 12px;
+    border-radius:4px;
+    cursor:pointer;
+  }
+  .dice-loader-controls button:disabled{ opacity:.35; cursor:default; }
+  .dice-loader-controls button:not(:disabled):hover{ background: rgba(255,140,30,.22); }
+</style>
+</head>
+<body>
+
+  <div class="dice-loader" style="--dice-loader-w:260px;">
+    <div id="diceLoaderSlot"></div>
+    <div class="dice-loader-label" id="diceLoaderLabel">Rolling for first turn&hellip;</div>
+    <div class="dice-loader-controls">
+      <button id="btnNormal">Roll (normal)</button>
+      <button id="btnLong">Roll (simulate long loading)</button>
+      <button id="btnFinish" disabled>Finish loading now</button>
+    </div>
+  </div>
+
+<script>
+/**
+ * Plays a rolling d20 animation (real video footage of this project's own
+ * branded die, watermark removed) that settles on a random 1-20 and reports
+ * the result. Self-contained: builds its own DOM inside `container`, so it
+ * can be dropped onto any screen (loading, matchmaking, "who goes first",
+ * etc.) without other markup.
+ *
+ * Three video segments are always played back-to-back: an intro (launch),
+ * then the loop segment repeated zero or more times, then the outro (settle
+ * + land). By default it just plays intro+outro once (identical to the
+ * original ~7s clip). Pass `waitFor` (a Promise representing real async
+ * work, e.g. a network/matchmaking call) to keep the die visibly spinning
+ * on the loop segment until that work finishes, then land as soon as the
+ * current loop repeat wraps around.
+ *
+ * @param {Object}   opts
+ * @param {Element}  opts.container   Element to render the die into (its
+ *                                    existing content is replaced).
+ * @param {number}   [opts.value]     Force a specific 1-20 result instead of
+ *                                    rolling randomly (e.g. for a deterministic
+ *                                    replay, or if the outcome was already
+ *                                    decided server-side in a future
+ *                                    multiplayer build).
+ * @param {string}   [opts.assetBase='assets/dice/'] Path to the dice assets.
+ * @param {Promise}  [opts.waitFor]   Optional promise for real loading work.
+ *                                    While it's pending (and the minimum
+ *                                    spin count hasn't been met yet) the die
+ *                                    keeps looping instead of landing.
+ * @param {number}   [opts.minSpins=0] Minimum number of full loop repeats
+ *                                    before it's allowed to land. Defaults to
+ *                                    0 so a normal roll with no `waitFor` (or
+ *                                    one that resolves immediately) just
+ *                                    plays intro+outro back to back -- frame-
+ *                                    for-frame identical to the original
+ *                                    ~7s clip, no forced extra spinning. Only
+ *                                    raise this if you specifically want a
+ *                                    minimum flourish time even for
+ *                                    instant loads.
+ * @param {Function} [opts.onComplete] Called with the final 1-20 value once
+ *                                    the die visually settles.
+ * @returns {number} The predetermined final value (available immediately,
+ *                    before the animation finishes, in case the caller wants
+ *                    to act on it early — e.g. start preparing the match
+ *                    while the flourish is still playing).
+ */
+function rollD20(opts){
+  const {
+    container,
+    value,
+    assetBase = 'assets/dice/',
+    waitFor = null,
+    minSpins = 0,
+    onComplete,
+  } = opts;
+
+  const finalValue = (value >= 1 && value <= 20) ? value : (1 + Math.floor(Math.random() * 20));
+
+  container.innerHTML = `
+    <div class="dice-loader-die-wrap">
+      <div class="dice-loader-glow"></div>
+      <video class="dice-loader-video" muted playsinline preload="auto"></video>
+      <video class="dice-loader-video" muted playsinline preload="auto"></video>
+      <div class="dice-loader-number-layer">
+        <img class="dice-loader-number" draggable="false" alt="">
+      </div>
+    </div>`;
+
+  const wrap = container.querySelector('.dice-loader-die-wrap');
+  const videos = Array.from(container.querySelectorAll('.dice-loader-video'));
+  const numberLayer = container.querySelector('.dice-loader-number-layer');
+  const numberImg = container.querySelector('.dice-loader-number');
+  numberImg.src = `${assetBase}video/numbers/${finalValue}.png`;
+
+  let front = 0;
+  const backIdx = () => 1 - front;
+
+  // Plays one segment on the currently-hidden video element, crossfades it
+  // in once it's ready, and resolves when that segment finishes playing
+  // (or immediately, for the looping case, since the caller manages when to
+  // stop looping itself).
+  function playSegment(name, { loop = false } = {}){
+    return new Promise((resolve) => {
+      const el = videos[backIdx()];
+      el.loop = loop;
+      el.src = `${assetBase}video/${name}`;
+      el.currentTime = 0;
+
+      const reveal = () => {
+        el.play().catch(() => {});
+        videos[front].classList.remove('active');
+        el.classList.add('active');
+        front = backIdx();
+      };
+      if (el.readyState >= 2) reveal();
+      else el.addEventListener('canplay', reveal, { once: true });
+
+      if (loop) resolve();
+      else el.addEventListener('ended', resolve, { once: true });
+    });
+  }
+
+  let landed = false;
+  function land(){
+    if (landed) return;
+    landed = true;
+    wrap.classList.add('landed', 'impact');
+    numberLayer.classList.add('in');
+    if (onComplete) onComplete(finalValue);
+  }
+
+  let ready = !waitFor;
+  if (waitFor) waitFor.then(() => { ready = true; });
+
+  (async () => {
+    await playSegment('dice_roll_intro.mp4');
+    let spins = 0;
+    while (!ready || spins < minSpins) {
+      await playSegment('dice_roll_loop.mp4');
+      spins++;
+    }
+    await playSegment('dice_roll_outro.mp4');
+    land();
+  })();
+
+  return finalValue;
+}
+
+// Demo wiring for this standalone preview page only -- not part of the
+// reusable function above.
+const label = document.getElementById('diceLoaderLabel');
+const slot = document.getElementById('diceLoaderSlot');
+const btnNormal = document.getElementById('btnNormal');
+const btnLong = document.getElementById('btnLong');
+const btnFinish = document.getElementById('btnFinish');
+
+function announce(n){
+  label.textContent = `Rolled ${n} — ${n % 2 === 0 ? 'You go first!' : 'Opponent goes first!'}`;
+}
+
+function startRoll(long){
+  btnNormal.disabled = true;
+  btnLong.disabled = true;
+  label.textContent = 'Rolling for first turn…';
+
+  let finishLoading;
+  const waitFor = long ? new Promise((resolve) => { finishLoading = resolve; }) : null;
+  if (long) {
+    btnFinish.disabled = false;
+    btnFinish.onclick = () => { btnFinish.disabled = true; finishLoading(); };
+  }
+
+  rollD20({
+    container: slot,
+    waitFor,
+    onComplete: (n) => {
+      announce(n);
+      btnNormal.disabled = false;
+      btnLong.disabled = false;
+      btnFinish.disabled = true;
+    },
+  });
+}
+
+btnNormal.addEventListener('click', () => startRoll(false));
+btnLong.addEventListener('click', () => startRoll(true));
+
+startRoll(false);
+</script>
+</body>
+</html>

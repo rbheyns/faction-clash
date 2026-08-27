@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Faction Clash — Card Layout Tuner</title>
+<link rel="stylesheet" href="assets/css/card_render.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #14161a; color: #eee; font-family: -apple-system, Segoe UI, sans-serif; display: flex; height: 100vh; overflow: hidden; }
+  #preview { flex: 0 0 auto; display: flex; align-items: flex-start; justify-content: center; padding: 24px; overflow: auto; }
+  #preview svg { width: 620px; height: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.6); }
+  #panel { flex: 1 1 auto; overflow-y: auto; padding: 20px 24px; border-left: 1px solid #333; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  .sub { color: #999; font-size: 13px; margin-bottom: 18px; }
+  .group { background: #1c1f26; border: 1px solid #2c313c; border-radius: 8px; padding: 14px 16px; margin-bottom: 14px; }
+  .group h2 { font-size: 14px; margin: 0 0 10px; color: #ffd27a; }
+  .row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .row label { flex: 0 0 130px; font-size: 12px; color: #bbb; }
+  .row input[type=number] { width: 90px; background: #0f1116; border: 1px solid #3a4050; color: #fff; border-radius: 4px; padding: 4px 6px; font-size: 13px; }
+  .row input[type=checkbox] { width: 16px; height: 16px; }
+  select { background: #0f1116; border: 1px solid #3a4050; color: #fff; border-radius: 4px; padding: 6px 8px; font-size: 13px; margin-bottom: 14px; width: 100%; }
+  button { background: #3a4050; color: #fff; border: none; border-radius: 6px; padding: 10px 14px; font-size: 13px; cursor: pointer; width: 100%; margin-bottom: 8px; }
+  button:hover { background: #4a5268; }
+  button.primary { background: #7a5a2a; }
+  button.primary:hover { background: #8f6a32; }
+  textarea { width: 100%; height: 220px; background: #0f1116; color: #d8e0c0; border: 1px solid #3a4050; border-radius: 6px; font-family: ui-monospace, Consolas, monospace; font-size: 11.5px; padding: 8px; resize: vertical; }
+  .warnings { color: #ff9a6a; font-size: 12px; margin-top: 10px; white-space: pre-wrap; }
+  .hint { color: #777; font-size: 11px; margin-top: -4px; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+<div id="preview"><div id="cardHost"></div></div>
+<div id="panel">
+  <h1>Card Layout Tuner</h1>
+  <div class="sub">Every change re-renders instantly. When it looks right, hit "Copy code" and paste the block into <code>assets/js/cardBuilder.js</code> (replacing the matching consts near the top of the file).</div>
+
+  <select id="cardPicker"></select>
+
+  <div class="group">
+    <h2>Illustration window (ART_BOX)</h2>
+    <div class="row"><label>x</label><input type="number" data-path="ART_BOX.x"></div>
+    <div class="row"><label>y</label><input type="number" data-path="ART_BOX.y"></div>
+    <div class="row"><label>w</label><input type="number" data-path="ART_BOX.w"></div>
+    <div class="row"><label>h</label><input type="number" data-path="ART_BOX.h"></div>
+  </div>
+
+  <div class="group">
+    <h2>Name (on the ribbon)</h2>
+    <div class="row"><label>curve x1,y1</label><input type="number" data-path="NAME_CURVE.x1" style="width:42px"><input type="number" data-path="NAME_CURVE.y1" style="width:42px"></div>
+    <div class="row"><label>curve cx,cy</label><input type="number" data-path="NAME_CURVE.cx" style="width:42px"><input type="number" data-path="NAME_CURVE.cy" style="width:42px"></div>
+    <div class="row"><label>curve x2,y2</label><input type="number" data-path="NAME_CURVE.x2" style="width:42px"><input type="number" data-path="NAME_CURVE.y2" style="width:42px"></div>
+    <div class="hint">x1/y1 = left end, cx/cy = middle control point, x2/y2 = right end</div>
+    <div class="row"><label>font size</label><input type="number" data-path="NAME_FONT_SIZE"></div>
+  </div>
+
+  <div class="group">
+    <h2>Effect text</h2>
+    <div class="row"><label>anchor Y</label><input type="number" data-path="EFFECT.anchorY"></div>
+    <div class="row"><label>box width</label><input type="number" data-path="EFFECT.boxW"></div>
+    <div class="row"><label>font size</label><input type="number" data-path="EFFECT.fontSize"></div>
+    <div class="row"><label>line height</label><input type="number" data-path="EFFECT.lineHeight"></div>
+    <div class="row"><label>max height</label><input type="number" data-path="EFFECT.maxHeight"></div>
+    <div class="hint">box grows symmetrically above/below anchor Y, up to max height, before font shrinks</div>
+  </div>
+
+  <div class="group">
+    <h2>Flavor text</h2>
+    <div class="row"><label>anchor Y</label><input type="number" data-path="FLAVOR.anchorY"></div>
+    <div class="row"><label>box width</label><input type="number" data-path="FLAVOR.boxW"></div>
+    <div class="row"><label>font size</label><input type="number" data-path="FLAVOR.fontSize"></div>
+    <div class="row"><label>line height</label><input type="number" data-path="FLAVOR.lineHeight"></div>
+    <div class="row"><label>max height</label><input type="number" data-path="FLAVOR.maxHeight"></div>
+  </div>
+
+  <div class="group">
+    <h2>Cost number (by rarity)</h2>
+    <div class="row"><label>Common x,y</label><input type="number" data-path="COST_XY_BY_RARITY.common.0" style="width:60px"><input type="number" data-path="COST_XY_BY_RARITY.common.1" style="width:60px"></div>
+    <div class="row"><label>Rare x,y</label><input type="number" data-path="COST_XY_BY_RARITY.rare.0" style="width:60px"><input type="number" data-path="COST_XY_BY_RARITY.rare.1" style="width:60px"></div>
+    <div class="row"><label>Epic x,y</label><input type="number" data-path="COST_XY_BY_RARITY.epic.0" style="width:60px"><input type="number" data-path="COST_XY_BY_RARITY.epic.1" style="width:60px"></div>
+    <div class="row"><label>Legendary x,y</label><input type="number" data-path="COST_XY_BY_RARITY.legendary.0" style="width:60px"><input type="number" data-path="COST_XY_BY_RARITY.legendary.1" style="width:60px"></div>
+  </div>
+
+  <div class="group">
+    <h2>Bottom gems</h2>
+    <div class="row"><label>Attack x,y</label><input type="number" data-path="ATTACK_XY.0" style="width:60px"><input type="number" data-path="ATTACK_XY.1" style="width:60px"></div>
+    <div class="row"><label>Health x,y</label><input type="number" data-path="HEALTH_XY.0" style="width:60px"><input type="number" data-path="HEALTH_XY.1" style="width:60px"></div>
+    <div class="row"><label>Duration x,y</label><input type="number" data-path="DURATION_XY.0" style="width:60px"><input type="number" data-path="DURATION_XY.1" style="width:60px"></div>
+  </div>
+
+  <div class="group">
+    <h2>Scrim (behind text, off by default)</h2>
+    <div class="row"><label>enabled</label><input type="checkbox" data-path="SCRIM.enabled"></div>
+  </div>
+
+  <button class="primary" id="copyBtn">Copy code to paste into cardBuilder.js</button>
+  <button id="resetBtn">Reset to file defaults</button>
+  <textarea id="output" readonly placeholder="Click &quot;Copy code&quot; to generate the block here..."></textarea>
+  <div class="warnings" id="warnings"></div>
+</div>
+
+<script src="assets/js/cardBuilder.js"></script>
+<script>
+  const PRESET_CARDS = {
+    'ASH060 — Attack / Legendary': { id: 'ASH060', name: 'The Ashen Warlord', faction: 'ashborn', type: 'unit', row: 'attack', unitType: 'Human', attack: 12, health: 11, rarity: 'Legendary', cost: 10, rulesText: 'Last Word: Destroy all enemy Support cards. Deal 6 damage to the enemy Hero.', flavorText: 'Even in death, my wrath lives on.', art: 'assets/art/ashborn/ASH060.png' },
+    'ASH016 — Defense / Common': { id: 'ASH016', name: 'Shield Maiden', faction: 'ashborn', type: 'unit', row: 'defense', unitType: 'Human', attack: 1, health: 3, rarity: 'Common', cost: 2, rulesText: 'Berserk: Adjacent friendly units are immune to damage this turn.', flavorText: 'She gets a little defensive sometimes.', art: 'assets/art/ashborn/ASH016.png' },
+    'ASH056 — Support Unit / Epic': { id: 'ASH056', name: 'Cinderforge Warden', faction: 'ashborn', type: 'unit', row: 'support', unitType: 'Construct', attack: 4, health: 11, rarity: 'Epic', cost: 7, rulesText: 'Echo: A random Construct in your hand costs 2 less and gains +2 Max Health.', flavorText: 'Every fallen brother makes it stronger.', art: 'assets/art/ashborn/ASH056.png' },
+    'ASH051 — Support Card / Rare': { id: 'ASH051', name: 'War Banner', faction: 'ashborn', type: 'support', row: 'support', duration: 3, rarity: 'Rare', cost: 5, rulesText: 'Your Attack units deal +1 damage when attacking. Whenever one destroys a unit, draw a card.', flavorText: 'Raise it high. Let them see it coming.', art: 'assets/art/ashborn/ASH051.png' },
+  };
+
+  // Snapshot the file's original values (deep-ish clone) so "Reset" can restore them and the
+  // "Copy code" output always diffs against something meaningful.
+  const DEFAULTS = JSON.parse(JSON.stringify({
+    ART_BOX: CardBuilder.ART_BOX,
+    NAME_CURVE: CardBuilder.NAME_CURVE,
+    NAME_FONT_SIZE: CardBuilder.NAME_FONT_SIZE,
+    EFFECT: CardBuilder.EFFECT,
+    FLAVOR: CardBuilder.FLAVOR,
+    COST_XY_BY_RARITY: CardBuilder.COST_XY_BY_RARITY,
+    ATTACK_XY: CardBuilder.ATTACK_XY,
+    HEALTH_XY: CardBuilder.HEALTH_XY,
+    DURATION_XY: CardBuilder.DURATION_XY,
+    SCRIM: CardBuilder.SCRIM,
+  }));
+
+  function getByPath(root, path) {
+    return path.split('.').reduce((o, k) => (o == null ? o : o[k]), root);
+  }
+  function setByPath(root, path, value) {
+    const parts = path.split('.');
+    const last = parts.pop();
+    const target = parts.reduce((o, k) => o[k], root);
+    target[last] = value;
+  }
+
+  function render() {
+    const host = document.getElementById('cardHost');
+    host.innerHTML = '';
+    const card = PRESET_CARDS[document.getElementById('cardPicker').value];
+    const warnings = [];
+    const { svg } = CardBuilder.buildCard(card, [], { onWarning: (uid, w) => { warnings.length = 0; warnings.push(...w); document.getElementById('warnings').textContent = warnings.join('\n'); } });
+    host.appendChild(svg);
+    document.getElementById('warnings').textContent = '';
+  }
+
+  function syncInputsFromState() {
+    document.querySelectorAll('input[data-path]').forEach(input => {
+      const val = getByPath(CardBuilder, input.dataset.path);
+      if (input.type === 'checkbox') input.checked = !!val;
+      else input.value = val;
+    });
+  }
+
+  function wireInputs() {
+    document.querySelectorAll('input[data-path]').forEach(input => {
+      input.addEventListener('input', () => {
+        const raw = input.type === 'checkbox' ? input.checked : Number(input.value);
+        if (input.type !== 'checkbox' && Number.isNaN(raw)) return;
+        setByPath(CardBuilder, input.dataset.path, raw);
+        render();
+      });
+    });
+  }
+
+  function generateCode() {
+    const c = CardBuilder;
+    const lines = [];
+    lines.push(`  const ART_BOX = { x: ${c.ART_BOX.x}, y: ${c.ART_BOX.y}, w: ${c.ART_BOX.w}, h: ${c.ART_BOX.h} };`);
+    lines.push('');
+    lines.push(`  const NAME_CURVE = { x1: ${c.NAME_CURVE.x1}, y1: ${c.NAME_CURVE.y1}, cx: ${c.NAME_CURVE.cx}, cy: ${c.NAME_CURVE.cy}, x2: ${c.NAME_CURVE.x2}, y2: ${c.NAME_CURVE.y2} };`);
+    lines.push(`  const NAME_FONT_SIZE = ${c.NAME_FONT_SIZE};`);
+    lines.push('');
+    lines.push(`  const EFFECT = { x: 1000, anchorY: ${c.EFFECT.anchorY}, boxW: ${c.EFFECT.boxW}, lineHeight: ${c.EFFECT.lineHeight}, fontSize: ${c.EFFECT.fontSize}, fill: '${c.EFFECT.fill}', maxHeight: ${c.EFFECT.maxHeight} };`);
+    lines.push(`  const FLAVOR = { x: 1000, anchorY: ${c.FLAVOR.anchorY}, boxW: ${c.FLAVOR.boxW}, lineHeight: ${c.FLAVOR.lineHeight}, fontSize: ${c.FLAVOR.fontSize}, fill: '${c.FLAVOR.fill}', maxHeight: ${c.FLAVOR.maxHeight} };`);
+    lines.push('');
+    lines.push('  const COST_XY_BY_RARITY = {');
+    lines.push(`    common: [${c.COST_XY_BY_RARITY.common[0]}, ${c.COST_XY_BY_RARITY.common[1]}],`);
+    lines.push(`    rare: [${c.COST_XY_BY_RARITY.rare[0]}, ${c.COST_XY_BY_RARITY.rare[1]}],`);
+    lines.push(`    epic: [${c.COST_XY_BY_RARITY.epic[0]}, ${c.COST_XY_BY_RARITY.epic[1]}],`);
+    lines.push(`    legendary: [${c.COST_XY_BY_RARITY.legendary[0]}, ${c.COST_XY_BY_RARITY.legendary[1]}],`);
+    lines.push('  };');
+    lines.push(`  const ATTACK_XY = [${c.ATTACK_XY[0]}, ${c.ATTACK_XY[1]}];`);
+    lines.push(`  const HEALTH_XY = [${c.HEALTH_XY[0]}, ${c.HEALTH_XY[1]}];`);
+    lines.push(`  const DURATION_XY = [${c.DURATION_XY[0]}, ${c.DURATION_XY[1]}];`);
+    lines.push('');
+    lines.push(`  const SCRIM = { enabled: ${c.SCRIM.enabled}, x: ${c.SCRIM.x}, y: ${c.SCRIM.y}, w: ${c.SCRIM.w}, h: ${c.SCRIM.h}, rx: ${c.SCRIM.rx}, fill: '${c.SCRIM.fill}', opacity: ${c.SCRIM.opacity}, blur: ${c.SCRIM.blur} };`);
+    return lines.join('\n');
+  }
+
+  document.getElementById('cardPicker').addEventListener('change', render);
+  document.getElementById('copyBtn').addEventListener('click', () => {
+    const code = generateCode();
+    document.getElementById('output').value = code;
+    navigator.clipboard && navigator.clipboard.writeText(code).catch(() => {});
+  });
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    Object.assign(CardBuilder.ART_BOX, DEFAULTS.ART_BOX);
+    Object.assign(CardBuilder.NAME_CURVE, DEFAULTS.NAME_CURVE);
+    Object.assign(CardBuilder.EFFECT, DEFAULTS.EFFECT);
+    Object.assign(CardBuilder.FLAVOR, DEFAULTS.FLAVOR);
+    Object.assign(CardBuilder.COST_XY_BY_RARITY.common, DEFAULTS.COST_XY_BY_RARITY.common);
+    Object.assign(CardBuilder.COST_XY_BY_RARITY.rare, DEFAULTS.COST_XY_BY_RARITY.rare);
+    Object.assign(CardBuilder.COST_XY_BY_RARITY.epic, DEFAULTS.COST_XY_BY_RARITY.epic);
+    Object.assign(CardBuilder.COST_XY_BY_RARITY.legendary, DEFAULTS.COST_XY_BY_RARITY.legendary);
+    CardBuilder.ATTACK_XY[0] = DEFAULTS.ATTACK_XY[0]; CardBuilder.ATTACK_XY[1] = DEFAULTS.ATTACK_XY[1];
+    CardBuilder.HEALTH_XY[0] = DEFAULTS.HEALTH_XY[0]; CardBuilder.HEALTH_XY[1] = DEFAULTS.HEALTH_XY[1];
+    CardBuilder.DURATION_XY[0] = DEFAULTS.DURATION_XY[0]; CardBuilder.DURATION_XY[1] = DEFAULTS.DURATION_XY[1];
+    CardBuilder.NAME_FONT_SIZE = DEFAULTS.NAME_FONT_SIZE;
+    Object.assign(CardBuilder.SCRIM, DEFAULTS.SCRIM);
+    syncInputsFromState();
+    render();
+  });
+
+  for (const key of Object.keys(PRESET_CARDS)) {
+    const opt = document.createElement('option');
+    opt.value = key; opt.textContent = key;
+    document.getElementById('cardPicker').appendChild(opt);
+  }
+  syncInputsFromState();
+  wireInputs();
+  render();
+</script>
+</body>
+</html>

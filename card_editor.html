@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Faction Clash — Card Editor</title>
+<link rel="stylesheet" href="assets/css/card_render.css">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 24px;
+    background: #14120f; color: #e8dcc0;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  h1 { font-size: 20px; margin: 0 0 4px; display: inline-block; }
+  .toolbar { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+  .toolbar a.renderlink {
+    color: #14120f; background: #d8c078; border-radius: 6px; padding: 6px 12px;
+    font-size: 13px; font-weight: 600; text-decoration: none;
+  }
+  .toolbar a.renderlink:hover { background: #e8d38f; }
+  .sub { color: #9a8f78; font-size: 13px; margin: 4px 0 16px; max-width: 900px; }
+
+  .filebar {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    background: #1d1a15; border: 1px solid #332e24; border-radius: 8px;
+    padding: 10px 14px; margin-bottom: 20px; font-size: 13px;
+  }
+  .filebar .status { flex: 1 1 auto; min-width: 200px; }
+  .filebar .status.ok { color: #9fd48a; }
+  .filebar .status.error { color: #ff8a7a; }
+  .filebar .status.warn { color: #ffcf6b; }
+  button, .btn {
+    font: inherit; cursor: pointer; border: none; border-radius: 6px;
+    padding: 8px 14px; font-size: 13px; font-weight: 600;
+    background: #33301f; color: #e8dcc0;
+  }
+  button:hover, .btn:hover { background: #423d28; }
+  button.primary, .btn.primary { background: #d8c078; color: #14120f; }
+  button.primary:hover, .btn.primary:hover { background: #e8d38f; }
+  button.danger { background: #5a2a22; color: #ffd3c9; }
+  button.danger:hover { background: #74362b; }
+  button:disabled { opacity: 0.45; cursor: not-allowed; }
+  a.hidden, .hidden { display: none !important; }
+
+  .addbar { margin-bottom: 16px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+  }
+  .cell {
+    background: #1d1a15;
+    border: 1px solid #332e24;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .cardwrap { width: 100%; aspect-ratio: 2 / 3; background: #000; }
+  .cardwrap svg { width: 100%; height: 100%; display: block; }
+  .meta { padding: 10px 12px 12px; font-size: 12px; line-height: 1.5; }
+  .meta .name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .meta .row2 { color: #9a8f78; margin-bottom: 8px; }
+  .warn { color: #ffcf6b; margin-top: 4px; }
+  .rowbtns { display: flex; gap: 8px; }
+  .rowbtns button { flex: 1; padding: 6px 8px; font-size: 12px; }
+
+  /* ---- Modal / form ---- */
+  .overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    display: flex; align-items: flex-start; justify-content: center;
+    padding: 30px 20px; overflow-y: auto; z-index: 50;
+  }
+  .modal {
+    background: #1a1712; border: 1px solid #3a3424; border-radius: 12px;
+    width: 100%; max-width: 1100px;
+    display: grid; grid-template-columns: 420px 1fr;
+    gap: 0; overflow: hidden;
+  }
+  .modal .formPane { padding: 22px; max-height: 90vh; overflow-y: auto; border-right: 1px solid #332e24; }
+  .modal .previewPane { padding: 22px; display: flex; flex-direction: column; align-items: center; }
+  .modal h2 { font-size: 17px; margin: 0 0 16px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: #cfc4a8; margin-bottom: 4px; }
+  .field .req { color: #ff9d8a; }
+  .field .hint { font-size: 11px; color: #8f8468; margin-top: 3px; }
+  .field input[type="text"], .field input[type="number"], .field select, .field textarea {
+    width: 100%; background: #100e0a; border: 1px solid #3a3424; color: #e8dcc0;
+    border-radius: 6px; padding: 8px 10px; font-size: 13px; font-family: inherit;
+  }
+  .field input.invalid, .field select.invalid, .field textarea.invalid { border-color: #b5493a; }
+  .field textarea { resize: vertical; }
+  .fieldRow { display: flex; gap: 12px; }
+  .fieldRow .field { flex: 1; }
+  .kwList { display: flex; flex-wrap: wrap; gap: 10px; }
+  .kwList label { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 400; color: #e8dcc0; }
+  #artPreviewWrap {
+    width: 100%; aspect-ratio: 1717/2630; background: #000; border: 1px solid #332e24;
+    border-radius: 6px; overflow: hidden; margin-top: 8px; display: flex; align-items: center; justify-content: center;
+  }
+  #artPreviewWrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  #artPreviewWrap .noart { color: #6b6350; font-size: 11px; text-align: center; padding: 8px; }
+  .formErrors { color: #ff8a7a; font-size: 12px; margin: 10px 0; }
+  .formErrors div { margin-bottom: 3px; }
+  .actions { display: flex; gap: 10px; margin-top: 18px; position: sticky; bottom: -22px; background: #1a1712; padding-top: 10px; }
+  .previewPane .cardwrap { width: 340px; max-width: 100%; }
+  .previewPane .warnBox { width: 340px; max-width: 100%; font-size: 12px; margin-top: 10px; }
+  .previewPane .previewLabel { color: #9a8f78; font-size: 12px; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <h1>Faction Clash — Card Editor</h1>
+  <a class="renderlink" href="card_renderer.html">← Back to gallery</a>
+</div>
+<p class="sub">Add, edit, or delete cards without hand-editing JSON. Drop the illustration in <code>assets/art/&lt;faction&gt;/</code> named after the card ID first (e.g. <code>ASH012.png</code>), then fill in the form — the preview on the right uses the exact same rendering code as card_renderer.html (assets/js/cardBuilder.js), so what you see here is what the gallery will show.</p>
+
+<div class="filebar">
+  <span class="status" id="fileStatus">Loading…</span>
+  <button id="connectBtn">Connect to card file…</button>
+  <button id="reconnectBtn" class="hidden">Reconnect (grant save permission)</button>
+  <a id="downloadBtn" class="btn hidden" download>Download updated JSON</a>
+</div>
+
+<div class="addbar">
+  <button class="primary" id="addCardBtn">+ Add Card</button>
+</div>
+
+<div id="status"></div>
+<div class="grid" id="grid"></div>
+
+<div class="overlay hidden" id="overlay">
+  <div class="modal">
+    <div class="formPane">
+      <h2 id="formTitle">Add Card</h2>
+      <form id="cardForm">
+        <div class="fieldRow">
+          <div class="field">
+            <label>ID <span class="req">*</span></label>
+            <input type="text" id="f_id" placeholder="e.g. ASH012">
+            <div class="hint">Must match the illustration's filename (without .png).</div>
+          </div>
+          <div class="field">
+            <label>Faction <span class="req">*</span></label>
+            <select id="f_faction"></select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Name <span class="req">*</span></label>
+          <input type="text" id="f_name" placeholder="Card name">
+        </div>
+
+        <div class="fieldRow">
+          <div class="field">
+            <label>Type <span class="req">*</span></label>
+            <select id="f_type">
+              <option value="unit">Unit</option>
+              <option value="spell">Spell</option>
+              <option value="support">Support</option>
+            </select>
+          </div>
+          <div class="field" id="rowField">
+            <label>Row <span class="req">*</span></label>
+            <select id="f_row">
+              <option value="attack">Attack</option>
+              <option value="defense">Defense</option>
+              <option value="support">Support</option>
+            </select>
+            <div class="hint" id="rowHint">Picks the gem icon and board row.</div>
+          </div>
+        </div>
+
+        <div class="fieldRow">
+          <div class="field">
+            <label>Cost <span class="req">*</span></label>
+            <input type="number" id="f_cost" min="0" step="1" value="0">
+          </div>
+          <div class="field" id="rarityFieldWrap">
+            <label>Rarity <span class="req">*</span></label>
+            <select id="f_rarity">
+              <option>Common</option><option>Rare</option><option>Epic</option><option>Legendary</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="fieldRow" id="unitFields">
+          <div class="field">
+            <label>Attack <span class="req">*</span></label>
+            <input type="number" id="f_attack" min="0" step="1" value="1">
+          </div>
+          <div class="field">
+            <label>Health <span class="req">*</span></label>
+            <input type="number" id="f_health" min="1" step="1" value="1">
+          </div>
+        </div>
+
+        <div class="field" id="unitTypeField">
+          <label>Unit Type</label>
+          <select id="f_unitType"></select>
+          <div class="hint">For future keyword effects like "Give all your Animals +1 Attack and +1 Health." Edited in cards/unitTypes.json.</div>
+        </div>
+
+        <div class="field" id="durationField">
+          <label>Duration, in turns <span class="req">*</span></label>
+          <input type="number" id="f_duration" min="1" step="1" value="2">
+        </div>
+
+        <div class="field">
+          <label>Keywords</label>
+          <div class="kwList" id="keywordChecks"></div>
+        </div>
+
+        <div class="field">
+          <label>Effect text</label>
+          <textarea id="f_rules" rows="4" placeholder="e.g. +1 Health to the lowest friendly unit."></textarea>
+          <div class="hint">Checking a keyword above adds "Keyword: " as its own line here (bolds automatically on the card). Each line break becomes its own row on the card, so multiple keywords stack instead of running together.</div>
+        </div>
+
+        <div class="field">
+          <label>Flavor text</label>
+          <textarea id="f_flavor" rows="2" placeholder="Italic quote line (quotes added automatically)."></textarea>
+        </div>
+
+        <div class="field">
+          <label>Art path</label>
+          <input type="text" id="f_art">
+          <div class="hint">Auto-filled from ID + faction. Edit only if your file lives somewhere non-standard.</div>
+          <div id="artPreviewWrap"><div class="noart">No art path yet</div></div>
+        </div>
+
+        <div class="formErrors" id="formErrors"></div>
+
+        <div class="actions">
+          <button type="submit" class="primary" id="saveBtn">Save Card</button>
+          <button type="button" id="cancelBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+    <div class="previewPane">
+      <div class="previewLabel">Live preview — same renderer as the gallery</div>
+      <div class="cardwrap" id="previewWrap"></div>
+      <div class="warnBox" id="previewWarnings"></div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/cardBuilder.js"></script>
+<script>
+'use strict';
+
+// ---------------------------------------------------------------------------
+// State
+// ---------------------------------------------------------------------------
+let cardsData = null;       // { _note, cards: [...] } — the full parsed JSON
+let factionsData = {};
+let keywordNames = [];
+let unitTypeNames = [];
+let fileHandle = null;      // FileSystemFileHandle, if connected for direct save
+let pendingHandle = null;   // a remembered handle waiting on a user-gesture permission re-grant
+let currentFileName = 'ashborn_cards_batch1.json';
+let editingIndex = null;    // null = adding a new card, else index into cardsData.cards
+let artDirty = false;       // true once the user hand-edits the art field
+let previewTimer = null;
+
+const DEFAULT_FILE = 'ashborn_cards_batch1.json';
+
+// ---------------------------------------------------------------------------
+// IndexedDB — remember the connected file handle across reloads
+// ---------------------------------------------------------------------------
+const DB_NAME = 'faction-clash-editor';
+const STORE = 'handles';
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = () => req.result.createObjectStore(STORE);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+async function idbSet(key, val) {
+  try {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE, 'readwrite');
+      tx.objectStore(STORE).put(val, key);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  } catch (e) { /* best effort */ }
+}
+async function idbGet(key) {
+  try {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE, 'readonly');
+      const req = tx.objectStore(STORE).get(key);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  } catch (e) { return null; }
+}
+
+// ---------------------------------------------------------------------------
+// File connect / save
+// ---------------------------------------------------------------------------
+const fileStatusEl = document.getElementById('fileStatus');
+const connectBtn = document.getElementById('connectBtn');
+const reconnectBtn = document.getElementById('reconnectBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+
+function setFileStatus(text, cls) {
+  fileStatusEl.textContent = text;
+  fileStatusEl.className = 'status' + (cls ? ' ' + cls : '');
+}
+
+function supportsFSAccess() {
+  return typeof window.showOpenFilePicker === 'function';
+}
+
+async function loadFromHandle(handle, { announce = true } = {}) {
+  const file = await handle.getFile();
+  const text = await file.text();
+  cardsData = JSON.parse(text);
+  currentFileName = file.name;
+  fileHandle = handle;
+  reconnectBtn.classList.add('hidden');
+  connectBtn.textContent = 'Switch card file…';
+  if (announce) setFileStatus(`Connected: ${currentFileName} — saves write directly to this file.`, 'ok');
+  renderList();
+}
+
+async function loadReadOnly(name) {
+  try {
+    const res = await fetch(name, { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    cardsData = await res.json();
+    currentFileName = name;
+    fileHandle = null;
+    setFileStatus(
+      supportsFSAccess()
+        ? `Viewing ${name} (read-only). Click "Connect to card file…" and pick this same file to enable direct saving.`
+        : `Viewing ${name} (read-only). Your browser can't save files directly — use "Download updated JSON" after editing and replace the file yourself.`,
+      'warn'
+    );
+    renderList();
+  } catch (e) {
+    setFileStatus(`Couldn't load ${name} (${e.message}). Serve this folder over http (start-server.bat) and open it as http://localhost:8000/card_editor.html, or click "Connect to card file…" to pick one.`, 'error');
+  }
+}
+
+async function tryRestoreHandle() {
+  if (!supportsFSAccess()) return false;
+  const handle = await idbGet('cardFileHandle');
+  if (!handle) return false;
+  try {
+    const perm = await handle.queryPermission({ mode: 'readwrite' });
+    if (perm === 'granted') {
+      await loadFromHandle(handle);
+      return true;
+    }
+    // Permission needs a user gesture to re-grant — surface a one-click button instead of prompting silently.
+    pendingHandle = handle;
+    const file = await handle.getFile().catch(() => null);
+    reconnectBtn.classList.remove('hidden');
+    reconnectBtn.textContent = `Reconnect to ${file ? file.name : 'previous file'} (grant save permission)`;
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+connectBtn.addEventListener('click', async () => {
+  if (!supportsFSAccess()) {
+    alert('Your browser doesn\'t support saving files directly (needs a Chromium-based browser like Chrome or Edge). Use "Download updated JSON" instead and replace the file yourself.');
+    return;
+  }
+  try {
+    const [handle] = await window.showOpenFilePicker({
+      types: [{ description: 'Card data JSON', accept: { 'application/json': ['.json'] } }],
+    });
+    const perm = await handle.requestPermission({ mode: 'readwrite' });
+    if (perm !== 'granted') {
+      setFileStatus('Permission denied — saves will use Download instead.', 'error');
+      return;
+    }
+    await loadFromHandle(handle);
+    await idbSet('cardFileHandle', handle);
+  } catch (e) {
+    if (e.name !== 'AbortError') setFileStatus('Could not connect: ' + e.message, 'error');
+  }
+});
+
+reconnectBtn.addEventListener('click', async () => {
+  if (!pendingHandle) return;
+  try {
+    const perm = await pendingHandle.requestPermission({ mode: 'readwrite' });
+    if (perm !== 'granted') { setFileStatus('Permission denied — saves will use Download instead.', 'error'); return; }
+    await loadFromHandle(pendingHandle);
+  } catch (e) {
+    setFileStatus('Could not reconnect: ' + e.message, 'error');
+  }
+});
+
+function updateDownloadLink() {
+  if (!cardsData) return;
+  const json = JSON.stringify(cardsData, null, 2) + '\n';
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  if (downloadBtn.dataset.url) URL.revokeObjectURL(downloadBtn.dataset.url);
+  downloadBtn.href = url;
+  downloadBtn.dataset.url = url;
+  downloadBtn.download = currentFileName || 'cards.json';
+  downloadBtn.classList.remove('hidden');
+}
+
+async function persist() {
+  updateDownloadLink();
+  if (!fileHandle) {
+    setFileStatus(`Not connected to a file for direct saving — click "Download updated JSON" and replace ${currentFileName} yourself.`, 'warn');
+    return false;
+  }
+  try {
+    let perm = await fileHandle.queryPermission({ mode: 'readwrite' });
+    if (perm !== 'granted') perm = await fileHandle.requestPermission({ mode: 'readwrite' });
+    if (perm !== 'granted') throw new Error('write permission was not granted');
+    const json = JSON.stringify(cardsData, null, 2) + '\n';
+    const writable = await fileHandle.createWritable();
+    await writable.write(json);
+    await writable.close();
+    setFileStatus(`Saved to ${currentFileName}.`, 'ok');
+    return true;
+  } catch (e) {
+    setFileStatus(`Couldn't save directly (${e.message}) — use "Download updated JSON" as a backup.`, 'error');
+    return false;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Reference data (factions, keywords) — always read via plain fetch
+// ---------------------------------------------------------------------------
+async function loadReferenceData() {
+  // cache: 'no-store' — these files change as you edit cards/keywords, and a browser that
+  // decides to serve a cached copy (no explicit cache headers from a plain http.server) is
+  // a real source of "I updated the file but the tool still shows the old data" confusion.
+  const [factionsRes, keywordsRes, unitTypesRes] = await Promise.all([
+    fetch('cards/factions.json', { cache: 'no-store' }).catch(() => null),
+    fetch('cards/keywords.json', { cache: 'no-store' }).catch(() => null),
+    fetch('cards/unitTypes.json', { cache: 'no-store' }).catch(() => null),
+  ]);
+  const factionsOk = !!(factionsRes && factionsRes.ok);
+  const keywordsOk = !!(keywordsRes && keywordsRes.ok);
+  const unitTypesOk = !!(unitTypesRes && unitTypesRes.ok);
+  factionsData = factionsOk ? await factionsRes.json() : {};
+  const keywordsData = keywordsOk ? await keywordsRes.json() : {};
+  keywordNames = Object.keys(keywordsData).filter(k => !k.startsWith('_'));
+  const unitTypesData = unitTypesOk ? await unitTypesRes.json() : {};
+  unitTypeNames = Object.keys(unitTypesData).filter(k => !k.startsWith('_'));
+
+  const factionSelect = document.getElementById('f_faction');
+  factionSelect.innerHTML = '';
+  Object.keys(factionsData).forEach(key => {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = factionsData[key].displayName ? `${factionsData[key].displayName} (${key})` : key;
+    factionSelect.appendChild(opt);
+  });
+  if (!Object.keys(factionsData).length) {
+    const opt = document.createElement('option');
+    opt.value = 'ashborn';
+    opt.textContent = 'ashborn';
+    factionSelect.appendChild(opt);
+    if (!factionsOk) {
+      const warnOpt = document.createElement('option');
+      warnOpt.disabled = true;
+      warnOpt.textContent = '⚠ cards/factions.json failed to load — see note below';
+      factionSelect.appendChild(warnOpt);
+    }
+  }
+
+  const kwContainer = document.getElementById('keywordChecks');
+  kwContainer.innerHTML = '';
+  if (!keywordsOk) {
+    // Distinguish "the fetch failed" from "the file loaded fine and genuinely has 0
+    // keywords" — those need different fixes, and showing the same message for both
+    // reads as "you haven't defined any keywords" when the real problem might be that
+    // this page isn't being served correctly at all.
+    kwContainer.innerHTML = '<span class="hint" style="color:#ff8a7a;">⚠ Couldn\'t load cards/keywords.json (fetch failed or 404). This page needs to be served over http — run start-server.bat (or <code>python3 -m http.server</code>) in the project folder and open it as http://localhost:.../card_editor.html, not by double-clicking the file. If you\'re already doing that, try a hard refresh (Ctrl+Shift+R) — the browser may be holding onto an old cached copy.</span>';
+  } else if (!keywordNames.length) {
+    kwContainer.innerHTML = '<span class="hint">No keywords defined yet in cards/keywords.json.</span>';
+  }
+  keywordNames.forEach(name => {
+    const label = document.createElement('label');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.value = name;
+    cb.id = 'kw_' + name.replace(/\s+/g, '_'); // sanitized for multi-word keyword names like "Start of Turn" — HTML ids can't contain spaces
+    label.appendChild(cb);
+    label.appendChild(document.createTextNode(name));
+    kwContainer.appendChild(label);
+  });
+
+  f_unitType.innerHTML = '';
+  const noneOpt = document.createElement('option');
+  noneOpt.value = '';
+  noneOpt.textContent = '— none set —';
+  f_unitType.appendChild(noneOpt);
+  unitTypeNames.forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    f_unitType.appendChild(opt);
+  });
+  if (!unitTypesOk) {
+    const warnOpt = document.createElement('option');
+    warnOpt.disabled = true;
+    warnOpt.textContent = '⚠ cards/unitTypes.json failed to load';
+    f_unitType.appendChild(warnOpt);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Card list rendering (reuses CardBuilder — same visual output as the gallery)
+// ---------------------------------------------------------------------------
+const grid = document.getElementById('grid');
+const statusEl = document.getElementById('status');
+
+function renderList() {
+  grid.innerHTML = '';
+  if (!cardsData || !Array.isArray(cardsData.cards)) {
+    statusEl.textContent = 'No cards loaded.';
+    return;
+  }
+  statusEl.textContent = `${cardsData.cards.length} card${cardsData.cards.length === 1 ? '' : 's'} in ${currentFileName}.`;
+
+  // Display order is sorted by cost (ascending) so editing a card's cost moves it to the
+  // right spot in the grid on the next render. This is purely a display-order concern —
+  // `index` below is still each card's real position in cardsData.cards (stable sort keeps
+  // same-cost cards in their original/id order), so Edit/Delete keep pointing at the right
+  // card and nothing about save/JSON order changes.
+  const displayOrder = cardsData.cards
+    .map((card, index) => ({ card, index }))
+    .sort((a, b) => (a.card.cost || 0) - (b.card.cost || 0));
+
+  displayOrder.forEach(({ card, index }) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.title = card.id; // ID is hidden from the grid itself now — still here as a hover tooltip / internal reference
+    const faction = factionsData[card.faction];
+    if (faction) cell.style.borderColor = faction.primary;
+
+    const cardwrap = document.createElement('div');
+    cardwrap.className = 'cardwrap';
+    const warnBox = document.createElement('div');
+    warnBox.className = 'warnList';
+    const { svg, warnings, uid } = CardBuilder.buildCard(card, keywordNames, {
+      onWarning: (u, w) => renderWarnings(warnBox, w)
+    });
+    cardwrap.appendChild(svg);
+    cell.appendChild(cardwrap);
+    renderWarnings(warnBox, warnings);
+
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    const statBits = [];
+    if (card.attack !== undefined) statBits.push(`${card.attack}/${card.health}`);
+    if (card.duration !== undefined) statBits.push(`${card.duration}t duration`);
+    meta.innerHTML = `
+      <div class="name">${card.name}</div>
+      <div class="row2">${card.type}${card.row ? ' · ' + card.row : ''} · cost ${card.cost}${statBits.length ? ' · ' + statBits.join(' · ') : ''} · ${card.rarity}</div>
+    `;
+    meta.appendChild(warnBox);
+
+    const rowbtns = document.createElement('div');
+    rowbtns.className = 'rowbtns';
+    const editBtn = document.createElement('button');
+    editBtn.textContent = 'Edit';
+    editBtn.addEventListener('click', () => openForm(index));
+    const delBtn = document.createElement('button');
+    delBtn.className = 'danger';
+    delBtn.textContent = 'Delete';
+    delBtn.addEventListener('click', () => deleteCard(index));
+    rowbtns.appendChild(editBtn);
+    rowbtns.appendChild(delBtn);
+    meta.appendChild(rowbtns);
+
+    cell.appendChild(meta);
+    grid.appendChild(cell);
+  });
+}
+
+function renderWarnings(container, warnings) {
+  container.innerHTML = '';
+  warnings.forEach(w => {
+    const d = document.createElement('div');
+    d.className = 'warn';
+    d.textContent = '⚠ ' + w;
+    container.appendChild(d);
+  });
+}
+
+async function deleteCard(index) {
+  const card = cardsData.cards[index];
+  if (!confirm(`Delete ${card.id} — ${card.name}? This can't be undone from here.`)) return;
+  cardsData.cards.splice(index, 1);
+  renderList();
+  await persist();
+}
+
+// ---------------------------------------------------------------------------
+// Add/Edit form
+// ---------------------------------------------------------------------------
+const overlay = document.getElementById('overlay');
+const form = document.getElementById('cardForm');
+const formTitle = document.getElementById('formTitle');
+const formErrors = document.getElementById('formErrors');
+
+const f_id = document.getElementById('f_id');
+const f_name = document.getElementById('f_name');
+const f_faction = document.getElementById('f_faction');
+const f_type = document.getElementById('f_type');
+const f_row = document.getElementById('f_row');
+const f_cost = document.getElementById('f_cost');
+const f_attack = document.getElementById('f_attack');
+const f_health = document.getElementById('f_health');
+const f_unitType = document.getElementById('f_unitType');
+const f_duration = document.getElementById('f_duration');
+const f_rules = document.getElementById('f_rules');
+const f_flavor = document.getElementById('f_flavor');
+const f_rarity = document.getElementById('f_rarity');
+const f_art = document.getElementById('f_art');
+
+const rowField = document.getElementById('rowField');
+const unitFields = document.getElementById('unitFields');
+const unitTypeField = document.getElementById('unitTypeField');
+const durationField = document.getElementById('durationField');
+const artPreviewWrap = document.getElementById('artPreviewWrap');
+
+function suggestNextId(faction) {
+  const prefix = (faction || 'xxx').slice(0, 3).toUpperCase();
+  let max = 0;
+  (cardsData && cardsData.cards ? cardsData.cards : []).forEach(c => {
+    if (typeof c.id === 'string' && c.id.toUpperCase().startsWith(prefix)) {
+      const n = parseInt(c.id.slice(prefix.length), 10);
+      if (!isNaN(n) && n > max) max = n;
+    }
+  });
+  return prefix + String(max + 1).padStart(3, '0');
+}
+
+function updateArtAuto() {
+  if (artDirty) return;
+  const id = f_id.value.trim().toUpperCase();
+  const faction = f_faction.value;
+  if (id && faction) f_art.value = `assets/art/${faction}/${id}.png`;
+}
+
+function updateArtPreview() {
+  const path = f_art.value.trim();
+  artPreviewWrap.innerHTML = '';
+  if (!path) {
+    artPreviewWrap.innerHTML = '<div class="noart">No art path yet</div>';
+    return;
+  }
+  const img = document.createElement('img');
+  img.src = path + (path.includes('?') ? '&' : '?') + 'cachebust=' + Date.now();
+  img.onerror = () => {
+    artPreviewWrap.innerHTML = `<div class="noart">Not found at ${path} — place the illustration there with that exact name first.</div>`;
+  };
+  artPreviewWrap.innerHTML = '';
+  artPreviewWrap.appendChild(img);
+}
+
+function applyTypeVisibility() {
+  const type = f_type.value;
+  if (type === 'unit') {
+    rowField.classList.remove('hidden');
+    f_row.disabled = false;
+    document.getElementById('rowHint').textContent = 'Picks the gem icon and board row.';
+    unitFields.classList.remove('hidden');
+    unitTypeField.classList.remove('hidden');
+    durationField.classList.add('hidden');
+  } else if (type === 'support') {
+    rowField.classList.remove('hidden');
+    f_row.value = 'support';
+    f_row.disabled = true;
+    document.getElementById('rowHint').textContent = 'Support (duration) cards always sit in the support row.';
+    unitFields.classList.add('hidden');
+    unitTypeField.classList.add('hidden');
+    durationField.classList.remove('hidden');
+  } else { // spell
+    rowField.classList.add('hidden');
+    unitFields.classList.add('hidden');
+    unitTypeField.classList.add('hidden');
+    durationField.classList.add('hidden');
+  }
+}
+
+function resetForm() {
+  editingIndex = null;
+  artDirty = false;
+  formTitle.textContent = 'Add Card';
+  form.reset();
+  f_id.value = suggestNextId(f_faction.value || Object.keys(factionsData)[0] || 'ashborn');
+  f_type.value = 'unit';
+  f_rarity.value = 'Common';
+  f_cost.value = 0;
+  f_attack.value = 1;
+  f_health.value = 1;
+  f_unitType.value = '';
+  f_duration.value = 2;
+  document.querySelectorAll('#keywordChecks input').forEach(cb => cb.checked = false);
+  applyTypeVisibility();
+  f_row.value = 'attack';
+  updateArtAuto();
+  clearErrors();
+}
+
+function populateFormFromCard(card) {
+  artDirty = true; // existing cards may use non-standard art paths (legacy naming); don't auto-overwrite
+  f_id.value = card.id || '';
+  f_name.value = card.name || '';
+  f_faction.value = card.faction || (Object.keys(factionsData)[0] || 'ashborn');
+  f_type.value = card.type || 'unit';
+  applyTypeVisibility();
+  f_row.value = card.row || 'attack';
+  f_cost.value = card.cost !== undefined ? card.cost : 0;
+  f_attack.value = card.attack !== undefined ? card.attack : 1;
+  f_health.value = card.health !== undefined ? card.health : 1;
+  f_unitType.value = card.unitType || '';
+  f_duration.value = card.duration !== undefined ? card.duration : 2;
+  f_rarity.value = card.rarity || 'Common';
+  f_rules.value = card.rulesText || '';
+  f_flavor.value = card.flavorText || '';
+  f_art.value = card.art || '';
+  const kws = card.keywords || [];
+  document.querySelectorAll('#keywordChecks input').forEach(cb => cb.checked = kws.includes(cb.value));
+  clearErrors();
+}
+
+function openForm(index) {
+  editingIndex = typeof index === 'number' ? index : null;
+  if (editingIndex !== null) {
+    formTitle.textContent = `Edit ${cardsData.cards[editingIndex].id}`;
+    populateFormFromCard(cardsData.cards[editingIndex]);
+  } else {
+    resetForm();
+  }
+  overlay.classList.remove('hidden');
+  updateArtPreview();
+  schedulePreview();
+  window.scrollTo({ top: 0 });
+}
+
+function closeForm() {
+  overlay.classList.add('hidden');
+}
+
+document.getElementById('addCardBtn').addEventListener('click', () => openForm(null));
+document.getElementById('cancelBtn').addEventListener('click', closeForm);
+overlay.addEventListener('click', (e) => { if (e.target === overlay) closeForm(); });
+
+f_faction.addEventListener('change', () => { updateArtAuto(); schedulePreview(); });
+f_id.addEventListener('input', () => { updateArtAuto(); schedulePreview(); });
+f_id.addEventListener('blur', () => { f_id.value = f_id.value.trim().toUpperCase().replace(/\s+/g, ''); updateArtAuto(); });
+f_art.addEventListener('input', () => { artDirty = true; schedulePreview(); });
+f_type.addEventListener('change', () => { applyTypeVisibility(); schedulePreview(); });
+
+[f_name, f_row, f_cost, f_attack, f_health, f_unitType, f_duration, f_rules, f_flavor, f_rarity].forEach(elm => {
+  elm.addEventListener('input', schedulePreview);
+  elm.addEventListener('change', schedulePreview);
+});
+document.getElementById('keywordChecks').addEventListener('change', (e) => {
+  const cb = e.target;
+  if (cb && cb.matches('input[type="checkbox"]')) {
+    syncKeywordLine(cb, cb.value, cb.checked);
+  }
+  schedulePreview();
+});
+
+// Keeps the Effect text textarea in sync with the keyword checkboxes:
+//  - checking a keyword inserts "Keyword: " as a new line at the top of Effect text
+//    (skipped if a line for that keyword is already there), cursor lands right after
+//    the colon so you can type straight into it.
+//  - unchecking a keyword whose line is still untouched (just "Keyword: ", nothing typed)
+//    removes it silently.
+//  - unchecking a keyword whose line has a typed description asks for confirmation first;
+//    declining puts the checkbox back to checked and leaves the text alone.
+function syncKeywordLine(checkboxEl, keyword, checked) {
+  const prefix = `${keyword}: `;
+  const prefixTrimmed = `${keyword}:`;
+  const lines = f_rules.value === '' ? [] : f_rules.value.split('\n');
+  const idx = lines.findIndex(l => l.trim().startsWith(prefixTrimmed));
+
+  if (checked) {
+    if (idx === -1) {
+      lines.unshift(prefix);
+      f_rules.value = lines.join('\n');
+      f_rules.focus();
+      f_rules.setSelectionRange(prefix.length, prefix.length);
+    }
+    return;
+  }
+
+  if (idx === -1) return; // no line for this keyword — nothing to clean up
+
+  const untouched = lines[idx].trim() === prefixTrimmed;
+  if (untouched) {
+    lines.splice(idx, 1);
+    f_rules.value = lines.join('\n');
+    return;
+  }
+
+  const confirmed = confirm(`Remove this line from Effect text?\n\n"${lines[idx].trim()}"`);
+  if (!confirmed) {
+    checkboxEl.checked = true; // keep the keyword — they chose not to delete its text
+    return;
+  }
+  lines.splice(idx, 1);
+  f_rules.value = lines.join('\n');
+}
+
+function schedulePreview() {
+  updateArtPreview();
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(updatePreview, 150);
+}
+
+function getCheckedKeywords() {
+  return Array.from(document.querySelectorAll('#keywordChecks input:checked')).map(cb => cb.value);
+}
+
+function buildDraftCard() {
+  const type = f_type.value;
+  const draft = {
+    id: f_id.value.trim().toUpperCase() || 'PREVIEW',
+    name: f_name.value || '',
+    faction: f_faction.value,
+    type: type,
+    cost: Number(f_cost.value) || 0,
+    keywords: getCheckedKeywords(),
+    rulesText: f_rules.value || '',
+    flavorText: f_flavor.value || '',
+    rarity: f_rarity.value || 'Common',
+    art: f_art.value.trim(),
+  };
+  if (type !== 'spell') draft.row = f_row.value;
+  if (type === 'unit') {
+    draft.attack = Number(f_attack.value) || 0;
+    draft.health = Number(f_health.value) || 0;
+    if (f_unitType.value) draft.unitType = f_unitType.value;
+  }
+  if (type === 'support') { draft.duration = Number(f_duration.value) || 0; }
+  return draft;
+}
+
+const previewWrap = document.getElementById('previewWrap');
+const previewWarnings = document.getElementById('previewWarnings');
+function updatePreview() {
+  const draft = buildDraftCard();
+  previewWrap.innerHTML = '';
+  const { svg, warnings } = CardBuilder.buildCard(draft, keywordNames, {
+    onWarning: (u, w) => renderWarnings(previewWarnings, w)
+  });
+  previewWrap.appendChild(svg);
+  renderWarnings(previewWarnings, warnings);
+}
+
+// ---------------------------------------------------------------------------
+// Validation + save
+// ---------------------------------------------------------------------------
+function clearErrors() {
+  formErrors.innerHTML = '';
+  form.querySelectorAll('.invalid').forEach(elm => elm.classList.remove('invalid'));
+}
+
+function validate() {
+  const errs = [];
+  const mark = (elm, msg) => { elm.classList.add('invalid'); errs.push(msg); };
+
+  const id = f_id.value.trim().toUpperCase();
+  if (!id) mark(f_id, 'ID is required.');
+  else {
+    const dupe = cardsData.cards.some((c, i) => i !== editingIndex && c.id.toUpperCase() === id);
+    if (dupe) mark(f_id, `ID "${id}" is already used by another card.`);
+  }
+
+  if (!f_name.value.trim()) mark(f_name, 'Name is required.');
+  if (!f_faction.value) mark(f_faction, 'Faction is required.');
+
+  const cost = Number(f_cost.value);
+  if (f_cost.value === '' || isNaN(cost) || cost < 0 || !Number.isInteger(cost)) mark(f_cost, 'Cost must be a whole number ≥ 0.');
+
+  const type = f_type.value;
+  if (type === 'unit') {
+    const atk = Number(f_attack.value);
+    if (f_attack.value === '' || isNaN(atk) || atk < 0 || !Number.isInteger(atk)) mark(f_attack, 'Attack must be a whole number ≥ 0.');
+    const hp = Number(f_health.value);
+    if (f_health.value === '' || isNaN(hp) || hp < 1 || !Number.isInteger(hp)) mark(f_health, 'Health must be a whole number ≥ 1.');
+  }
+  if (type === 'support') {
+    const dur = Number(f_duration.value);
+    if (f_duration.value === '' || isNaN(dur) || dur < 1 || !Number.isInteger(dur)) mark(f_duration, 'Duration must be a whole number ≥ 1 turn.');
+  }
+  if (!f_art.value.trim()) mark(f_art, 'Art path is required (auto-fills from ID + faction).');
+
+  return errs;
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  clearErrors();
+  const errs = validate();
+  if (errs.length) {
+    formErrors.innerHTML = errs.map(m => `<div>⚠ ${m}</div>`).join('');
+    return;
+  }
+
+  const managed = new Set(['id', 'name', 'faction', 'type', 'row', 'cost', 'attack', 'health', 'unitType', 'duration', 'keywords', 'rulesText', 'flavorText', 'rarity', 'art']);
+  const original = editingIndex !== null ? cardsData.cards[editingIndex] : null;
+  const type = f_type.value;
+
+  const out = {};
+  out.id = f_id.value.trim().toUpperCase();
+  out.name = f_name.value.trim();
+  out.faction = f_faction.value;
+  out.type = type;
+  if (type !== 'spell') out.row = f_row.value;
+  out.cost = Number(f_cost.value);
+  if (type === 'unit') {
+    out.attack = Number(f_attack.value);
+    out.health = Number(f_health.value);
+    if (f_unitType.value) out.unitType = f_unitType.value;
+  }
+  if (type === 'support') { out.duration = Number(f_duration.value); }
+  out.keywords = getCheckedKeywords();
+  out.rulesText = f_rules.value.trim();
+  out.flavorText = f_flavor.value.trim();
+  out.rarity = f_rarity.value;
+  out.art = f_art.value.trim();
+  // Preserve any fields our form doesn't manage (e.g. "_note" on hand-annotated cards).
+  if (original) {
+    for (const k in original) if (!managed.has(k)) out[k] = original[k];
+  }
+
+  if (!cardsData.cards) cardsData.cards = [];
+  if (editingIndex !== null) cardsData.cards[editingIndex] = out;
+  else cardsData.cards.push(out);
+
+  renderList();
+  closeForm();
+  const saved = await persist();
+  setTimeout(() => {
+    if (saved) setFileStatus(`Saved to ${currentFileName}.`, 'ok');
+  }, 10);
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !overlay.classList.contains('hidden')) closeForm();
+});
+
+// ---------------------------------------------------------------------------
+// Boot
+// ---------------------------------------------------------------------------
+async function main() {
+  setFileStatus('Loading…');
+  await Promise.all([
+    document.fonts.load('700 48px "Cinzel"'),
+    document.fonts.load('400 48px "Libre Baskerville"'),
+    document.fonts.load('700 48px "Libre Baskerville"'),
+    document.fonts.load('italic 400 44px "Libre Baskerville"'),
+    document.fonts.load('700 130px "PT Serif"'),
+  ]).catch(() => {});
+  await document.fonts.ready;
+
+  await loadReferenceData();
+
+  const restored = await tryRestoreHandle();
+  if (!restored) await loadReadOnly(DEFAULT_FILE);
+
+  resetForm();
+}
+
+main();
+</script>
+</body>
+</html>

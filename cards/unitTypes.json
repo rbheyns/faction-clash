@@ -1,0 +1,18 @@
+{
+  "_note": "Unit sub-types, for keyword targeting later (e.g. \"Give all your Animals +1 Attack and +1 Health\"). Only applies to Unit cards (type: \"unit\") — Spells and duration-based Support cards don't get a unitType. Add more here anytime; card_editor.html picks up new entries automatically, same as keywords.json/factions.json.",
+  "Human": {
+    "description": "Ordinary people — soldiers, crafters, scouts, cooks."
+  },
+  "Animal": {
+    "description": "Non-sapient creatures — beasts, wildlife, tamed or wild."
+  },
+  "Construct": {
+    "description": "Man-made or magically animated beings — golems, mechanisms, wards."
+  },
+  "Elemental": {
+    "description": "Raw magical force given temporary form — fire, water, air, and earth spirits. Not golems (those are Construct) and not creatures merely themed around an element, like dragons (see Dragon)."
+  },
+  "Dragon": {
+    "description": "A true draconic creature/lineage, even if elementally themed (e.g. a fire-breathing whelp) — distinct from Elemental, which is a manifestation of raw element rather than a living species."
+  }
+}
