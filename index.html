@@ -490,9 +490,15 @@ h1,h2,h3,.display{font-family:'Cinzel Decorative', 'Cinzel', serif;}
 .bs-timer{
   position:absolute; left:86.5%; top:50.28%; width:6.2%; aspect-ratio:1;
   transform:translate(-50%,-50%); z-index:8; cursor:pointer;
+  border:2px solid rgba(232,194,91,.8); border-radius:14%;
+  background:linear-gradient(145deg,rgba(43,31,14,.88),rgba(12,18,29,.94));
+  box-shadow:0 0 .45cqw rgba(232,194,91,.35), inset 0 0 .5cqw rgba(255,255,255,.08);
+  transition:transform .15s ease, filter .15s ease, box-shadow .15s ease;
 }
+.bs-timer:not(.disabled):hover{ transform:translate(-50%,-50%) scale(1.06); filter:brightness(1.18); box-shadow:0 0 .8cqw rgba(232,194,91,.7), inset 0 0 .5cqw rgba(255,255,255,.12); }
+.bs-timer:not(.disabled):active{ transform:translate(-50%,-50%) scale(.98); }
 .bs-timer.disabled{ cursor:default; }
-.bs-timer.disabled .bs-timer-frame-img{ filter:grayscale(.6) brightness(.65); }
+.bs-timer.disabled{ opacity:.55; filter:grayscale(.6); }
 
 .bs-pbp-frame-img{ z-index:6; }
 .bs-pbp-inner{
@@ -1218,7 +1224,7 @@ h1,h2,h3,.display{font-family:'Cinzel Decorative', 'Cinzel', serif;}
       <div class="bs-deck-badge bottom" id="deckBadgeBottom"></div>
 
       <img class="bs-layer bs-timer-frame-img" src="assets/board-kit/timer_endTurn.png" alt="">
-      <div class="bs-timer" id="turnTimerHit">
+      <div class="bs-timer" id="turnTimerHit" role="button" aria-label="End turn" title="End turn">
         <div class="turn-timer" id="turnTimer">
           <div class="timer-ring">
             <div class="timer-sweep"></div>
